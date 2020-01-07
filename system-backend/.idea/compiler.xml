@@ -6,16 +6,22 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="common-components" />
+        <module name="zuul-gateway" />
+        <module name="registry-server" />
+        <module name="booking-room" />
         <module name="system-service" />
         <module name="demo2" />
-        <module name="zuul-gateway" />
-        <module name="booking-room-service" />
-        <module name="registry-server" />
+        <module name="booking-room-web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="13">
       <module name="booking-room" target="11" />
+      <module name="booking-room-mapper" target="11" />
+      <module name="booking-room-model" target="11" />
       <module name="booking-room-service" target="11" />
+      <module name="booking-room-web" target="11" />
+      <module name="common-components" target="11" />
       <module name="demo" target="1.8" />
       <module name="demo2" target="1.8" />
       <module name="registry-server" target="11" />
@@ -31,7 +37,11 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="booking-room" options="-parameters" />
+      <module name="booking-room-mapper" options="-parameters" />
+      <module name="booking-room-model" options="-parameters" />
       <module name="booking-room-service" options="-parameters" />
+      <module name="booking-room-web" options="-parameters" />
+      <module name="common-components" options="-parameters" />
       <module name="demo" options="-parameters" />
       <module name="demo2" options="-parameters" />
       <module name="registry-server" options="-parameters" />

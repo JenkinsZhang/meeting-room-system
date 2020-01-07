@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/booking-room/booking-room.iml" filepath="$PROJECT_DIR$/booking-room/booking-room.iml" />
-      <module fileurl="file://$PROJECT_DIR$/booking-room/booking-room-service/booking-room-service.iml" filepath="$PROJECT_DIR$/booking-room/booking-room-service/booking-room-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common-components/common-components.iml" filepath="$PROJECT_DIR$/common-components/common-components.iml" />
       <module fileurl="file://$PROJECT_DIR$/registry-server/registry-server.iml" filepath="$PROJECT_DIR$/registry-server/registry-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/room-booking/room-booking-interface/room-booking-interface.iml" filepath="$PROJECT_DIR$/room-booking/room-booking-interface/room-booking-interface.iml" />
       <module fileurl="file://$PROJECT_DIR$/system-backend.iml" filepath="$PROJECT_DIR$/system-backend.iml" />

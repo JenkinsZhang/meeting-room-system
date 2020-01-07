@@ -9,6 +9,7 @@
         <module>booking-room</module>
         <module>registry-server</module>
         <module>zuul-gateway</module>
+        <module>common-components</module>
     </modules>
 
 
