@@ -2,11 +2,19 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/system-auth/auth-interface/auth-interface.iml" filepath="$PROJECT_DIR$/system-auth/auth-interface/auth-interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/system-auth/auth-service/auth-service.iml" filepath="$PROJECT_DIR$/system-auth/auth-service/auth-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/booking-room/booking-room.iml" filepath="$PROJECT_DIR$/booking-room/booking-room.iml" />
+      <module fileurl="file://$PROJECT_DIR$/booking-room/booking-room-interface/booking-room-interface.iml" filepath="$PROJECT_DIR$/booking-room/booking-room-interface/booking-room-interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/booking-room/booking-room-service/booking-room-service.iml" filepath="$PROJECT_DIR$/booking-room/booking-room-service/booking-room-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/common-components/common-components.iml" filepath="$PROJECT_DIR$/common-components/common-components.iml" />
       <module fileurl="file://$PROJECT_DIR$/registry-server/registry-server.iml" filepath="$PROJECT_DIR$/registry-server/registry-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/room-booking/room-booking-interface/room-booking-interface.iml" filepath="$PROJECT_DIR$/room-booking/room-booking-interface/room-booking-interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/system-auth/system-auth.iml" filepath="$PROJECT_DIR$/system-auth/system-auth.iml" />
       <module fileurl="file://$PROJECT_DIR$/system-backend.iml" filepath="$PROJECT_DIR$/system-backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/system-user/system-user.iml" filepath="$PROJECT_DIR$/system-user/system-user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/system-user/system-user-interface/system-user-interface.iml" filepath="$PROJECT_DIR$/system-user/system-user-interface/system-user-interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/system-user/system-user-service/system-user-service.iml" filepath="$PROJECT_DIR$/system-user/system-user-service/system-user-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/zuul-gateway/zuul-gateway.iml" filepath="$PROJECT_DIR$/zuul-gateway/zuul-gateway.iml" />
     </modules>
   </component>

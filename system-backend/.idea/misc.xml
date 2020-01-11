@@ -5,13 +5,14 @@
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/room-booking/room-booking-service/pom.xml" />
+        <option value="$PROJECT_DIR$/booking-room/booking-room-service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/autho-service/pom.xml" />
         <option value="$PROJECT_DIR$/booking-room/booking-room-mapper/pom.xml" />
         <option value="$PROJECT_DIR$/booking-room/booking-room-model/pom.xml" />
-        <option value="$PROJECT_DIR$/booking-room/booking-room-service/pom.xml" />
         <option value="$PROJECT_DIR$/booking-room/booking-room-web/pom.xml" />
         <option value="$PROJECT_DIR$/room-booking/pom.xml" />
         <option value="$PROJECT_DIR$/room-booking/room-booking-interface/pom.xml" />

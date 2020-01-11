@@ -2,11 +2,20 @@ spring:
   application:
     name: zuul-gateway
 server:
-  port: 9092
+  port: 10086
+
 eureka:
+  instance:
+    metadata-map:
+      zone: sh1
   client:
+    region: sh
+    availability-zones:
+      sh: sh1,sh2
     service-url:
-      defaultZone: http://localhost:9090/eureka
+      sh1: http://localhost:9090/eureka
+      sh2: http://localhost:8080/eureka
 zuul:
   routes:
-    booking-room: /booking/**
+    booking-room-service: /booking/**
+    auth-service: /auth/**

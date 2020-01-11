@@ -1,55 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="21025073-b970-4f69-b111-16b53d73653b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/BookingRoomApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/controller/UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/mapper/RoomInformationMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/mapper/UserMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/mapper/impl/RoomInformationMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/mapper/impl/UserMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/model/ResultVo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/model/RoomInformation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/model/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-room/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common-components/common-components.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common-components/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common-components/src/main/java/com/jenkins/common/model/ResultVo.java" afterDir="false" />
+    <list default="true" id="21025073-b970-4f69-b111-16b53d73653b" name="Default Changelist" comment="add auth module &#10;no implements">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_jayway_jsonpath_json_path_2_4_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_vaadin_external_google_android_json_0_0_20131108_vaadin1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_fileupload_commons_fileupload_1_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_openfeign_feign_core_10_4_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_openfeign_feign_hystrix_10_4_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_openfeign_feign_slf4j_10_4_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_openfeign_form_feign_form_3_8_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_openfeign_form_feign_form_spring_3_8_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_12.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_1_9_16.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_agent_1_9_16.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_minidev_accessors_smart_1_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_minidev_json_smart_2_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_assertj_assertj_core_3_11_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_library_1_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mockito_mockito_core_2_23_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_objenesis_objenesis_2_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_skyscreamer_jsonassert_1_5_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_configuration_processor_2_1_11_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_test_2_1_11_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_2_1_11_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_autoconfigure_2_1_11_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_openfeign_core_2_1_4_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_openfeign_2_1_4_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_test_5_1_12_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_xmlunit_xmlunit_core_2_6_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-room/booking-room-interface/booking-room-interface.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-room/booking-room-interface/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-room/booking-room-service/booking-room-service.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-room/booking-room-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-room/booking-room-service/src/main/java/com/jenkins/common/bookingservice/controller/RoomController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-auth/auth-interface/auth-interface.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-auth/auth-interface/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-auth/auth-interface/src/main/java/com/jenkins/common/authcommon/AuthCommonApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-auth/auth-interface/src/main/java/com/jenkins/common/authcommon/model/UserInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-auth/auth-interface/src/main/java/com/jenkins/common/authcommon/utils/JwtUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-auth/auth-interface/src/main/resources/application-auth-common.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-auth/auth-interface/src/test/java/com/jenkins/common/authcommon/AuthCommonTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-auth/auth-service/auth-service.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-auth/auth-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-auth/auth-service/src/main/java/com/jenkins/common/authservice/AuthServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-auth/auth-service/src/main/java/com/jenkins/common/authservice/client/UserClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-auth/auth-service/src/main/java/com/jenkins/common/authservice/controller/AuthController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-auth/auth-service/src/main/java/com/jenkins/common/authservice/service/AuthService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-auth/auth-service/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-auth/auth-service/src/test/java/com/jenkins/common/authservice/AuthServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-auth/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-auth/system-auth.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-user/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-user/system-user-interface/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-user/system-user-interface/src/main/java/com/jenkins/common/userinterface/api/UserApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-user/system-user-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-user/system-user-service/src/main/java/com/jenkins/common/userservice/UserServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-user/system-user-service/src/main/java/com/jenkins/common/userservice/controller/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-user/system-user-service/src/main/java/com/jenkins/common/userservice/mapper/UserMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-user/system-user-service/src/main/java/com/jenkins/common/userservice/mapper/impl/UserMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-user/system-user-service/src/main/java/com/jenkins/common/userservice/model/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-user/system-user-service/src/main/java/com/jenkins/common/userservice/service/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/system-user/system-user-service/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_jayway_jsonpath_json_path_2_4_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_vaadin_external_google_android_json_0_0_20131108_vaadin1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_12.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_1_9_16.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_agent_1_9_16.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_minidev_accessors_smart_1_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_minidev_json_smart_2_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_assertj_assertj_core_3_11_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_library_1_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mockito_mockito_core_2_23_4.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_objenesis_objenesis_2_6.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_skyscreamer_jsonassert_1_5_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_test_2_1_11_RELEASE.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_2_1_11_RELEASE.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_autoconfigure_2_1_11_RELEASE.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_test_5_1_12_RELEASE.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_xmlunit_xmlunit_core_2_6_3.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-room/booking-room-service/booking-room-service.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-room/booking-room-service/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-room/booking-room-service/src/main/java/com/jenkins/common/BookingRoomSeviceApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-room/booking-room-service/src/main/resources/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-room/booking-room-service/target/classes/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-room/booking-room-service/target/classes/com/jenkins/common/BookingRoomSeviceApplication.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/booking-room/booking-room.iml" beforeDir="false" afterPath="$PROJECT_DIR$/booking-room/booking-room.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/booking-room/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/booking-room/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/BookingRoomApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-room/booking-room-service/src/main/java/com/jenkins/common/bookingservice/BookingRoomApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/controller/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/mapper/RoomInformationMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-room/booking-room-service/src/main/java/com/jenkins/common/bookingservice/mapper/RoomInformationMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/mapper/UserMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/mapper/impl/RoomInformationMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/booking-room/booking-room-service/src/main/java/com/jenkins/common/bookingservice/mapper/impl/RoomInformationMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/mapper/impl/UserMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/model/ResultVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/common-components/src/main/java/com/jenkins/common/bookingservice/model/ResultVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/model/RoomInformation.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-room/booking-room-service/src/main/java/com/jenkins/common/bookingservice/model/RoomInformation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/model/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/booking-room/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/booking-room/booking-room-service/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-components/src/main/java/com/jenkins/common/model/ResultVo.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/registry-server/src/main/java/com/jenkins/common/registryserver/RegistryServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/registry-server/src/main/java/com/jenkins/common/bookingservice/registryserver/RegistryServerApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/registry-server/target/classes/com/jenkins/common/registryserver/RegistryServerApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/registry-server/target/classes/com/jenkins/common/registryserver/RegistryServerApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/zuul-gateway/src/main/java/com/jenkins/common/zuulgateway/ZuulGatewayApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/zuul-gateway/src/main/java/com/jenkins/common/bookingservice/zuulgateway/ZuulGatewayApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/zuul-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/zuul-gateway/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/zuul-gateway/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/zuul-gateway/target/classes/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zuul-gateway/target/classes/com/jenkins/common/zuulgateway/ZuulGatewayApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/zuul-gateway/target/classes/com/jenkins/common/zuulgateway/ZuulGatewayApplication.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +111,9 @@
     <expand />
     <select />
   </component>
+  <component name="FavoritesManager">
+    <favorites_list name="system-backend" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -89,13 +133,16 @@
     </option>
   </component>
   <component name="ProjectId" id="1VyLXFqtRMrUKN6pUQYBgJ1u4Ag" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ExpandSpringBootJavaOptionsPanel" value="true" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
@@ -105,7 +152,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/mapper/impl" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/system-user/system-user-service/src/main/resources" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -117,16 +164,19 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.29498523" />
-    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/booking-room" />
       <recent name="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/mapper/impl" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.jenkins.common.authcommon.utils" />
       <recent name="com.jenkins.common.model" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/system-user/system-user-service/src/main/resources" />
       <recent name="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/mapper/impl" />
       <recent name="$PROJECT_DIR$/booking-room/src/main/java/com/jenkins/common/mapper" />
     </key>
@@ -139,32 +189,54 @@
     </option>
   </component>
   <component name="RunManager" selected="Spring Boot.BookingRoomApplication">
-    <configuration name="registry-server-0.0.1-SNAPSHOT.jar" type="JarApplication" temporary="true">
-      <option name="JAR_PATH" value="$PROJECT_DIR$/registry-server/target/registry-server-0.0.1-SNAPSHOT.jar" />
-      <method v="2" />
-    </configuration>
-    <configuration name="BookingRoomApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="booking-room" />
+    <configuration name="AuthCommonTest.test1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="auth-interface" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.jenkins.common.*" />
+          <option name="PATTERN" value="com.jenkins.common.authcommon.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.jenkins.common.BookingRoomApplication" />
+      <option name="PACKAGE_NAME" value="com.jenkins.common.authcommon" />
+      <option name="MAIN_CLASS_NAME" value="com.jenkins.common.authcommon.AuthCommonTest" />
+      <option name="METHOD_NAME" value="test1" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BookingRoomSeviceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="booking-room-service" />
+    <configuration name="AuthServiceTest.testConfig" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="auth-service" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.jenkins.common.*" />
+          <option name="PATTERN" value="com.jenkins.common.authservice.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.jenkins.common.BookingRoomSeviceApplication" />
+      <option name="PACKAGE_NAME" value="com.jenkins.common.authservice" />
+      <option name="MAIN_CLASS_NAME" value="com.jenkins.common.authservice.AuthServiceTest" />
+      <option name="METHOD_NAME" value="testConfig" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="auth-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.jenkins.common.authservice.AuthServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BookingRoomApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="booking-room-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.jenkins.common.bookingservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.jenkins.common.bookingservice.BookingRoomApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -173,35 +245,42 @@
       <module name="registry-server" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.jenkins.common.registryserver.*" />
+          <option name="PATTERN" value="com.jenkins.common.bookingservice.registryserver.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.jenkins.common.registryserver.RegistryServerApplication" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.jenkins.common.bookingservice.registryserver.RegistryServerApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ZuulGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="zuul-gateway" />
+    <configuration name="UserServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="system-user-service" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.jenkins.common.zuulgateway.*" />
+          <option name="PATTERN" value="com.jenkins.common.userservice.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.jenkins.common.zuulgateway.ZuulGatewayApplication" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.jenkins.common.userservice.UserServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ZuulGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="zuul-gateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.jenkins.common.bookingservice.zuulgateway.ZuulGatewayApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.UserServiceApplication" />
         <item itemvalue="Spring Boot.BookingRoomApplication" />
-        <item itemvalue="Spring Boot.ZuulGatewayApplication" />
         <item itemvalue="Spring Boot.RegistryServerApplication" />
-        <item itemvalue="Spring Boot.BookingRoomSeviceApplication" />
-        <item itemvalue="JAR Application.registry-server-0.0.1-SNAPSHOT.jar" />
+        <item itemvalue="JUnit.AuthServiceTest.testConfig" />
+        <item itemvalue="JUnit.AuthCommonTest.test1" />
       </list>
     </recent_temporary>
   </component>
@@ -228,6 +307,9 @@
       </list>
     </option>
   </component>
+  <component name="SpringBootOptions">
+    <option name="showAdditionalConfigNotification" value="false" />
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -245,19 +327,38 @@
       <workItem from="1578272050559" duration="290000" />
       <workItem from="1578298690846" duration="4600000" />
       <workItem from="1578315484770" duration="23000" />
-      <workItem from="1578363006617" duration="9364000" />
+      <workItem from="1578363006617" duration="9397000" />
+      <workItem from="1578535320619" duration="7399000" />
+      <workItem from="1578669405557" duration="8887000" />
+      <workItem from="1578722261999" duration="5795000" />
     </task>
+    <task id="LOCAL-00001" summary="add basic mappers">
+      <created>1578379748942</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1578379748942</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="add basic mappers" />
+    <MESSAGE value="add auth module &#10;no implements" />
+    <option name="LAST_COMMIT_MESSAGE" value="add auth module &#10;no implements" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="373" y="131" key="#Project_Structure" timestamp="1578375081157">
-      <screen x="0" y="0" width="1280" height="800" />
+    <state x="226" y="-875" key="#Project_Structure" timestamp="1578670278706">
+      <screen x="-334" y="-1080" width="1920" height="1080" />
     </state>
-    <state x="226" y="-875" key="#Project_Structure/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578310430125" />
+    <state x="226" y="-875" key="#Project_Structure/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578670278706" />
     <state x="373" y="131" key="#Project_Structure/0.0.1280.800@0.0.1280.800" timestamp="1578375081157" />
+    <state x="226" y="-903" key="#Project_Structure/0.23.1280.777/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578658242489" />
     <state x="259" y="-1047" key="#RegistryServerApplication_(1)" timestamp="1578314168894">
       <screen x="-334" y="-1080" width="1920" height="1080" />
     </state>
@@ -274,78 +375,94 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="268" y="210" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.800@0.0.1280.800" timestamp="1578370752870" />
-    <state x="453" y="91" key="#com.intellij.ide.util.MemberChooser" timestamp="1578377164304">
-      <screen x="0" y="0" width="1280" height="800" />
+    <state x="346" y="-937" key="#com.intellij.ide.util.MemberChooser" timestamp="1578723261589">
+      <screen x="-334" y="-1057" width="1920" height="1057" />
     </state>
+    <state x="346" y="-957" key="#com.intellij.ide.util.MemberChooser/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578718331264" />
     <state x="453" y="91" key="#com.intellij.ide.util.MemberChooser/0.0.1280.800@0.0.1280.800" timestamp="1578377164304" />
-    <state x="159" y="-940" key="CommitChangelistDialog2" timestamp="1578315492871">
+    <state x="346" y="-937" key="#com.intellij.ide.util.MemberChooser/0.23.1280.739/-334.-1057.1920.1057@-334.-1057.1920.1057" timestamp="1578723261589" />
+    <state x="364" y="-786" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1578718275227">
       <screen x="-334" y="-1080" width="1920" height="1080" />
     </state>
-    <state x="159" y="-940" key="CommitChangelistDialog2/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578315492871" />
+    <state x="364" y="-786" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578718275227" />
+    <state x="-216" y="-940" key="CommitChangelistDialog2" timestamp="1578669314270">
+      <screen x="-334" y="-1080" width="1920" height="1080" />
+    </state>
+    <state x="-216" y="-940" key="CommitChangelistDialog2/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578669314270" />
+    <state x="163" y="1" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1578379748677" />
     <state x="-334" y="-1080" key="FileDocumentManager.FileCacheConflict" timestamp="1578235502448">
       <screen x="-334" y="-1080" width="1920" height="1080" />
     </state>
     <state x="-334" y="-1080" key="FileDocumentManager.FileCacheConflict/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578235502448" />
-    <state width="926" height="263" key="GridCell.Tab.0.bottom" timestamp="1578379718594">
-      <screen x="0" y="0" width="1280" height="800" />
+    <state width="1417" height="286" key="GridCell.Tab.0.bottom" timestamp="1578728528205">
+      <screen x="-334" y="-1057" width="1920" height="1057" />
     </state>
-    <state width="1417" height="301" key="GridCell.Tab.0.bottom/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578314770952" />
-    <state width="926" height="263" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1578379718594" />
+    <state width="1417" height="376" key="GridCell.Tab.0.bottom/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578722387188" />
+    <state width="926" height="187" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1578379752357" />
+    <state width="1417" height="286" key="GridCell.Tab.0.bottom/0.23.1280.739/-334.-1057.1920.1057@-334.-1057.1920.1057" timestamp="1578728528205" />
     <state width="926" height="321" key="GridCell.Tab.0.bottom/0.23.1280.739@0.23.1280.739" timestamp="1578374656301" />
-    <state width="1417" height="301" key="GridCell.Tab.0.bottom/0.23.1280.777/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578314687356" />
-    <state width="926" height="263" key="GridCell.Tab.0.center" timestamp="1578379718593">
-      <screen x="0" y="0" width="1280" height="800" />
+    <state width="1417" height="265" key="GridCell.Tab.0.bottom/0.23.1280.777/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578722227039" />
+    <state width="1417" height="286" key="GridCell.Tab.0.center" timestamp="1578728528200">
+      <screen x="-334" y="-1057" width="1920" height="1057" />
     </state>
-    <state width="1417" height="301" key="GridCell.Tab.0.center/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578314770950" />
-    <state width="926" height="263" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1578379718593" />
+    <state width="1417" height="376" key="GridCell.Tab.0.center/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578722387183" />
+    <state width="926" height="187" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1578379752355" />
+    <state width="1417" height="286" key="GridCell.Tab.0.center/0.23.1280.739/-334.-1057.1920.1057@-334.-1057.1920.1057" timestamp="1578728528200" />
     <state width="926" height="321" key="GridCell.Tab.0.center/0.23.1280.739@0.23.1280.739" timestamp="1578374656299" />
-    <state width="1417" height="301" key="GridCell.Tab.0.center/0.23.1280.777/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578314687336" />
-    <state width="926" height="263" key="GridCell.Tab.0.left" timestamp="1578379718590">
-      <screen x="0" y="0" width="1280" height="800" />
+    <state width="1417" height="265" key="GridCell.Tab.0.center/0.23.1280.777/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578722227037" />
+    <state width="1417" height="286" key="GridCell.Tab.0.left" timestamp="1578728528197">
+      <screen x="-334" y="-1057" width="1920" height="1057" />
     </state>
-    <state width="1417" height="301" key="GridCell.Tab.0.left/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578314770949" />
-    <state width="926" height="263" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1578379718590" />
+    <state width="1417" height="376" key="GridCell.Tab.0.left/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578722387182" />
+    <state width="926" height="187" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1578379752355" />
+    <state width="1417" height="286" key="GridCell.Tab.0.left/0.23.1280.739/-334.-1057.1920.1057@-334.-1057.1920.1057" timestamp="1578728528197" />
     <state width="926" height="321" key="GridCell.Tab.0.left/0.23.1280.739@0.23.1280.739" timestamp="1578374656297" />
-    <state width="1417" height="301" key="GridCell.Tab.0.left/0.23.1280.777/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578314687330" />
-    <state width="926" height="263" key="GridCell.Tab.0.right" timestamp="1578379718594">
-      <screen x="0" y="0" width="1280" height="800" />
+    <state width="1417" height="265" key="GridCell.Tab.0.left/0.23.1280.777/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578722227036" />
+    <state width="1417" height="286" key="GridCell.Tab.0.right" timestamp="1578728528203">
+      <screen x="-334" y="-1057" width="1920" height="1057" />
     </state>
-    <state width="1417" height="301" key="GridCell.Tab.0.right/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578314770951" />
-    <state width="926" height="263" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1578379718594" />
+    <state width="1417" height="376" key="GridCell.Tab.0.right/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578722387186" />
+    <state width="926" height="187" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1578379752356" />
+    <state width="1417" height="286" key="GridCell.Tab.0.right/0.23.1280.739/-334.-1057.1920.1057@-334.-1057.1920.1057" timestamp="1578728528203" />
     <state width="926" height="321" key="GridCell.Tab.0.right/0.23.1280.739@0.23.1280.739" timestamp="1578374656300" />
-    <state width="1417" height="301" key="GridCell.Tab.0.right/0.23.1280.777/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578314687343" />
-    <state width="926" height="263" key="GridCell.Tab.1.bottom" timestamp="1578379718598">
-      <screen x="0" y="0" width="1280" height="800" />
+    <state width="1417" height="265" key="GridCell.Tab.0.right/0.23.1280.777/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578722227038" />
+    <state width="1417" height="286" key="GridCell.Tab.1.bottom" timestamp="1578728528214">
+      <screen x="-334" y="-1057" width="1920" height="1057" />
     </state>
-    <state width="1417" height="301" key="GridCell.Tab.1.bottom/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578314770956" />
-    <state width="926" height="263" key="GridCell.Tab.1.bottom/0.0.1280.800@0.0.1280.800" timestamp="1578379718598" />
+    <state width="1417" height="376" key="GridCell.Tab.1.bottom/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578722387195" />
+    <state width="926" height="187" key="GridCell.Tab.1.bottom/0.0.1280.800@0.0.1280.800" timestamp="1578379752359" />
+    <state width="1417" height="286" key="GridCell.Tab.1.bottom/0.23.1280.739/-334.-1057.1920.1057@-334.-1057.1920.1057" timestamp="1578728528214" />
     <state width="926" height="321" key="GridCell.Tab.1.bottom/0.23.1280.739@0.23.1280.739" timestamp="1578374656303" />
-    <state width="1417" height="301" key="GridCell.Tab.1.bottom/0.23.1280.777/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578314687386" />
-    <state width="926" height="263" key="GridCell.Tab.1.center" timestamp="1578379718596">
-      <screen x="0" y="0" width="1280" height="800" />
+    <state width="1417" height="265" key="GridCell.Tab.1.bottom/0.23.1280.777/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578722227042" />
+    <state width="1417" height="286" key="GridCell.Tab.1.center" timestamp="1578728528210">
+      <screen x="-334" y="-1057" width="1920" height="1057" />
     </state>
-    <state width="1417" height="301" key="GridCell.Tab.1.center/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578314770954" />
-    <state width="926" height="263" key="GridCell.Tab.1.center/0.0.1280.800@0.0.1280.800" timestamp="1578379718596" />
+    <state width="1417" height="376" key="GridCell.Tab.1.center/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578722387190" />
+    <state width="926" height="187" key="GridCell.Tab.1.center/0.0.1280.800@0.0.1280.800" timestamp="1578379752358" />
+    <state width="1417" height="286" key="GridCell.Tab.1.center/0.23.1280.739/-334.-1057.1920.1057@-334.-1057.1920.1057" timestamp="1578728528210" />
     <state width="926" height="321" key="GridCell.Tab.1.center/0.23.1280.739@0.23.1280.739" timestamp="1578374656302" />
-    <state width="1417" height="301" key="GridCell.Tab.1.center/0.23.1280.777/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578314687370" />
-    <state width="926" height="263" key="GridCell.Tab.1.left" timestamp="1578379718595">
-      <screen x="0" y="0" width="1280" height="800" />
+    <state width="1417" height="265" key="GridCell.Tab.1.center/0.23.1280.777/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578722227040" />
+    <state width="1417" height="286" key="GridCell.Tab.1.left" timestamp="1578728528207">
+      <screen x="-334" y="-1057" width="1920" height="1057" />
     </state>
-    <state width="1417" height="301" key="GridCell.Tab.1.left/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578314770953" />
-    <state width="926" height="263" key="GridCell.Tab.1.left/0.0.1280.800@0.0.1280.800" timestamp="1578379718595" />
+    <state width="1417" height="376" key="GridCell.Tab.1.left/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578722387189" />
+    <state width="926" height="187" key="GridCell.Tab.1.left/0.0.1280.800@0.0.1280.800" timestamp="1578379752357" />
+    <state width="1417" height="286" key="GridCell.Tab.1.left/0.23.1280.739/-334.-1057.1920.1057@-334.-1057.1920.1057" timestamp="1578728528207" />
     <state width="926" height="321" key="GridCell.Tab.1.left/0.23.1280.739@0.23.1280.739" timestamp="1578374656302" />
-    <state width="1417" height="301" key="GridCell.Tab.1.left/0.23.1280.777/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578314687363" />
-    <state width="926" height="263" key="GridCell.Tab.1.right" timestamp="1578379718597">
-      <screen x="0" y="0" width="1280" height="800" />
+    <state width="1417" height="265" key="GridCell.Tab.1.left/0.23.1280.777/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578722227040" />
+    <state width="1417" height="286" key="GridCell.Tab.1.right" timestamp="1578728528212">
+      <screen x="-334" y="-1057" width="1920" height="1057" />
     </state>
-    <state width="1417" height="301" key="GridCell.Tab.1.right/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578314770955" />
-    <state width="926" height="263" key="GridCell.Tab.1.right/0.0.1280.800@0.0.1280.800" timestamp="1578379718597" />
+    <state width="1417" height="376" key="GridCell.Tab.1.right/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578722387194" />
+    <state width="926" height="187" key="GridCell.Tab.1.right/0.0.1280.800@0.0.1280.800" timestamp="1578379752358" />
+    <state width="1417" height="286" key="GridCell.Tab.1.right/0.23.1280.739/-334.-1057.1920.1057@-334.-1057.1920.1057" timestamp="1578728528212" />
     <state width="926" height="321" key="GridCell.Tab.1.right/0.23.1280.739@0.23.1280.739" timestamp="1578374656303" />
-    <state width="1417" height="301" key="GridCell.Tab.1.right/0.23.1280.777/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578314687377" />
-    <state x="114" y="-959" key="SettingsEditor" timestamp="1578233221145">
-      <screen x="-334" y="-1080" width="1920" height="1080" />
+    <state width="1417" height="265" key="GridCell.Tab.1.right/0.23.1280.777/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578722227041" />
+    <state x="114" y="-939" key="SettingsEditor" timestamp="1578722652011">
+      <screen x="-334" y="-1057" width="1920" height="1057" />
     </state>
-    <state x="114" y="-959" key="SettingsEditor/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578233221145" />
+    <state x="114" y="-959" key="SettingsEditor/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578668194053" />
+    <state x="114" y="-939" key="SettingsEditor/0.23.1280.739/-334.-1057.1920.1057@-334.-1057.1920.1057" timestamp="1578722652011" />
     <state x="345" y="-735" key="SpringBootCustomization" timestamp="1578231653160">
       <screen x="-334" y="-1080" width="1920" height="1080" />
     </state>
@@ -354,19 +471,20 @@
       <screen x="-334" y="-1080" width="1920" height="1080" />
     </state>
     <state x="303" y="-772" width="645" height="464" key="find.popup/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578232384390" />
-    <state x="17" y="23" key="new project wizard" timestamp="1578377768263">
-      <screen x="0" y="0" width="1280" height="800" />
+    <state x="132" y="-818" key="new project wizard" timestamp="1578715772255">
+      <screen x="-334" y="-1080" width="1920" height="1080" />
     </state>
-    <state x="166" y="-806" key="new project wizard/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578314349585" />
+    <state x="132" y="-818" key="new project wizard/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578715772255" />
     <state x="17" y="23" key="new project wizard/0.0.1280.800@0.0.1280.800" timestamp="1578377768263" />
     <state x="17" y="90" key="new project wizard/0.23.1280.739@0.23.1280.739" timestamp="1578367962699" />
+    <state x="340" y="-818" key="new project wizard/0.23.1280.777/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578658122460" />
     <state x="291" y="-284" width="670" height="675" key="run.anything.popup" timestamp="1578222084025">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="291" y="-284" width="670" height="675" key="run.anything.popup/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578222084025" />
-    <state x="291" y="-839" width="670" height="676" key="search.everywhere.popup" timestamp="1578314596378">
+    <state x="291" y="-839" width="670" height="676" key="search.everywhere.popup" timestamp="1578718661169">
       <screen x="-334" y="-1080" width="1920" height="1080" />
     </state>
-    <state x="291" y="-839" width="670" height="676" key="search.everywhere.popup/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578314596378" />
+    <state x="291" y="-839" width="670" height="676" key="search.everywhere.popup/0.0.1280.800/-334.-1080.1920.1080@-334.-1080.1920.1080" timestamp="1578718661169" />
   </component>
 </project>

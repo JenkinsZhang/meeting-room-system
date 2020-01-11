@@ -7,16 +7,26 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="common-components" />
-        <module name="zuul-gateway" />
-        <module name="registry-server" />
-        <module name="booking-room" />
-        <module name="system-service" />
         <module name="demo2" />
+        <module name="zuul-gateway" />
+        <module name="system-user-interface" />
+        <module name="registry-server" />
+        <module name="auth-interface" />
+        <module name="booking-room-interface" />
+        <module name="autho-service" />
+        <module name="booking-room-service" />
+        <module name="system-service" />
+        <module name="auth-service" />
+        <module name="system-user-service" />
         <module name="booking-room-web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="13">
+      <module name="auth-interface" target="11" />
+      <module name="auth-service" target="11" />
+      <module name="autho-service" target="11" />
       <module name="booking-room" target="11" />
+      <module name="booking-room-interface" target="11" />
       <module name="booking-room-mapper" target="11" />
       <module name="booking-room-model" target="11" />
       <module name="booking-room-service" target="11" />
@@ -28,15 +38,23 @@
       <module name="room-booking" target="11" />
       <module name="room-booking-interface" target="11" />
       <module name="room-booking-service" target="11" />
+      <module name="system-auth" target="11" />
       <module name="system-backend" target="11" />
       <module name="system-gateway" target="11" />
       <module name="system-service" target="11" />
+      <module name="system-user" target="11" />
+      <module name="system-user-interface" target="11" />
+      <module name="system-user-service" target="11" />
       <module name="zuul-gateway" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="auth-interface" options="-parameters" />
+      <module name="auth-service" options="-parameters" />
+      <module name="autho-service" options="-parameters" />
       <module name="booking-room" options="-parameters" />
+      <module name="booking-room-interface" options="-parameters" />
       <module name="booking-room-mapper" options="-parameters" />
       <module name="booking-room-model" options="-parameters" />
       <module name="booking-room-service" options="-parameters" />
@@ -48,9 +66,13 @@
       <module name="room-booking" options="-parameters" />
       <module name="room-booking-interface" options="-parameters" />
       <module name="room-booking-service" options="-parameters" />
+      <module name="system-auth" options="" />
       <module name="system-backend" options="-parameters" />
       <module name="system-gateway" options="-parameters" />
       <module name="system-service" options="-parameters" />
+      <module name="system-user" options="" />
+      <module name="system-user-interface" options="-parameters" />
+      <module name="system-user-service" options="-parameters" />
       <module name="zuul-gateway" options="-parameters" />
     </option>
   </component>
