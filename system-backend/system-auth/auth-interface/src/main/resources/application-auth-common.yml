@@ -1,3 +1,0 @@
-auth-common:
-  SECRET_KEY: ZJPisOneBigIdiot
-  EXPIRE_TIME: 900000

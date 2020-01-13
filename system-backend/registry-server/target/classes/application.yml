@@ -6,14 +6,9 @@ server:
 
 eureka:
   client:
-    region: sh
-    availability-zones:
-      sh: sh1,sh2
     service-url:
-      sh1: http://localhost:9090/eureka
-      sh2: http://localhost:8080/eureka
-    register-with-eureka: false
-    fetch-registry: false
+      defaultZone: http://localhost:9090/eureka
+
   instance:
     lease-expiration-duration-in-seconds: 30
     lease-renewal-interval-in-seconds: 15

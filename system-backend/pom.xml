@@ -10,8 +10,8 @@
         <module>registry-server</module>
         <module>zuul-gateway</module>
         <module>common-components</module>
-        <module>system-auth</module>
         <module>system-user</module>
+        <module>web-auth</module>
     </modules>
 
 

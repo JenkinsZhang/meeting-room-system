@@ -16,6 +16,7 @@
         <option value="$PROJECT_DIR$/booking-room/booking-room-web/pom.xml" />
         <option value="$PROJECT_DIR$/room-booking/pom.xml" />
         <option value="$PROJECT_DIR$/room-booking/room-booking-interface/pom.xml" />
+        <option value="$PROJECT_DIR$/system-auth/pom.xml" />
         <option value="$PROJECT_DIR$/system-service/pom.xml" />
       </set>
     </option>

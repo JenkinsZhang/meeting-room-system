@@ -7,17 +7,17 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="common-components" />
-        <module name="demo2" />
+        <module name="booking-room-interface" />
         <module name="zuul-gateway" />
-        <module name="system-user-interface" />
+        <module name="system-user-service" />
         <module name="registry-server" />
         <module name="auth-interface" />
-        <module name="booking-room-interface" />
-        <module name="autho-service" />
-        <module name="booking-room-service" />
-        <module name="system-service" />
         <module name="auth-service" />
-        <module name="system-user-service" />
+        <module name="booking-room-service" />
+        <module name="system-user-interface" />
+        <module name="system-service" />
+        <module name="demo2" />
+        <module name="autho-service" />
         <module name="booking-room-web" />
       </profile>
     </annotationProcessing>
@@ -45,6 +45,7 @@
       <module name="system-user" target="11" />
       <module name="system-user-interface" target="11" />
       <module name="system-user-service" target="11" />
+      <module name="web-auth" target="11" />
       <module name="zuul-gateway" target="11" />
     </bytecodeTargetLevel>
   </component>
@@ -73,6 +74,7 @@
       <module name="system-user" options="" />
       <module name="system-user-interface" options="-parameters" />
       <module name="system-user-service" options="-parameters" />
+      <module name="web-auth" options="" />
       <module name="zuul-gateway" options="-parameters" />
     </option>
   </component>
