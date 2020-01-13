@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.jenkins.common.userservice.mapper.UserMapper">
-    <resultMap id="Base_Result_Map" type="com.jenkins.common.userservice.model.User">
+    <resultMap id="Base_Result_Map" type="com.jenkins.common.userinterface.model.User">
         <id column="id" property="id"></id>
         <result column="username" property="username"></result>
         <result column="password" property="password"></result>
@@ -27,12 +27,12 @@
         select * from bk_user
     </select>
 
-    <insert id="insert" parameterType="com.jenkins.common.userservice.model.User">
+    <insert id="insert" parameterType="com.jenkins.common.userinterface.model.User">
         insert into bk_user(username,password,phone,email)
         values (#{username},#{password},#{phone},#{email})
     </insert>
 
-    <update id="updateByEmail" parameterType="com.jenkins.common.userservice.model.User">
+    <update id="updateByEmail" parameterType="com.jenkins.common.userinterface.model.User">
         update bk_user
         set username = #{username},
             password = #{password},

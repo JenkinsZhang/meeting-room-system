@@ -1,9 +1,8 @@
 package com.jenkins.common.userservice.mapper;
 
-import com.jenkins.common.userservice.model.User;
+import com.jenkins.common.userinterface.model.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 
 @Component

@@ -1,8 +1,7 @@
 package com.jenkins.common.userservice.controller;
 
 
-import com.jenkins.common.userservice.mapper.UserMapper;
-import com.jenkins.common.userservice.model.User;
+import com.jenkins.common.userinterface.model.User;
 import com.jenkins.common.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,22 +19,22 @@ public class UserController {
         return userService.queryUser(email, password);
     }
 
-    @GetMapping("user")
+    @GetMapping("")
     public List<User> selectAllUsers() {
         return userService.selectAllUsers();
     }
 
-    @PostMapping("user")
+    @PostMapping("/registry")
     public int insert(@RequestBody User user) {
         return userService.insert(user);
     }
 
-    @PutMapping("user")
+    @PutMapping("")
     public int updateByEmail(@RequestBody User user) {
         return userService.updateByEmail(user);
     }
 
-    @DeleteMapping("user/{email}")
+    @DeleteMapping("/{email}")
     public int deleteByEmail(@PathVariable("email") String email) {
         return userService.deleteByEmail(email);
     }

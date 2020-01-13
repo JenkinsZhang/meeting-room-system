@@ -1,4 +1,4 @@
-package com.jenkins.common.userservice.model;
+package com.jenkins.common.userinterface.model;
 
 import java.io.Serializable;
 

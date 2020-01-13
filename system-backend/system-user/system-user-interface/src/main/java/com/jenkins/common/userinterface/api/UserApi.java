@@ -1,7 +1,7 @@
 package com.jenkins.common.userinterface.api;
 
 
-import com.jenkins.common.userservice.model.User;
+import com.jenkins.common.userinterface.model.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

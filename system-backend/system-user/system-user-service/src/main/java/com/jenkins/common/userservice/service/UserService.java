@@ -1,8 +1,8 @@
 package com.jenkins.common.userservice.service;
 
 
+import com.jenkins.common.userinterface.model.User;
 import com.jenkins.common.userservice.mapper.UserMapper;
-import com.jenkins.common.userservice.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

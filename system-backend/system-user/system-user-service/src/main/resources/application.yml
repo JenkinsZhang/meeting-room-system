@@ -11,20 +11,16 @@ spring:
 
 eureka:
   client:
-    region: sh
-    availability-zones:
-      sh: sh1,sh2
     service-url:
-      sh1: http://localhost:9090/eureka
-      sh2: http://localhost:8080/eureka
+      defaultZone: http://localhost:9090/eureka
   instance:
-    metadata-map:
-      zone: sh1
     lease-renewal-interval-in-seconds: 15
     lease-expiration-duration-in-seconds: 30
 
 mybatis:
   type-aliases-package: com.jenkins.common
   mapper-locations: classpath*:com/jenkins/common/**/mapper/impl/*Mapper.xml
+
+
 server:
   port: 9092
