@@ -4,10 +4,13 @@ package com.jenkins.common.authservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication(scanBasePackages = "com.jenkins.common")
+@SpringBootApplication(scanBasePackages = "com.jenkins.common.authservice")
 @EnableDiscoveryClient
+@EnableFeignClients(basePackages = "com.jenkins.common")
 public class AuthServiceApplication {
 
 

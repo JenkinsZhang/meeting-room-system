@@ -1,4 +1,4 @@
-package com.jenkins.common.authcommon.model;
+package com.jenkins.common.authservice.model;
 
 import org.springframework.stereotype.Component;
 
@@ -25,5 +25,13 @@ public class UserInfo implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }
