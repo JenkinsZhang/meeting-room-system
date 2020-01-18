@@ -2,7 +2,7 @@ package com.jenkins.common.bookingservice.controller;
 
 
 import com.jenkins.common.bookingservice.mapper.RoomInformationMapper;
-import com.jenkins.common.bookingservice.model.ResultVo;
+import com.jenkins.common.components.model.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

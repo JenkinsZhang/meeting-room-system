@@ -11,20 +11,6 @@ import java.util.List;
 
 @Component
 @FeignClient(name = "user-service")
-public interface UserClient {
+public interface UserClient extends UserApi {
 
-    @GetMapping("query")
-    public User queryUser(@RequestParam("email") String email, @RequestParam("password") String password);
-
-    @GetMapping("user")
-    public List<User> selectAllUsers();
-
-    @PostMapping("user")
-    public int insert(@RequestBody User user);
-
-    @PutMapping("user")
-    public int updateByEmail(@RequestBody User user);
-
-    @DeleteMapping("user/{email}")
-    public int deleteByEmail(@PathVariable("email") String email);
 }

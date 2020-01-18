@@ -8,10 +8,9 @@ import com.auth0.jwt.exceptions.AlgorithmMismatchException;
 import com.auth0.jwt.exceptions.InvalidClaimException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.jenkins.common.authservice.model.UserInfo;
-import com.jenkins.common.bookingservice.model.ResultVo;
+import com.jenkins.common.components.model.ResultVo;
 import org.joda.time.DateTime;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
@@ -52,7 +51,7 @@ public class JwtUtil {
         Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
         String token = null;
         Date dateTime = new DateTime().plusMinutes(EXPIRE_TIME).toDate();
-        token = JWT.create().withClaim("email", userInfo.getEmail())
+        token = JWT.create().withClaim("id", userInfo.getId())
                 .withClaim("username", userInfo.getUsername())
                 .withExpiresAt(dateTime)
                 .sign(algorithm);
@@ -65,10 +64,11 @@ public class JwtUtil {
         try {
             DecodedJWT verify = verifier.verify(token);
             UserInfo userInfo = new UserInfo();
-            userInfo.setEmail(verify.getClaim("email").toString());
-            userInfo.setUsername(verify.getClaim("username").toString());
+            userInfo.setId(verify.getClaim("id").asInt());
+            userInfo.setUsername(verify.getClaim("username").asString());
             String newToken = createToken(userInfo);
             response.setHeader("access-token", newToken);
+//            System.out.println(userInfo);
             return userInfo;
         } catch (Exception e) {
             try {

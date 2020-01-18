@@ -22,4 +22,7 @@ public interface UserApi {
 
     @DeleteMapping("user/{email}")
     public int deleteByEmail(@PathVariable("email") String email);
+
+    @GetMapping("getSalt")
+    public String getSalt(@RequestParam("email") String email);
 }

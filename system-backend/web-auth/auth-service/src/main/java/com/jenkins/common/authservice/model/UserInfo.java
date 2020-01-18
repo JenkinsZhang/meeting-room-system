@@ -7,9 +7,9 @@ import java.io.Serializable;
 @Component
 public class UserInfo implements Serializable {
 
-    private String username;
+    private int id;
 
-    private String email;
+    private String username;
 
     public String getUsername() {
         return username;
@@ -19,19 +19,19 @@ public class UserInfo implements Serializable {
         this.username = username;
     }
 
-    public String getEmail() {
-        return email;
+    public int getId() {
+        return id;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
     public String toString() {
         return "UserInfo{" +
-                "username='" + username + '\'' +
-                ", email='" + email + '\'' +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
                 '}';
     }
 }

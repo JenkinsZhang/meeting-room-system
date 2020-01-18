@@ -1,6 +1,6 @@
 package com.jenkins.common.bookingservice.mapper;
 
-import com.jenkins.common.bookingservice.model.RoomInformation;
+import com.jenkins.common.components.model.RoomInformation;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 

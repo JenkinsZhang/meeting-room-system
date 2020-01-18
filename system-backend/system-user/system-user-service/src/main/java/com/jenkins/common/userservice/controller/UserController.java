@@ -4,6 +4,7 @@ package com.jenkins.common.userservice.controller;
 import com.jenkins.common.userinterface.model.User;
 import com.jenkins.common.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +17,19 @@ public class UserController {
 
     @GetMapping("query")
     public User queryUser(@RequestParam("email") String email, @RequestParam("password") String password) {
-        return userService.queryUser(email, password);
+        String salt = userService.getSaltByEmail(email);
+        try {
+            password = BCrypt.hashpw(password, salt);
+            return userService.queryUser(email, password);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @GetMapping("getSalt")
+    public String getSalt(@RequestParam("email") String email) {
+        String saltByEmail = userService.getSaltByEmail(email);
+        return saltByEmail;
     }
 
     @GetMapping("")

@@ -8,6 +8,9 @@ import com.jenkins.common.userinterface.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class AuthService {
 
@@ -17,18 +20,22 @@ public class AuthService {
     @Autowired
     private UserClient userClient;
 
-    public String issueToken(String email, String password) {
+    public Map<String, Object> issueToken(String email, String password) {
+        Map<String, Object> map = new HashMap<>();
         User user = userClient.queryUser(email, password);
         if (user == null) {
-            return null;
+            map.put("token", null);
+            return map;
         }
         System.out.println(user);
         UserInfo userInfo = new UserInfo();
-        userInfo.setEmail(user.getEmail());
-        userInfo.setUsername(user.getPassword());
-        System.out.println(userInfo);
+        userInfo.setId(user.getId());
+        userInfo.setUsername(user.getUsername());
+//        System.out.println(userInfo);
         String token = jwtUtil.createToken(userInfo);
-        return token;
+        map.put("token", token);
+        map.put("userInfo", userInfo);
+        return map;
     }
 
 }

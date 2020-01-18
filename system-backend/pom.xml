@@ -33,6 +33,7 @@
         <mybatis-starter.version>2.1.1</mybatis-starter.version>
         <jwt.version>3.8.3</jwt.version>
         <joda-time.version>2.10.5</joda-time.version>
+        <swagger.version>2.9.2</swagger.version>
     </properties>
 
 
@@ -75,6 +76,19 @@
                 <artifactId>joda-time</artifactId>
                 <version>${joda-time.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

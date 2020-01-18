@@ -1,4 +1,4 @@
-package com.jenkins.common.bookingservice.model;
+package com.jenkins.common.components.model;
 
 import java.io.Serializable;
 

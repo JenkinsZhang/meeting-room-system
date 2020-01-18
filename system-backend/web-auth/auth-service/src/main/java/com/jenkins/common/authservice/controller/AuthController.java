@@ -5,16 +5,20 @@ import com.jenkins.common.authservice.client.UserClient;
 import com.jenkins.common.authservice.model.UserInfo;
 import com.jenkins.common.authservice.service.AuthService;
 import com.jenkins.common.authservice.utils.JwtUtil;
-import com.jenkins.common.bookingservice.model.ResultVo;
+import com.jenkins.common.components.model.ResultVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.datatransfer.StringSelection;
-import java.util.List;
+import java.util.Map;
 
 @RestController
+@Api(tags = "token认证接口")
 public class AuthController {
 
 
@@ -22,22 +26,26 @@ public class AuthController {
     private AuthService authService;
 
     @Autowired
-    private UserClient userClient;
-
-    @Autowired
     private JwtUtil jwtUtil;
 
-    @PostMapping("/authentication")
+    @ApiOperation(value = "用户认证", notes = "根据邮箱和密码对用户进行认证")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "email", value = "用户邮箱", required = true),
+            @ApiImplicitParam(paramType = "query", name = "password", value = "登陆密码", required = true)
+    })
+    @PostMapping("/login")
     public ResultVo authentication(@RequestParam("email") String email,
                                    @RequestParam("password") String password,
                                    HttpServletResponse response) {
-        String token = authService.issueToken(email, password);
+        Map<String, Object> resultMap = authService.issueToken(email, password);
+        String token = (String) resultMap.get("token");
         if (token == null) {
             response.setStatus(401);
             return ResultVo.error(401, "Wrong email or password!");
         }
         response.setHeader("access-token", token);
-        return ResultVo.ok("Login success!");
+        UserInfo userInfo = (UserInfo) resultMap.get("userInfo");
+        return ResultVo.ok("Login success!", userInfo);
     }
 
     @GetMapping("/verify")
