@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/mRoom-auth/auth-interface/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-auth/auth-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-booking/booking-room-interface/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-booking/booking-room-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-registry/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-user/system-user-interface/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-user/system-user-service/src/main/java" charset="UTF-8" />
+  </component>
+</project>
