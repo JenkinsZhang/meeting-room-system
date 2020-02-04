@@ -1,6 +1,7 @@
 package com.jenkins.common.authservice.controller;
 
 
+import com.auth0.jwt.JWT;
 import com.jenkins.common.authservice.model.UserInfo;
 import com.jenkins.common.authservice.service.AuthService;
 import com.jenkins.common.authservice.utils.JwtUtil;
@@ -9,11 +10,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.Map;
 
 @RestController
@@ -37,14 +40,15 @@ public class AuthController {
                                    @RequestParam("password") String password,
                                    HttpServletResponse response) {
         Map<String, Object> resultMap = authService.issueToken(email, password);
-        String token = (String) resultMap.get("token");
-        if (token == null) {
-            response.setStatus(401);
-            return ResultVo.error(401, "Wrong email or password!");
+        String status = (String) resultMap.get("status");
+        if(!status.equals("ok")){
+            String msg = (String) resultMap.get("msg");
+            return ResultVo.error(401,msg);
         }
-        response.setHeader("access-token", token);
+        String token = (String) resultMap.get("token");
         UserInfo userInfo = (UserInfo) resultMap.get("userInfo");
-        return ResultVo.ok("Login success!", userInfo);
+        response.setHeader("access-token",token);
+        return ResultVo.ok("login success",userInfo);
     }
 
     @GetMapping("/verify")
@@ -59,6 +63,24 @@ public class AuthController {
             return ResultVo.ok("valid token!", userInfo);
         }
         return ResultVo.error(401, "Unauthorized!");
+
+    }
+
+    @PostMapping("/activate")
+    public ResultVo verify(@RequestParam("email") String email,
+                           @RequestParam("activateToken")String activateToken)
+    {
+        Date now = DateTime.now().toDate();
+        Date expiresAt = JWT.decode(activateToken).getExpiresAt();
+        if(now.after(expiresAt)){
+            return ResultVo.error(16001,"The activation time has expired, please login again to get the activation link!");
+        }
+        int activate = authService.activateUser(email);
+        if(activate != 1)
+        {
+            return ResultVo.error(16002,"Activation failed! Please contact administrator!");
+        }
+        return ResultVo.ok("activation success!");
 
     }
 }

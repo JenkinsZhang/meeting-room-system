@@ -2,13 +2,23 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/mRoom-auth/auth-interface/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-auth/auth-interface/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mRoom-auth/auth-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mRoom-booking/booking-room-interface/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mRoom-booking/booking-room-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-auth/auth-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-booking/booking-interface/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-booking/booking-interface/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-booking/booking-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-booking/booking-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mRoom-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mRoom-gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-gateway/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mRoom-registry/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mRoom-user/system-user-interface/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mRoom-user/system-user-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-registry/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-roomInfo/roomInfo-interface/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-roomInfo/roomInfo-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-user/user-interface/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-user/user-interface/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-user/user-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mRoom-user/user-service/src/main/resources" charset="UTF-8" />
   </component>
 </project>

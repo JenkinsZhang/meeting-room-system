@@ -21,11 +21,17 @@ zuul:
     booking-service: /booking/**
     auth-service: /auth/**
     user-service: /user/**
+  host:
+    connect-timeout-millis: 10000
+    socket-timeout-millis: 10000
+ribbon:
+  ReadTimeout: 6000
+  ConnectTimeout: 6000
 
 system:
   filter:
     allowPaths:
       - /auth
-      - /user/register
+      - /user/registry
       - /user/check
       - /booking

@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication(scanBasePackages = "com.jenkins.common.authservice")
+@SpringBootApplication(scanBasePackages = {"com.jenkins.common.authservice","com.jenkins.common.components"})
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = "com.jenkins.common")
 public class AuthServiceApplication {

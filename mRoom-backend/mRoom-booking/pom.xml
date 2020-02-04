@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>booking-room-service</module>
-        <module>booking-room-interface</module>
+        <module>booking-service</module>
+        <module>booking-interface</module>
     </modules>
 </project>

@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.List;
 
 @Component
 @PropertySource("classpath:application.yml")
@@ -46,13 +47,14 @@ public class JwtUtil {
         this.EXPIRE_TIME = EXPIRE_TIME;
     }
 
-
     public String createToken(UserInfo userInfo) {
+        List<String> roles = userInfo.getRoles();
         Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
         String token = null;
         Date dateTime = new DateTime().plusMinutes(EXPIRE_TIME).toDate();
         token = JWT.create().withClaim("id", userInfo.getId())
                 .withClaim("username", userInfo.getUsername())
+                .withArrayClaim("roles",roles.toArray(new String[roles.size()]))
                 .withExpiresAt(dateTime)
                 .sign(algorithm);
 
@@ -66,9 +68,10 @@ public class JwtUtil {
             UserInfo userInfo = new UserInfo();
             userInfo.setId(verify.getClaim("id").asInt());
             userInfo.setUsername(verify.getClaim("username").asString());
+            userInfo.setRole(verify.getClaim("roles").asList(String.class));
             String newToken = createToken(userInfo);
             response.setHeader("access-token", newToken);
-//            System.out.println(userInfo);
+            System.out.println(userInfo);
             return userInfo;
         } catch (Exception e) {
             try {

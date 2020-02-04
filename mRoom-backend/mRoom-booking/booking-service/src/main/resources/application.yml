@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: booking-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/meeting_room_reservation_system
+    username: root
+    password: Qianqi971126
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+
+server:
+  port: 9093
+
+eureka:
+  instance:
+    lease-expiration-duration-in-seconds: 30
+    lease-renewal-interval-in-seconds: 15
+  client:
+    service-url:
+      defaultZone: http://localhost:9090/eureka
+
+mybatis:
+  type-aliases-package: com.jenkins.common
+  mapper-locations: classpath*:com/jenkins/common/**/mapper/impl/*Mapper.xml

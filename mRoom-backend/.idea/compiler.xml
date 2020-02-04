@@ -6,44 +6,51 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="booking-room-interface" />
-        <module name="system-user-interface" />
+        <module name="roomInfo-service" />
         <module name="mRoom-gateway" />
         <module name="mRoom-registry" />
-        <module name="auth-interface" />
-        <module name="booking-room-service" />
+        <module name="user-interface" />
+        <module name="roomInfo-interface" />
         <module name="mRoom-common" />
         <module name="auth-service" />
-        <module name="system-user-service" />
+        <module name="user-service" />
+        <module name="booking-service" />
+        <module name="auth-interface" />
+        <module name="booking-interface" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="13">
       <module name="auth-interface" target="11" />
       <module name="auth-service" target="11" />
-      <module name="booking-room-interface" target="11" />
-      <module name="booking-room-service" target="11" />
+      <module name="booking-interface" target="11" />
+      <module name="booking-service" target="11" />
       <module name="mRoom-auth" target="11" />
       <module name="mRoom-backend" target="11" />
       <module name="mRoom-booking" target="11" />
       <module name="mRoom-common" target="11" />
       <module name="mRoom-gateway" target="11" />
       <module name="mRoom-registry" target="11" />
+      <module name="mRoom-roomInfo" target="11" />
       <module name="mRoom-user" target="11" />
-      <module name="system-user-interface" target="11" />
-      <module name="system-user-service" target="11" />
+      <module name="roomInfo-interface" target="11" />
+      <module name="roomInfo-service" target="11" />
+      <module name="user-interface" target="11" />
+      <module name="user-service" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="auth-interface" options="-parameters" />
       <module name="auth-service" options="-parameters" />
-      <module name="booking-room-interface" options="-parameters" />
-      <module name="booking-room-service" options="-parameters" />
+      <module name="booking-interface" options="-parameters" />
+      <module name="booking-service" options="-parameters" />
       <module name="mRoom-common" options="-parameters" />
       <module name="mRoom-gateway" options="-parameters" />
       <module name="mRoom-registry" options="-parameters" />
-      <module name="system-user-interface" options="-parameters" />
-      <module name="system-user-service" options="-parameters" />
+      <module name="roomInfo-interface" options="-parameters" />
+      <module name="roomInfo-service" options="-parameters" />
+      <module name="user-interface" options="-parameters" />
+      <module name="user-service" options="-parameters" />
     </option>
   </component>
 </project>
