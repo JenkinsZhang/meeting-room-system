@@ -14,8 +14,8 @@
 
     <packaging>pom</packaging>
     <modules>
-        <module>system-user-service</module>
-        <module>system-user-interface</module>
+        <module>user-service</module>
+        <module>user-interface</module>
     </modules>
 
 </project>
