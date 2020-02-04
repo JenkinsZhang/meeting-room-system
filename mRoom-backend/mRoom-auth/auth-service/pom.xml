@@ -30,7 +30,7 @@
 
         <dependency>
             <groupId>com.jenkins.common</groupId>
-            <artifactId>system-user-interface</artifactId>
+            <artifactId>user-interface</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
