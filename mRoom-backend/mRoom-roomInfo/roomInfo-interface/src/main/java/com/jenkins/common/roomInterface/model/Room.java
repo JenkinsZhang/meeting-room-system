@@ -1,4 +1,6 @@
 package com.jenkins.common.roomInterface.model;
 
-public class Room {
+import java.io.Serializable;
+
+public class Room implements Serializable {
 }
