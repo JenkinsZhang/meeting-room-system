@@ -1,16 +1,13 @@
 package com.jenkins.common.authservice;
 
 import com.jenkins.common.authservice.client.UserClient;
-import com.jenkins.common.authservice.controller.AuthController;
 import com.jenkins.common.authservice.service.AuthService;
 import com.jenkins.common.authservice.utils.JwtUtil;
-import com.jenkins.common.userinterface.model.User;
-import com.netflix.discovery.converters.Auto;
+import com.jenkins.common.userinterface.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;

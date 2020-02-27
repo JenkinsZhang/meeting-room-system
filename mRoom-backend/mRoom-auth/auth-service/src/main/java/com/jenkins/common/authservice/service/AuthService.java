@@ -1,11 +1,14 @@
 package com.jenkins.common.authservice.service;
 
 
+import com.jenkins.common.authinterface.entity.AuthUser;
+import com.jenkins.common.authinterface.model.UserInfo;
 import com.jenkins.common.authservice.client.UserClient;
-import com.jenkins.common.authservice.model.UserInfo;
+import com.jenkins.common.authservice.mapper.AuthUserMapper;
 import com.jenkins.common.authservice.utils.JwtUtil;
-import com.jenkins.common.userinterface.model.User;
+import com.jenkins.common.userinterface.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -23,16 +26,32 @@ public class AuthService {
     @Autowired
     private UserClient userClient;
 
+    @Autowired
+    private AuthUserMapper authUserMapper;
+
+    //TODO
     public Map<String, Object> issueToken(String email, String password) {
 
 
         Map<String, Object> map = new HashMap<>();
-        User user = userClient.queryUser(email, password);
+        String salt = authUserMapper.getSaltByEmail(email);
+        try{
+            String passwordStored = BCrypt.hashpw(password, salt);
+        }catch (Exception e)
+        {
+            map.put("status", "fail");
+            map.put("msg","Wrong email or password!");
+            return map;
+        }
+        String passwordStored = BCrypt.hashpw(password, salt);
+        AuthUser authUser = authUserMapper.queryUser(email, passwordStored);
+        System.out.println(authUser);
+//        User user = userClient.queryUser(email, password);
 
         /*
             If there is no user, return an empty map
          */
-        if (user == null) {
+        if (authUser == null) {
             map.put("status", "fail");
             map.put("msg","Wrong email or password!");
             return map;
@@ -41,7 +60,7 @@ public class AuthService {
         /*
             If the user account is inactive
          */
-        if(user.getActive() !=1)
+        if(authUser.getActive() !=1)
         {
             map.put("status","fail");
             map.put("msg","Please active your account via email");
@@ -54,19 +73,19 @@ public class AuthService {
             create UserInfo object
          */
         UserInfo userInfo = new UserInfo();
-        userInfo.setId(user.getId());
-        userInfo.setUsername(user.getUsername());
+        userInfo.setEmail(authUser.getEmail());
+        userInfo.setUsername(authUser.getUsername());
 
         /*
             get user's roles
          */
-        List<Integer> userRoleId = userClient.getUserRoleId(user.getId());
+        List<Integer> userRoleId = authUserMapper.getUserRoles(authUser.getId());
         System.out.println(userRoleId);
         List<String> roles = new LinkedList<>();
         for (Integer role_id : userRoleId) {
-            roles.add(userClient.getRoleName(role_id));
+            roles.add(authUserMapper.getRoleName(role_id));
         }
-        userInfo.setRole(roles);
+        userInfo.setRoles(roles);
 
 //        System.out.println(userInfo);
         String token = jwtUtil.createToken(userInfo);

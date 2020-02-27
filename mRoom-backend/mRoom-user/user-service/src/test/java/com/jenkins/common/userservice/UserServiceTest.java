@@ -1,6 +1,6 @@
 package com.jenkins.common.userservice;
 
-import com.jenkins.common.userinterface.model.User;
+import com.jenkins.common.userinterface.entity.User;
 import com.jenkins.common.userservice.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,6 +40,6 @@ public class UserServiceTest {
         user.setEmail("614758656@qq.com");
         user.setUsername("zjp牛逼");
         int i = userService.sendVerificationEmail(user);
-
+        System.out.println(i);
     }
 }

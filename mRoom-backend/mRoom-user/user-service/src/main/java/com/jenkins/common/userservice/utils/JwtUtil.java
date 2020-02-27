@@ -2,7 +2,10 @@ package com.jenkins.common.userservice.utils;
 
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 
@@ -23,5 +26,19 @@ public class JwtUtil {
                 .withExpiresAt(expire)
                 .sign(algorithm);
         return activationToken;
+    }
+
+    public String verifyActivationToken(String token)
+    {
+
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET)).build();
+        try {
+            DecodedJWT verify = verifier.verify(token);
+            String email = verify.getClaim("email").asString();
+            return email;
+        }catch (Exception e)
+        {
+            return null;
+        }
     }
 }

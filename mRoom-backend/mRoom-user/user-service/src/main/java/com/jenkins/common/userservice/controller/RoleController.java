@@ -1,8 +1,8 @@
 package com.jenkins.common.userservice.controller;
 
 
-import com.jenkins.common.userinterface.model.Role;
-import com.jenkins.common.userinterface.model.UserRole;
+import com.jenkins.common.userinterface.entity.Role;
+import com.jenkins.common.userinterface.entity.UserRole;
 import com.jenkins.common.userservice.service.RoleService;
 import com.jenkins.common.userservice.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.jenkins.common.userservice.mapper;
 
-import com.jenkins.common.userinterface.model.Role;
+import com.jenkins.common.userinterface.entity.Role;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ public interface RoleMapper {
 
     int deleteById(@Param("id") int id);
 
-    int updateById(@Param("role") Role role);
+//    int updateById(@Param("role") Role role);
 
     Role getRoleById(@Param("id") int id );
 

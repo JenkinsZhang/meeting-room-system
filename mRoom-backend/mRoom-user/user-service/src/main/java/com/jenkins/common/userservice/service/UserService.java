@@ -1,8 +1,9 @@
 package com.jenkins.common.userservice.service;
 
 
-import com.jenkins.common.userinterface.model.User;
-import com.jenkins.common.userinterface.model.UserRole;
+import com.jenkins.common.userinterface.entity.User;
+import com.jenkins.common.userinterface.entity.UserRole;
+import com.jenkins.common.userservice.client.AuthClient;
 import com.jenkins.common.userservice.mapper.UserMapper;
 import com.jenkins.common.userservice.mapper.UserRoleMapper;
 import com.jenkins.common.userservice.utils.JwtUtil;
@@ -35,6 +36,9 @@ public class UserService {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private AuthClient authClient;
 
     public User queryUser(String email, String password) {
         return userMapper.queryUser(email, password);
@@ -94,8 +98,14 @@ public class UserService {
         return userMapper.updateSelective(user);
     }
 
-    public int activateUser(String email) {
+    public int activateUser(String token) {
+
+        if(jwtUtil.verifyActivationToken(token) == null)
+        {
+            return -1;
+        }
         User targetUser = new User();
+        String email = jwtUtil.verifyActivationToken(token);
         targetUser.setEmail(email);
         targetUser.setActive(1);
         return userMapper.updateSelective(targetUser);
@@ -111,5 +121,10 @@ public class UserService {
         String token = jwtUtil.creatActivationToken(email);
         String url = "http://localhost:8080/activation?token="+token;
         return mailUtil.sendHtmlMail("noreplyz@163.com",email,"Test Mail",username,url);
+    }
+
+    public String getEmailById(int id){
+        String email = userMapper.getEmail(id);
+        return email;
     }
 }

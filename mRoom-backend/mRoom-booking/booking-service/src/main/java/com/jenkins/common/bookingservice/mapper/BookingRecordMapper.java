@@ -1,6 +1,6 @@
 package com.jenkins.common.bookingservice.mapper;
 
-import com.jenkins.common.bookinginterface.model.BookingRecord;
+import com.jenkins.common.bookinginterface.entity.BookingRecord;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,6 @@
 package com.jenkins.common.zuulgateway.filter;
 
-import com.jenkins.common.authservice.model.UserInfo;
+import com.jenkins.common.authinterface.model.UserInfo;
 import com.jenkins.common.authservice.utils.JwtUtil;
 import com.jenkins.common.zuulgateway.config.FilterProperties;
 import com.netflix.zuul.ZuulFilter;
@@ -59,7 +59,7 @@ public class AuthFilter extends ZuulFilter {
             response.setStatus(401);
             currentContext.setSendZuulResponse(false);
         } else {
-            UserInfo userInfo = jwtUtil.verifyToken(token, response);
+            UserInfo userInfo = jwtUtil.verifyToken(token);
             if (userInfo == null) {
                 currentContext.setSendZuulResponse(false);
             }

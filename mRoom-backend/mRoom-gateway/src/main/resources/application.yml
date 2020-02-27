@@ -22,11 +22,12 @@ zuul:
     auth-service: /auth/**
     user-service: /user/**
   host:
-    connect-timeout-millis: 10000
-    socket-timeout-millis: 10000
+    connect-timeout-millis: 15000
+    socket-timeout-millis: 60000
+
 ribbon:
-  ReadTimeout: 6000
-  ConnectTimeout: 6000
+  ReadTimeout: 10000
+  ConnectTimeout: 2000
 
 system:
   filter:
@@ -35,3 +36,4 @@ system:
       - /user/registry
       - /user/check
       - /booking
+      - /user/activate

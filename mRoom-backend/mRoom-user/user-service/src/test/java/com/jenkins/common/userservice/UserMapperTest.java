@@ -1,6 +1,6 @@
 package com.jenkins.common.userservice;
 
-import com.jenkins.common.userinterface.model.User;
+import com.jenkins.common.userinterface.entity.User;
 import com.jenkins.common.userservice.mapper.UserMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;

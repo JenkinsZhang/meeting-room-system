@@ -1,16 +1,16 @@
 package com.jenkins.common.userservice.controller;
 
 
+import com.jenkins.common.authinterface.model.UserInfo;
 import com.jenkins.common.components.model.ResultVo;
-import com.jenkins.common.userinterface.model.UserRole;
-import com.jenkins.common.userservice.service.RoleService;
-import com.jenkins.common.userservice.service.UserRoleService;
+import com.jenkins.common.userinterface.entity.User;
+import com.jenkins.common.userservice.client.AuthClient;
 import com.jenkins.common.userservice.service.UserService;
-import com.jenkins.common.userinterface.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -19,7 +19,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AuthClient authClient;
 
+    @Autowired
+    private HttpServletRequest request;
 
     @GetMapping("query")
     public User queryUser(@RequestParam("email") String email, @RequestParam("password") String password) {
@@ -31,17 +35,38 @@ public class UserController {
             return null;
         }
     }
-//
-//    @GetMapping("getSalt")
-//    public String getSalt(@RequestParam("email") String email) {
-//        String saltByEmail = userService.getSaltByEmail(email);
-//        return saltByEmail;
-//    }
 
+
+    /**
+     * TODO
+     * @param token
+     * @return
+     */
     @GetMapping("")
-    public List<User> selectAllUsers() {
-        return userService.selectAllUsers();
+    public ResultVo selectAllUsers(@RequestHeader("access-token") String token) {
+        ResultVo resultVo = authClient.verifyToken(token);
+        UserInfo userInfo = (UserInfo) resultVo.getData();
+        List<String> roles = userInfo.getRoles();
+        if(roles.size()<2)
+        {
+            return ResultVo.error("You're not authorized!");
+        }
+        List<User> users = userService.selectAllUsers();
+        return ResultVo.ok("Select successful!",users);
     }
+
+//    @GetMapping("/testverify")
+//    public ResultVo testverify(@RequestHeader("access-token") String token) {
+//        ResultVo resultVo = authClient.verifyToken(token);
+//        return resultVo;
+//    }
+//
+//    @GetMapping("/testrefresh")
+//    public ResultVo testrefresh(@RequestHeader("access-token") String token)
+//    {
+//        ResultVo resultVo = authClient.refreshToken(token);
+//        return resultVo;
+//    }
 
     @PostMapping("/registry")
     public ResultVo registry(@RequestBody User user) {
@@ -67,9 +92,30 @@ public class UserController {
         return userService.updateByEmail(user);
     }
 
+    /**
+     * TODO
+     * @param email
+     * @param password
+     * @param newPassword
+     * @return
+     */
+    @PutMapping("/changePassword")
+    public ResultVo changePassword(@RequestParam("email") String email,
+                                   @RequestParam("oldPassword") String password,
+                                   @RequestParam("newPassword") String newPassword)
+    {
+        return null;
+    }
+
+
     @PutMapping("activate")
-    public int activateUser(@RequestParam("email") String email){
-        return userService.activateUser(email);
+    public ResultVo activateUser(@RequestParam("token") String token){
+        int code = userService.activateUser(token);
+        if(code !=1)
+        {
+            return ResultVo.error(18001,"Activation failed! Please try to get a new activation email!");
+        }
+        return ResultVo.ok("Activation success!");
     }
 
     @DeleteMapping("/{email}")

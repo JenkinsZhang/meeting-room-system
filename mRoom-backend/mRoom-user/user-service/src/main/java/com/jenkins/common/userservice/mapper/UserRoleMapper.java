@@ -1,6 +1,6 @@
 package com.jenkins.common.userservice.mapper;
 
-import com.jenkins.common.userinterface.model.UserRole;
+import com.jenkins.common.userinterface.entity.UserRole;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 

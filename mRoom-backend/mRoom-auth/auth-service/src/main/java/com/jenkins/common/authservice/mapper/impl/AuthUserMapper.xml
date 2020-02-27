@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jenkins.common.authservice.mapper.AuthUserMapper">
+    <resultMap id="Base_Result_Map" type="com.jenkins.common.authinterface.entity.AuthUser">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="salt" property="salt"/>
+        <result column="active" property="active"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,username,password,phone,email,salt,active
+    </sql>
+
+    <select id="queryUser" resultMap="Base_Result_Map">
+        select
+        <include refid="Base_Column_List"></include>
+        from bk_user
+        where email = #{email}
+    </select>
+
+    <select id="getSaltByEmail" resultType="string">
+        select salt from bk_user
+        where email = #{email}
+    </select>
+
+    <select id="getUserRoles" resultType="int">
+        select role_id from bk_user_role
+        where user_id = #{user_id}
+    </select>
+
+    <select id="getRoleName" resultType="string">
+        select role_name from bk_role
+        where id = #{role_id}
+    </select>
+</mapper>

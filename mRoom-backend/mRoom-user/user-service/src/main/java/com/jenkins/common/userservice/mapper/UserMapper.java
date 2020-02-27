@@ -1,6 +1,6 @@
 package com.jenkins.common.userservice.mapper;
 
-import com.jenkins.common.userinterface.model.User;
+import com.jenkins.common.userinterface.entity.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +12,8 @@ public interface UserMapper {
     User queryUser(@Param("email") String email, @Param("password") String password);
 
     User selectUserByEmail(@Param("email") String email);
+
+    String getEmail(@Param("id") int id);
 
     String getSalt(@Param("email") String email);
 

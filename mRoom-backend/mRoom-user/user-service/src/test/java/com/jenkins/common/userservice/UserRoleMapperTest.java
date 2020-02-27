@@ -1,12 +1,7 @@
 package com.jenkins.common.userservice;
 
-import com.jenkins.common.userinterface.model.User;
-import com.jenkins.common.userinterface.model.UserRole;
-import com.jenkins.common.userservice.mapper.RoleMapper;
-import com.jenkins.common.userservice.mapper.UserMapper;
+import com.jenkins.common.userinterface.entity.UserRole;
 import com.jenkins.common.userservice.mapper.UserRoleMapper;
-import com.jenkins.common.userservice.service.UserService;
-import com.netflix.discovery.converters.Auto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

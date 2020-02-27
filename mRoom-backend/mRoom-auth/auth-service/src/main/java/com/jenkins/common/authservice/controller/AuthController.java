@@ -2,7 +2,7 @@ package com.jenkins.common.authservice.controller;
 
 
 import com.auth0.jwt.JWT;
-import com.jenkins.common.authservice.model.UserInfo;
+import com.jenkins.common.authinterface.model.UserInfo;
 import com.jenkins.common.authservice.service.AuthService;
 import com.jenkins.common.authservice.utils.JwtUtil;
 import com.jenkins.common.components.model.ResultVo;
@@ -30,6 +30,9 @@ public class AuthController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private HttpServletRequest request;
+
     @ApiOperation(value = "用户认证", notes = "根据邮箱和密码对用户进行认证")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "email", value = "用户邮箱", required = true),
@@ -52,22 +55,29 @@ public class AuthController {
     }
 
     @GetMapping("/verify")
-    public ResultVo verify(HttpServletRequest request, HttpServletResponse response) {
-        String token = request.getHeader("access-token");
+    public ResultVo verifyToken(@RequestHeader("access-token") String token) {
         if (token == null) {
-            response.setStatus(401);
             return ResultVo.error(401, "Unauthorized!");
         }
-        UserInfo userInfo = jwtUtil.verifyToken(token, response);
+        UserInfo userInfo = jwtUtil.verifyToken(token);
         if (userInfo != null) {
             return ResultVo.ok("valid token!", userInfo);
         }
         return ResultVo.error(401, "Unauthorized!");
 
     }
+    @GetMapping("/refresh")
+    public ResultVo refreshToken(@RequestHeader("access-token") String token){
+        String refreshToken = jwtUtil.refreshToken(token);
+        if(refreshToken == null){
+            return ResultVo.error(401,"Invalid Token!");
+        }
+        return ResultVo.ok("Token Refreshed!",refreshToken);
+    }
+
 
     @PostMapping("/activate")
-    public ResultVo verify(@RequestParam("email") String email,
+    public ResultVo verifyActivation(@RequestParam("email") String email,
                            @RequestParam("activateToken")String activateToken)
     {
         Date now = DateTime.now().toDate();

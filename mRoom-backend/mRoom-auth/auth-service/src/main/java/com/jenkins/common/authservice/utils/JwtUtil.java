@@ -9,13 +9,14 @@ import com.auth0.jwt.exceptions.InvalidClaimException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.jenkins.common.authservice.model.UserInfo;
+import com.jenkins.common.authinterface.model.UserInfo;
 import com.jenkins.common.components.model.ResultVo;
 import org.joda.time.DateTime;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -52,7 +53,7 @@ public class JwtUtil {
         Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
         String token = null;
         Date dateTime = new DateTime().plusMinutes(EXPIRE_TIME).toDate();
-        token = JWT.create().withClaim("id", userInfo.getId())
+        token = JWT.create().withClaim("email", userInfo.getEmail())
                 .withClaim("username", userInfo.getUsername())
                 .withArrayClaim("roles",roles.toArray(new String[roles.size()]))
                 .withExpiresAt(dateTime)
@@ -61,48 +62,32 @@ public class JwtUtil {
         return token;
     }
 
-    public UserInfo verifyToken(String token, HttpServletResponse response) {
+    public UserInfo verifyToken(String token) {
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET_KEY)).build();
         try {
             DecodedJWT verify = verifier.verify(token);
             UserInfo userInfo = new UserInfo();
-            userInfo.setId(verify.getClaim("id").asInt());
+            userInfo.setEmail(verify.getClaim("email").asString());
             userInfo.setUsername(verify.getClaim("username").asString());
-            userInfo.setRole(verify.getClaim("roles").asList(String.class));
-            String newToken = createToken(userInfo);
-            response.setHeader("access-token", newToken);
+            userInfo.setRoles(verify.getClaim("roles").asList(String.class));
             System.out.println(userInfo);
             return userInfo;
         } catch (Exception e) {
-            try {
-                PrintWriter writer = response.getWriter();
-                String msg = e.getLocalizedMessage();
-                if (e.getClass().isInstance(TokenExpiredException.class)) {
-                    response.setStatus(401);
-                    ResultVo resultVo = ResultVo.error(500, msg);
-                    writer.write(JSON.toJSONString(resultVo));
-                } else if (e.getClass().isInstance(InvalidClaimException.class)) {
-                    response.setStatus(401);
-                    ResultVo resultVo = ResultVo.error(501, msg);
-                    writer.write(JSON.toJSONString(resultVo));
-                } else if (e.getClass().isInstance(SignatureVerificationException.class)) {
-                    response.setStatus(401);
-                    ResultVo resultVo = ResultVo.error(502, msg);
-                    writer.write(JSON.toJSONString(resultVo));
-                } else if (e.getClass().isInstance(AlgorithmMismatchException.class)) {
-                    response.setStatus(401);
-                    ResultVo resultVo = ResultVo.error(503, msg);
-                    writer.write(JSON.toJSONString(resultVo));
-                } else {
-                    response.setStatus(401);
-                    ResultVo resultVo = ResultVo.error(404, msg);
-                    writer.write(JSON.toJSONString(resultVo));
-                }
-                writer.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            System.out.println(e.getLocalizedMessage());
         }
         return null;
+    }
+
+
+    public String refreshToken(String token){
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET_KEY)).build();
+        UserInfo userInfo = verifyToken(token);
+        if(userInfo != null)
+        {
+            String newToken = createToken(userInfo);
+            return newToken;
+        }
+        return null;
+
     }
 }

@@ -1,7 +1,6 @@
 package com.jenkins.common.userservice.service;
 
-import com.jenkins.common.userinterface.model.UserRole;
-import com.jenkins.common.userservice.mapper.UserMapper;
+import com.jenkins.common.userinterface.entity.UserRole;
 import com.jenkins.common.userservice.mapper.UserRoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
