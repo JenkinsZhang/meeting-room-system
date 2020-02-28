@@ -1,8 +1,0 @@
-{
-  "properties": [
-    {
-      "name": "spring.auth-service.SECRET_KEY",
-      "type": "java.lang.String",
-      "description": "Description for spring.auth-service.SECRET_KEY."
-  }
-] }

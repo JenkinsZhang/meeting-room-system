@@ -1,6 +1,11 @@
 spring:
   application:
     name: zuul-gateway
+  datasource:
+    url: jdbc:mysql://localhost:3306/meeting_room_reservation_system
+    username: root
+    password: Qianqi971126
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
 auth-service:
   SECRET_KEY: ZJPisOneBigNoob

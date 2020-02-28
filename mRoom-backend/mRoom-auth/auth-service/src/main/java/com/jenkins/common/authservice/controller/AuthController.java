@@ -13,7 +13,11 @@ import io.swagger.annotations.ApiOperation;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.support.RequestContext;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -48,6 +52,8 @@ public class AuthController {
             String msg = (String) resultMap.get("msg");
             return ResultVo.error(401,msg);
         }
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        System.out.println("这是测试哦哦哦"+request.getHeader("access-token"));
         String token = (String) resultMap.get("token");
         UserInfo userInfo = (UserInfo) resultMap.get("userInfo");
         response.setHeader("access-token",token);
