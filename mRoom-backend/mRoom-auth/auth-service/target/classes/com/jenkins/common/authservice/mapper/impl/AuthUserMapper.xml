@@ -22,7 +22,7 @@
         select
         <include refid="Base_Column_List"></include>
         from bk_user
-        where email = #{email}
+        where email = #{email} and password = #{password}
     </select>
 
     <select id="getSaltByEmail" resultType="string">
