@@ -7,7 +7,7 @@
 			<br>
 			<h2>欢迎使用会议室预订系统</h2>
 		</div>
-		<b-container>
+		<b-container fluid="">
 			<b-row style="margin-top: 10%;">
 				<b-col md="4" offset-md="8">
 					<b-card class="login-card"
@@ -37,7 +37,7 @@
 									label-for="input-2">
 								<b-form-input
 										id="input-2"
-										placeholder="Enter name"
+										placeholder="Enter your password"
 										required
 										type="password"
 										v-model="form.password"
@@ -56,7 +56,7 @@
 							</b-form-group>
 							<a href="#" >Do not have an account? Click here!</a>
 							<div class="bottom-buttons">
-								<b-button type="submit" variant="primary" size="lg">
+								<b-button id="submit" type="submit" variant="primary" size="lg">
 									<b-spinner id="spinner" class="small" style="display: none"/>
 									Submit
 								</b-button>
@@ -86,6 +86,9 @@
         computed: {
         
         },
+	    mounted() {
+            window.scrollTo(0,0)
+        },
         data() {
             return {
                 form: {
@@ -98,6 +101,8 @@
         methods: {
             onSubmit(evt) {
                 evt.preventDefault();
+                $("#submit").get(0).disabled = true;
+                $("#spinner").show();
                 this.axios({
                     method: 'POST',
                     params: {
@@ -111,8 +116,14 @@
 	                {
 	                    this.$router.push("/home")
 	                }
+	                else {
+                        $("#submit").get(0).disabled = false;
+                        $("#spinner").hide();
+	                }
+                }).catch((error)=>{
+                    $("#submit").get(0).disabled = false;
+                    $("#spinner").hide();
                 })
-
             }
         }
     }
