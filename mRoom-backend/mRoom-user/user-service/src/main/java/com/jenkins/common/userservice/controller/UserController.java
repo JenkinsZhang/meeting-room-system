@@ -123,5 +123,16 @@ public class UserController {
         return userService.deleteByEmail(email);
     }
 
+    @PostMapping("check/{email}")
+    public ResultVo checkEmail(@PathVariable("email") String email)
+    {
+        if(userService.checkEmail(email))
+        {
+            return ResultVo.ok("You can use this email!");
+        }
+        else {
+            return ResultVo.error("This email has been registered!");
+        }
+    }
 
 }

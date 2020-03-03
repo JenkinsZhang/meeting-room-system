@@ -127,4 +127,9 @@ public class UserService {
         String email = userMapper.getEmail(id);
         return email;
     }
+
+    public boolean checkEmail(String email){
+        User user = userMapper.selectUserByEmail(email);
+        return user == null;
+    }
 }

@@ -27,7 +27,7 @@ public class ResultVo implements Serializable {
     }
 
     public static ResultVo error(String msg) {
-        return new ResultVo(500, msg, null);
+        return new ResultVo(401, msg, null);
     }
 
     public ResultVo() {
