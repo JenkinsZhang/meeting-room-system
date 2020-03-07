@@ -1,7 +1,7 @@
 package com.jenkins.common.zuulgateway.filter;
 
-import com.jenkins.common.authinterface.model.UserInfo;
-import com.jenkins.common.authservice.utils.JwtUtil;
+import com.jenkins.common.components.model.ResultVo;
+import com.jenkins.common.zuulgateway.client.AuthClient;
 import com.jenkins.common.zuulgateway.config.FilterProperties;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
@@ -15,15 +15,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 
+/**
+ * @author jenkinszhang
+ */
 @Component
 @EnableConfigurationProperties(FilterProperties.class)
 public class AuthFilter extends ZuulFilter {
 
-    @Autowired
-    private JwtUtil jwtUtil;
+
+    private FilterProperties filterProperties;
+
+    private AuthClient authClient;
 
     @Autowired
-    private FilterProperties filterProperties;
+    public AuthFilter(FilterProperties filterProperties, AuthClient authClient) {
+        this.filterProperties = filterProperties;
+        this.authClient = authClient;
+    }
 
     @Override
     public String filterType() {
@@ -59,8 +67,9 @@ public class AuthFilter extends ZuulFilter {
             response.setStatus(401);
             currentContext.setSendZuulResponse(false);
         } else {
-            UserInfo userInfo = jwtUtil.verifyToken(token);
-            if (userInfo == null) {
+            ResultVo resultVo = authClient.verifyToken(token);
+            if(200 != resultVo.getCode())
+            {
                 currentContext.setSendZuulResponse(false);
             }
         }

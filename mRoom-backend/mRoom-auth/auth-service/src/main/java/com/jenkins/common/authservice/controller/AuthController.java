@@ -18,6 +18,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.RequestContext;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -28,14 +29,19 @@ import java.util.Map;
 public class AuthController {
 
 
-    @Autowired
+
     private AuthService authService;
 
-    @Autowired
     private JwtUtil jwtUtil;
 
-    @Autowired
     private HttpServletRequest request;
+
+    @Autowired
+    public AuthController(AuthService authService, JwtUtil jwtUtil, HttpServletRequest request) {
+        this.authService = authService;
+        this.jwtUtil = jwtUtil;
+        this.request = request;
+    }
 
     @ApiOperation(value = "用户认证", notes = "根据邮箱和密码对用户进行认证")
     @ApiImplicitParams({
@@ -52,8 +58,8 @@ public class AuthController {
             String msg = (String) resultMap.get("msg");
             return ResultVo.error(401,msg);
         }
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        System.out.println("这是测试哦哦哦"+request.getHeader("access-token"));
+//        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//        System.out.println("这是测试哦哦哦"+request.getHeader("access-token"));
         String token = (String) resultMap.get("token");
         UserInfo userInfo = (UserInfo) resultMap.get("userInfo");
         response.setHeader("access-token",token);
@@ -78,6 +84,10 @@ public class AuthController {
         if(refreshToken == null){
             return ResultVo.error(401,"Invalid Token!");
         }
+        Cookie cookie = new Cookie("access-token",token);
+        cookie.setMaxAge(12*30*24*60*60);
+        cookie.setPath("/");
+
         return ResultVo.ok("Token Refreshed!",refreshToken);
     }
 

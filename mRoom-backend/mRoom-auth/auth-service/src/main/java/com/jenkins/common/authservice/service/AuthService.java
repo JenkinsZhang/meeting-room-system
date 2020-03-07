@@ -20,14 +20,19 @@ import java.util.Map;
 @Service
 public class AuthService {
 
-    @Autowired
+
     private JwtUtil jwtUtil;
 
-    @Autowired
     private UserClient userClient;
 
-    @Autowired
     private AuthUserMapper authUserMapper;
+
+    @Autowired
+    public AuthService(JwtUtil jwtUtil, UserClient userClient, AuthUserMapper authUserMapper) {
+        this.jwtUtil = jwtUtil;
+        this.userClient = userClient;
+        this.authUserMapper = authUserMapper;
+    }
 
     //TODO
     public Map<String, Object> issueToken(String email, String password) {

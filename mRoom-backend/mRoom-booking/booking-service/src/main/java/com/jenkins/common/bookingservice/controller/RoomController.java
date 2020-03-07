@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RoomController {
 
-    @Autowired
-    BookingRecordMapper bookingRecordMapper;
+    private  BookingRecordMapper bookingRecordMapper;
 
+    @Autowired
+    public RoomController(BookingRecordMapper bookingRecordMapper) {
+        this.bookingRecordMapper = bookingRecordMapper;
+    }
 
     @GetMapping("/room_information/{room_id}")
     public ResultVo getRoomInformationById(@PathVariable(name = "room_id") int room_id) {
