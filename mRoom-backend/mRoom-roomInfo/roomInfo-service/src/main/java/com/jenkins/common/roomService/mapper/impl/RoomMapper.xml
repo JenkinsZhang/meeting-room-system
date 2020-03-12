@@ -4,12 +4,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.jenkins.common.roomService.mapper.RoomMapper">
-    <resultMap id="Base_Result_Map" type="">
-        <id property="" column=""></id>
-
+    <resultMap id="Base_Result_Map" type="com.jenkins.common.roomInterface.entity.Room">
+        <id property="room_id" column="room_id"/>
+        <result property="room_name" column="room_name"/>
+        <result property="address" column="address"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-
+        room_id, room_name, address
     </sql>
+
+    <select id="selectAllRooms" resultType="com.jenkins.common.roomInterface.entity.Room">
+        select <include refid="Base_Column_List"/>
+        from bk_room
+    </select>
 </mapper>

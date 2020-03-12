@@ -28,6 +28,7 @@ zuul:
     booking-service: /booking/**
     auth-service: /auth/**
     user-service: /user/**
+    roomInfo-service: /roomInfo/**
   host:
     connect-timeout-millis: 15000
     socket-timeout-millis: 60000
@@ -44,3 +45,4 @@ system:
       - /user/check
       - /booking
       - /user/activate
+      - /roomInfo

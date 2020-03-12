@@ -9,7 +9,7 @@ public class BookingRecord implements Serializable {
     private int room_id;
     private Date start_time;
     private Date end_time;
-    private int booker_id;
+    private String booker_email;
     private int status;
 
     public int getRecord_id() {
@@ -44,13 +44,7 @@ public class BookingRecord implements Serializable {
         this.end_time = end_time;
     }
 
-    public int getBooker_id() {
-        return booker_id;
-    }
 
-    public void setBooker_id(int booker_id) {
-        this.booker_id = booker_id;
-    }
 
     public int getStatus() {
         return status;
@@ -60,6 +54,14 @@ public class BookingRecord implements Serializable {
         this.status = status;
     }
 
+    public String getBooker_email() {
+        return booker_email;
+    }
+
+    public void setBooker_email(String booker_email) {
+        this.booker_email = booker_email;
+    }
+
     @Override
     public String toString() {
         return "BookingRecord{" +
@@ -67,7 +69,7 @@ public class BookingRecord implements Serializable {
                 ", room_id=" + room_id +
                 ", start_time=" + start_time +
                 ", end_time=" + end_time +
-                ", booker_id=" + booker_id +
+                ", booker_email='" + booker_email + '\'' +
                 ", status=" + status +
                 '}';
     }

@@ -6,8 +6,14 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * @author jenkinszhang
+ * @date 2020/3/10
+ */
 @Component
 public interface BookingRecordMapper {
 
-    public List<BookingRecord> selectRoomInformationById(@Param("room_id") int room_id);
+    List<BookingRecord> selectBookingRecordByUserEmail(@Param("booker_email") String bookerEmail);
+
+    int insertBookingRecord(@Param("booking_record") BookingRecord bookingRecord);
 }

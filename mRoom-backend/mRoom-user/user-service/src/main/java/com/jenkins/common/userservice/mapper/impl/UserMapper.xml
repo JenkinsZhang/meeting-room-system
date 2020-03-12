@@ -20,13 +20,14 @@
 
     <select id="queryUser" resultMap="Base_Result_Map">
         select
-        <include refid="Base_Column_List"></include>
+        <include refid="Base_Column_List"/>
         from bk_user
         where email = #{email} and password = #{password}
     </select>
 
     <select id="selectUserByEmail" resultMap="Base_Result_Map">
-        select * from bk_user
+        select <include refid="Base_Column_List"/>
+        from bk_user
         where email = #{email}
     </select>
 
