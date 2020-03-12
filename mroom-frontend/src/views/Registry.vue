@@ -2,7 +2,7 @@
 	<div>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<div class="registry"></div>
-		<b-alert variant="success" show>Success Alert</b-alert>
+<!--		<b-alert variant="success" show>Success Alert</b-alert>-->
 		<div class="description">
 			<h1>Meeting-Room-Booking</h1>
 			<br>
@@ -223,7 +223,7 @@
                     if(res.data.code === 200)
                     {
                         $(window).scrollTop(0);
-                        alert("注册成功！3秒后返回登陆页！");
+                        alert("Registry succeeded! An activation email has been sent to your email, now returning to login page");
                         setTimeout(this.toLogin,3000)
                     }
                     else {
@@ -236,7 +236,7 @@
                     $("#submit").attr("disabled", false);
                     // $("#submit").get(0).disabled = false;
                     $("#spinner").hide();
-                    alert("服务器错误，请联系管理员")
+                    alert("Server error! Please contact the administrator!")
                 })
 
             },

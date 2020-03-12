@@ -8,7 +8,7 @@
 			<h2>欢迎使用会议室预订系统</h2>
 		</div>
 		<b-container fluid="">
-			<b-row style="margin-top: 10%;">
+			<b-row style="margin-top: 7%;">
 				<b-col md="4" offset-md="8">
 					<b-card class="login-card"
 					        title="Login"
@@ -54,7 +54,7 @@
 									<b-form-text> Do not select this option in public</b-form-text>
 								</b-form-checkbox-group>
 							</b-form-group>
-							<a href="#" >Do not have an account? Click here!</a>
+							<a href="#" @click="toRegister">Do not have an account? Click here!</a>
 							<div class="bottom-buttons">
 								<b-button id="submit" type="submit" variant="primary" size="lg">
 									<b-spinner id="spinner" class="small" style="display: none"/>
@@ -68,7 +68,12 @@
 				</b-col>
 			</b-row>
 		</b-container>
-	
+		<b-modal id="loginServerError" centered title="Error">
+			Server error! Please try another time !
+		</b-modal>
+		<b-modal id="loginInfoError" centered title="Error">
+			{{errorMsg}}
+		</b-modal>
 	</div>
 </template>
 
@@ -95,7 +100,9 @@
                     email: '',
                     password: '',
                 },
-                show: true
+	            username: '',
+                show: true,
+	            errorMsg: ''
             }
         },
         methods: {
@@ -111,20 +118,30 @@
                     },
                     url: 'api/auth/login'
                 }).then((res)=>{
-                    console.log(res);
+                    // console.log(res);
 	                if(res.data.code===200)
 	                {
-	                    this.$router.push("/home")
+		                let token = res.headers["access-token"];
+		                localStorage.removeItem("access-token");
+		                localStorage.setItem("access-token",token);
+	                    this.$router.push({name:"home"})
 	                }
 	                else {
+                        this.errorMsg = res.data.msg;
+                        this.$bvModal.show("loginInfoError");
                         $("#submit").get(0).disabled = false;
                         $("#spinner").hide();
 	                }
                 }).catch((error)=>{
+                    this.$bvModal.show("loginServerError");
                     $("#submit").get(0).disabled = false;
                     $("#spinner").hide();
+                    
                 })
-            }
+            },
+	        toRegister(){
+                this.$router.push("/registry")
+	        }
         }
     }
 </script>
