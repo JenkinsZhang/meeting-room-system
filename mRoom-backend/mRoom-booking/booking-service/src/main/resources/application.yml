@@ -3,13 +3,13 @@ spring:
     name: booking-service
 
   datasource:
-    url: jdbc:mysql://localhost:3306/meeting_room_reservation_system
+    url: jdbc:mysql://localhost:3306/meeting_room_reservation_system?serverTimezone=Asia/Shanghai
     username: root
     password: Qianqi971126
     driver-class-name: com.mysql.cj.jdbc.Driver
   jackson:
     date-format: yyyy-MM-dd HH:mm
-    time-zone: GMT-5
+    time-zone: GMT+8
 server:
   port: 9093
 

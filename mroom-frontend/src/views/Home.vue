@@ -21,7 +21,7 @@
 		<div>
 			<b-container fluid>
 				<b-row>
-					<b-col xl="3">
+					<b-col sm="3">
 						<el-menu class="side_bar"
 						         :style="{'height':getHeight+'px'}"
 						         :default-active="getRouterName"
@@ -77,9 +77,19 @@
                 this.$router.push({name:"",params:{username:this.username}})
             },
             logout(){
-                localStorage.removeItem("access-token");
-                this.username = '';
-                this.$router.push("/login");
+                this.$bvModal.msgBoxConfirm("确认登出账号？",{
+                    title:"确认",
+	                centered: true
+                }).then(value=>{
+                    if(value)
+                    {
+                        
+                        localStorage.removeItem("access-token");
+                        this.username = '';
+                        this.$router.push("/login");
+                    }
+                })
+                
             }
 	    },
 	    computed:{

@@ -1,36 +1,37 @@
 <template>
 	<div v-loading="loading" class="booking">
 		<b-container fluid>
-			<p style="color: red">请注意！以下字段均为必填字段</p>
+			<p style="color: red">Pay attention! The following fields are all required!</p>
 			<b-row class="booking_row">
-				<b-col md="4" style="line-height:40px;height:40px;text-align: left">
+				<b-col md="6" style="line-height:40px;height:40px;text-align: left">
 					<b-icon  icon="alert-circle" scale="1.5" variant="danger" v-show="this.date===''"/>
 					<b-icon  icon="check-circle" scale="1.5" variant="success" v-show="this.date!==''"/>
-					请选择预订日期:&nbsp;<b>{{date}}</b>
+					Select booking date:
+					<b>{{date}}</b>
 				</b-col>
-				<b-col md="8">
+				<b-col md="6">
 					<el-date-picker
 							v-model="date"
 							type="date"
 							value-format="yyyy-MM-dd"
-							placeholder="选择预订日期"
-							style="width: 100%"
+							placeholder="Select booking date..."
+							style="width: 100%;font-size: 1rem"
 							:picker-options="pickerOptions">
 					</el-date-picker>
 				</b-col>
 			</b-row>
 			
 			<b-row class="booking_row">
-				<b-col md="4" style="line-height:40px;text-align: left">
+				<b-col md="6" style="line-height:40px;text-align: left">
 					<b-icon  icon="alert-circle" scale="1.5" variant="danger" v-show="this.start_time===''"/>
 					<b-icon  icon="check-circle" scale="1.5" variant="success" v-show="this.start_time!==''"/>
-					请选择会议开始时间:&nbsp;&nbsp;<b>{{start_time}}</b>
+					Select starting time:&nbsp;&nbsp;<b>{{start_time}}</b>
 				</b-col>
-				<b-col md="8">
+				<b-col md="6">
 					<el-time-select
 							v-model="start_time"
-							placeholder="选择开始时间"
-							style="width: 100%"
+							placeholder="Select starting time..."
+							style="width: 100%;font-size: 1rem"
 							:picker-options="{
                                 start: '09:00',
                                 step: '00:30',
@@ -41,16 +42,17 @@
 				</b-col>
 			</b-row>
 			<b-row class="booking_row">
-				<b-col md="4" style="line-height:40px;text-align: left">
+				<b-col md="6" style="line-height:40px;text-align: left">
 					<b-icon  icon="alert-circle" scale="1.5" variant="danger" v-show="this.end_time===''"/>
 					<b-icon  icon="check-circle" scale="1.5" variant="success" v-show="this.end_time!==''"/>
-					请选择会议结束时间:&nbsp;&nbsp;<b>{{end_time}}</b>
+					Select ending time:&nbsp;&nbsp;<b>{{end_time}}</b>
 				</b-col>
-				<b-col md="8">
+				<b-col md="6">
 					<el-time-select
 							v-model="end_time"
-							placeholder="选择结束时间"
-							style="width: 100%"
+							placeholder="select ending time..."
+							style="width: 100%;font-size: 1rem"
+							size="large"
 							:picker-options="{
                                 start: '09:00',
                                 step: '00:30',
@@ -61,14 +63,15 @@
 				</b-col>
 			</b-row>
 			<b-row class="booking_row">
-				<b-col md="4" style="line-height:40px;text-align: left">
+				<b-col md="6" style="line-height:40px;text-align: left">
 					<b-icon  icon="alert-circle" scale="1.5" variant="danger" v-show="this.room_id===''"/>
 					<b-icon  icon="check-circle" scale="1.5" variant="success" v-show="this.room_id!==''"/>
-					请选择会议室:&nbsp;&nbsp;<b>{{getRoomNameById}}</b>
+					Choose your meeting room:&nbsp;&nbsp;<b>{{getRoomNameById}}</b>
 				</b-col>
-				<b-col md="8">
-					<el-select v-model="room_id" style="width: 100%">
+				<b-col md="6">
+					<el-select v-model="room_id" style="width: 100%;" placeholder="Select room...">
 						<el-option v-for="(room,index) in rooms"
+						           style="font-size: 1rem;"
 						           :key="index"
 						           :value=room.room_id
 						           :label="room.room_name"/>
@@ -77,9 +80,9 @@
 			</b-row>
 			<b-row class="booking_row">
 				<b-col md="12">
-					<b-button :disabled="checkField" @click="showMsgBox" style="margin-left: 25%;width: 100px" variant="outline-primary">提交
+					<b-button :disabled="checkField" @click="showMsgBox" style="margin-left: 25%;width: 100px" variant="outline-primary">Submit
 					</b-button>
-					<b-button @click="reset" style="margin-left: 25%;width: 100px" variant="outline-danger">重置</b-button>
+					<b-button @click="reset" style="margin-left: 25%;width: 100px" variant="outline-danger">Reset</b-button>
 				</b-col>
 			</b-row>
 		
@@ -99,22 +102,22 @@
                 loading: true,
                 pickerOptions: {
                     disabledDate(time) {
-                        return time.getTime() < Date.now();
+                        return time.getTime() <= Date.now();
                     },
                     shortcuts: [{
-                        text: '今天',
+                        text: 'Today',
                         onClick(picker) {
                             picker.$emit('pick', new Date());
                         }
                     }, {
-                        text: '明天',
+                        text: 'Tomorrow',
                         onClick(picker) {
                             const date = new Date();
                             date.setTime(date.getTime() + 3600 * 1000 * 24);
                             picker.$emit('pick', date);
                         }
                     }, {
-                        text: '一周后',
+                        text: 'A week later',
                         onClick(picker) {
                             const date = new Date();
                             date.setTime(date.getTime() + 3600 * 1000 * 24 * 7);
@@ -180,8 +183,16 @@
                 let room_name = this.room_name;
                 const messageNode = h('div', [
                     h('div', [
-                            h('span', "您预订的会议室为:"),
-                            h('span', room_name),
+                            h('span', "The room reserved for you is: "),
+                            h('span',{
+                                domProps: {
+                                    innerHTML: "&nbsp;&nbsp;&nbsp;&nbsp;"
+                                }
+                            }),
+                            h('span', {style: {
+                                    fontWeight: 'bold'
+                                }},room_name
+                            ),
 	                        h('span',{
                                 domProps: {
                                     innerHTML: "<br><br>"
@@ -190,8 +201,16 @@
                         ]
                     ),
                     h('div', [
-                        h('span', "会议开始的时间为:"),
-                        h('span', start_time),
+                        h('span', "Starting time: "),
+                        h('span',{
+                            domProps: {
+                                innerHTML: "&nbsp;&nbsp;&nbsp;&nbsp;"
+                            }
+                        }),
+                        h('span', {style: {
+                                fontWeight: 'bold'
+                            }},start_time
+                        ),
                         h('span',{
                             domProps: {
                                 innerHTML: "<br><br>"
@@ -199,12 +218,22 @@
                         })
                     ]),
                     h('div', [
-                        h('span', "会议结束的时间为:"),
-                        h('span', end_time)
+                        h('span', "Closing time: "),
+                        h('span',{
+                            domProps: {
+                                innerHTML: "&nbsp;&nbsp;&nbsp;&nbsp;"
+                            }
+                        }),
+                        h('span',
+	                        {style: {
+                                    fontWeight: 'bold'
+                                }},
+                            end_time
+                        ),
                     ])
                 ]);
                 this.$bvModal.msgBoxConfirm(messageNode, {
-                    title: "请确认您的预订信息",
+                    title: "Please confirm your booking information",
                     centered: true
                 }).then(value => {
                     if(value)
@@ -232,13 +261,13 @@
                     this.loading = false;
                     if(res.data.code === 200)
                     {
-                        this.$bvModal.msgBoxOk("预订成功！",{
+                        this.$bvModal.msgBoxOk("Booking success！",{
                             centered:true
                         })
                     }
                     else
                     {
-                        this.$bvModal.msgBoxOk("预订失败！",{
+                        this.$bvModal.msgBoxOk(res.data.msg,{
                             centered:true
                         })
                     }
@@ -277,5 +306,8 @@
 	
 	.booking_row:nth-of-type(5) {
 		margin-top: 10%;
+	}
+	*{
+		font-size: 1rem;
 	}
 </style>

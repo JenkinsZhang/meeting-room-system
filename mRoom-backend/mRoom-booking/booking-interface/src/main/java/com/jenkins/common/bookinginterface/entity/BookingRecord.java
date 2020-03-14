@@ -9,6 +9,7 @@ public class BookingRecord implements Serializable {
     private int room_id;
     private Date start_time;
     private Date end_time;
+    private Date creation_time;
     private String booker_email;
     private int status;
 
@@ -22,6 +23,14 @@ public class BookingRecord implements Serializable {
 
     public int getRoom_id() {
         return room_id;
+    }
+
+    public Date getCreation_time() {
+        return creation_time;
+    }
+
+    public void setCreation_time(Date creation_time) {
+        this.creation_time = creation_time;
     }
 
     public void setRoom_id(int room_id) {
@@ -69,6 +78,7 @@ public class BookingRecord implements Serializable {
                 ", room_id=" + room_id +
                 ", start_time=" + start_time +
                 ", end_time=" + end_time +
+                ", creation_time=" + creation_time +
                 ", booker_email='" + booker_email + '\'' +
                 ", status=" + status +
                 '}';

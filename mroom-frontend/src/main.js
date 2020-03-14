@@ -24,7 +24,21 @@ Vue.use(ElementUI);
 //   }
 //   next()
 // });
-axios.defaults.withCredentials = true
+axios.interceptors.request.use(function (config) {
+  console.log(config);
+  let token = localStorage.getItem("access-token");
+  if(token)
+  {
+    config.headers["access-token"] = token
+  }
+  // router.push("/login");
+  return config;
+},function (error) {
+  console.log(error)
+});
+
+
+axios.defaults.withCredentials = true;
 new Vue({
   router,
   render: h => h(App),
