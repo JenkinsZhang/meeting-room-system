@@ -9,14 +9,22 @@ spring:
     username: root
     password: Qianqi971126
     driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    jedis:
+      pool:
+        max-active: 10
+        max-idle: 10
 
 eureka:
+  instance:
+    lease-expiration-duration-in-seconds: 6
+    lease-renewal-interval-in-seconds: 3
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
   client:
     service-url:
       defaultZone: http://localhost:9090/eureka
-  instance:
-    lease-renewal-interval-in-seconds: 15
-    lease-expiration-duration-in-seconds: 30
+    eureka-connection-idle-timeout-seconds: 10
 
 mybatis:
   type-aliases-package: com.jenkins.common

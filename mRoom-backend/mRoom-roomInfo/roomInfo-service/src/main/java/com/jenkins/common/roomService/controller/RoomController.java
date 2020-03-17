@@ -5,6 +5,7 @@ import com.jenkins.common.roomInterface.entity.Room;
 import com.jenkins.common.roomService.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -30,5 +31,18 @@ public class RoomController {
     {
         List<Room> rooms = roomService.getRooms();
         return ResultVo.ok("OK!",rooms);
+    }
+
+    @GetMapping("/{roomId}")
+    public ResultVo getRoomName(@PathVariable("roomId") int roomId)
+    {
+        String roomName = roomService.getRoomName(roomId);
+        return ResultVo.ok("OK!",roomName);
+    }
+
+    @GetMapping("/detail/{roomId}")
+    public ResultVo getRoomDetail(@PathVariable("roomId") int roomId){
+        Room roomDetail = roomService.getRoomDetail(roomId);
+        return roomDetail == null ? ResultVo.error("No room information!") : ResultVo.ok("OK",roomDetail);
     }
 }

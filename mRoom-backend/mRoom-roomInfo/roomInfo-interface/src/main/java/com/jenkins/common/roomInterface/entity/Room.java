@@ -1,6 +1,7 @@
 package com.jenkins.common.roomInterface.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author JenkinsZhang
@@ -15,6 +16,8 @@ public class Room implements Serializable {
     private int max_people;
     private int projection;
     private int air_conditioner;
+
+
     public int getRoom_id() {
         return room_id;
     }
@@ -74,4 +77,6 @@ public class Room implements Serializable {
                 ", air_conditioner=" + air_conditioner +
                 '}';
     }
+
+
 }

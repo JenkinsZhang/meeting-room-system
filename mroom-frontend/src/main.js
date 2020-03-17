@@ -10,6 +10,8 @@ import VueAxios from "vue-axios";
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import * as jwtUtil from './assets/utils/jwt'
+import locale from 'element-ui/lib/locale/lang/en'
+import qs from 'qs'
 Vue.prototype.$jwtUtil = jwtUtil;
 import {from} from "bootstrap-vue/esm/utils/array";
 Vue.config.productionTip = false;
@@ -17,7 +19,7 @@ Vue.use(VueRouter);
 Vue.use(VueAxios,axios);
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
-Vue.use(ElementUI);
+Vue.use(ElementUI,{locale});
 // router.beforeEach((to,from,next)=>{
 //   if (to.meta.title){
 //     document.title = to.meta.title
@@ -25,7 +27,7 @@ Vue.use(ElementUI);
 //   next()
 // });
 axios.interceptors.request.use(function (config) {
-  console.log(config);
+  // console.log(config);
   let token = localStorage.getItem("access-token");
   if(token)
   {

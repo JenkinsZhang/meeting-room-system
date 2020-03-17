@@ -38,8 +38,19 @@
     </insert>
 
     <select id="selectBookingRecordByUserEmail" resultMap="Base_Result_Map">
-        select <include refid="Base_Column_List"/>
-        from bk_record
-        where booker_email = #{booker_email}
+        <bind name="offset" value="page*pageSize"/>
+        select <include refid="Base_Column_List"/>,now()-start_time as sort
+        from bk_record where booker_email = #{booker_email} and status in
+        <foreach collection="filters" item="status" open="(" separator="," close=")">
+                #{status}
+        </foreach>
+        order by if(sort&lt;0,0,1) asc,abs(sort) limit #{offset},#{pageSize}
+    </select>
+
+    <select id="countRecordByEmail" resultType="java.lang.Integer">
+        select count(record_id) from bk_record where booker_email = #{bookerEmail} and status in
+        <foreach collection="filters" item="status" open="(" separator="," close=")">
+            #{status}
+        </foreach>
     </select>
 </mapper>

@@ -1,6 +1,8 @@
 <template>
 	
+	
 	<div :class="{'test':isActive}">
+		<div class="darker"></div>
 		<b-navbar  id="header"  toggleable="lg" style="height: 60px" type="dark" variant="primary">
 			<b-navbar-brand style="margin-left: 2%" to="/">Meeting Room Booking System</b-navbar-brand>
 			
@@ -123,6 +125,13 @@
 		padding: 0;
 		margin: 0;
 	}
-	
-	
+	.darker {
+		/*background-color: rgba(0, 0, 0, 0.05);*/
+		height: 100%;
+		z-index: -1000;
+		position: fixed;
+		width: 100%;
+		left: 0;
+		top: 0;
+	}
 </style>

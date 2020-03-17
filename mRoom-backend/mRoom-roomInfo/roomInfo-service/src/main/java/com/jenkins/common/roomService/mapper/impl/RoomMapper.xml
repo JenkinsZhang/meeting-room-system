@@ -22,4 +22,17 @@
         select <include refid="Base_Column_List"/>
         from bk_room
     </select>
+
+    <select id="getRoomNameById" resultType="String">
+        select room_name from bk_room
+        where room_id = #{room_id}
+    </select>
+
+    <select id="getRoomDetailById" resultType="com.jenkins.common.roomInterface.entity.Room">
+        select <include refid="All_Column_List"/>
+        from bk_room
+        where room_id = #{room_id}
+    </select>
+
+
 </mapper>

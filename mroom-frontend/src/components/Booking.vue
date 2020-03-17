@@ -4,13 +4,14 @@
 			<p style="color: red">Pay attention! The following fields are all required!</p>
 			<b-row class="booking_row">
 				<b-col md="6" style="line-height:40px;height:40px;text-align: left">
-					<b-icon  icon="alert-circle" scale="1.5" variant="danger" v-show="this.date===''"/>
-					<b-icon  icon="check-circle" scale="1.5" variant="success" v-show="this.date!==''"/>
+					<b-icon  icon="alert-circle" scale="1.5" variant="danger" v-show="this.date ===null || this.date === undefined || this.date === ''"/>
+					<b-icon  icon="check-circle" scale="1.5" variant="success" v-show="this.date"/>
 					Select booking date:
 					<b>{{date}}</b>
 				</b-col>
 				<b-col md="6">
 					<el-date-picker
+							:editable="false"
 							v-model="date"
 							type="date"
 							value-format="yyyy-MM-dd"
@@ -23,13 +24,14 @@
 			
 			<b-row class="booking_row">
 				<b-col md="6" style="line-height:40px;text-align: left">
-					<b-icon  icon="alert-circle" scale="1.5" variant="danger" v-show="this.start_time===''"/>
-					<b-icon  icon="check-circle" scale="1.5" variant="success" v-show="this.start_time!==''"/>
+					<b-icon  icon="alert-circle" scale="1.5" variant="danger" v-show="this.date ===null || this.date === undefined || this.date === ''"/>
+					<b-icon  icon="check-circle" scale="1.5" variant="success" v-show="this.date"/>
 					Select starting time:&nbsp;&nbsp;<b>{{start_time}}</b>
 				</b-col>
 				<b-col md="6">
 					<el-time-select
 							v-model="start_time"
+							:editable="false"
 							placeholder="Select starting time..."
 							style="width: 100%;font-size: 1rem"
 							:picker-options="{
@@ -43,8 +45,8 @@
 			</b-row>
 			<b-row class="booking_row">
 				<b-col md="6" style="line-height:40px;text-align: left">
-					<b-icon  icon="alert-circle" scale="1.5" variant="danger" v-show="this.end_time===''"/>
-					<b-icon  icon="check-circle" scale="1.5" variant="success" v-show="this.end_time!==''"/>
+					<b-icon  icon="alert-circle" scale="1.5" variant="danger" v-show="this.date ===null || this.date === undefined || this.date === ''"/>
+					<b-icon  icon="check-circle" scale="1.5" variant="success" v-show="this.date"/>
 					Select ending time:&nbsp;&nbsp;<b>{{end_time}}</b>
 				</b-col>
 				<b-col md="6">
@@ -53,6 +55,7 @@
 							placeholder="select ending time..."
 							style="width: 100%;font-size: 1rem"
 							size="large"
+							:editable="false"
 							:picker-options="{
                                 start: '09:00',
                                 step: '00:30',
@@ -69,12 +72,12 @@
 					Choose your meeting room:&nbsp;&nbsp;<b>{{getRoomNameById}}</b>
 				</b-col>
 				<b-col md="6">
-					<el-select v-model="room_id" style="width: 100%;" placeholder="Select room...">
+					<el-select v-model="room_id" style="width: 100%;" placeholder="Select room..." no-data-text="No data">
 						<el-option v-for="(room,index) in rooms"
 						           style="font-size: 1rem;"
 						           :key="index"
 						           :value=room.room_id
-						           :label="room.room_name"/>
+						           :label="room.room_name" />
 					</el-select>
 				</b-col>
 			</b-row>
@@ -296,7 +299,7 @@
 
 <style scoped>
 	.booking {
-		padding-top: 5%;
+		padding-top: 3%;
 		white-space: pre;
 	}
 	

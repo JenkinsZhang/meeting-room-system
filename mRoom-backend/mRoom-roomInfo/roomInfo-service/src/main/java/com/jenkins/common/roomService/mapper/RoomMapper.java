@@ -15,4 +15,9 @@ import java.util.List;
 public interface RoomMapper {
 
     List<Room> selectAllRooms();
+
+    String getRoomNameById(int room_id);
+
+    Room getRoomDetailById(int room_id);
+
 }
