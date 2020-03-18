@@ -28,13 +28,14 @@ public class BookingController {
     @PostMapping("/")
     public ResultVo booking(@RequestBody BookingRecord bookingRecord)
     {
-        int result = bookingService.addBookingRecord(bookingRecord);
-        Date end_time = bookingRecord.getEnd_time();
-        Date start_time = bookingRecord.getStart_time();
-        if(end_time.before(start_time))
+
+        Date endTime = bookingRecord.getEndTime();
+        Date startTime = bookingRecord.getStartTime();
+        if(endTime.before(startTime))
         {
             return ResultVo.error("Incorrect time! Please do not attempt to dump garbage data!");
         }
+        int result = bookingService.addBookingRecord(bookingRecord);
         if(result == BookingService.EMAIL_FAILED)
         {
             return ResultVo.error("Incorrect email! Please do not attempt to dump garbage data!");
@@ -79,4 +80,46 @@ public class BookingController {
         }
         return ResultVo.ok("OK!",countHistory);
     }
+
+    @PostMapping("/history/edit")
+    public ResultVo editHistory(@RequestBody BookingRecord bookingRecord)
+    {
+        int i = bookingService.updateBookingRecord(bookingRecord);
+        if (i == BookingService.DELETE_FAILED)
+        {
+            return  ResultVo.error("Cannot find the record!");
+        }
+        if(i == BookingService.INSERT_FAILED)
+        {
+            return ResultVo.error("The time is not available! Please change!");
+        }
+        if(i == 0)
+        {
+            return ResultVo.error("Backend Error! Please contact the administrator!");
+        }
+        return ResultVo.ok("OK");
+    }
+
+    @GetMapping("/history/{recordId}/cancel")
+    public ResultVo cancelRecord(@PathVariable("recordId") int recordId)
+    {
+        int update = bookingService.updateStatus(-1, recordId);
+        if(update != 1)
+        {
+            return ResultVo.error("Cancel Error! Please try again later!");
+        }
+        return ResultVo.ok("OK!");
+    }
+
+    @GetMapping("/history/{recordId}/complete")
+    public ResultVo completeRecord(@PathVariable("recordId") int recordId)
+    {
+        int update = bookingService.updateStatus(1, recordId);
+        if(update != 1)
+        {
+            return ResultVo.error("Complete Error! Please try again later!");
+        }
+        return ResultVo.ok("OK!");
+    }
+
 }

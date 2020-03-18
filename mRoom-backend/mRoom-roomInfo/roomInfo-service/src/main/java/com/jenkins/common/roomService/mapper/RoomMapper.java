@@ -16,8 +16,8 @@ public interface RoomMapper {
 
     List<Room> selectAllRooms();
 
-    String getRoomNameById(int room_id);
+    String getRoomNameById(int roomId);
 
-    Room getRoomDetailById(int room_id);
+    Room getRoomDetailById(int roomId);
 
 }

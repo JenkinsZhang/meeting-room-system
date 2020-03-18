@@ -16,12 +16,14 @@ spring:
     default-encoding: UTF-8
 
 eureka:
+  instance:
+    lease-expiration-duration-in-seconds: 6
+    lease-renewal-interval-in-seconds: 3
+    prefer-ip-address: true
   client:
     service-url:
       defaultZone: http://localhost:9090/eureka
-  instance:
-    lease-renewal-interval-in-seconds: 15
-    lease-expiration-duration-in-seconds: 30
+    eureka-connection-idle-timeout-seconds: 10
 
 mybatis:
   type-aliases-package: com.jenkins.common

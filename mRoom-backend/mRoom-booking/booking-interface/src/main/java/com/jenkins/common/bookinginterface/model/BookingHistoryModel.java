@@ -14,13 +14,14 @@ public class BookingHistoryModel implements Serializable {
     private int recordId;
     private Date startTime;
     private Date endTime;
-    private Date creatTime;
-    private int Status;
+    private Date createTime;
+    private int status;
     private String roomName;
     private String roomAddress;
     private int maxPeople;
     private int projection;
     private int airConditioner;
+    private String bookerEmail;
 
     public Date getStartTime() {
         return startTime;
@@ -38,20 +39,20 @@ public class BookingHistoryModel implements Serializable {
         this.endTime = endTime;
     }
 
-    public Date getCreatTime() {
-        return creatTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatTime(Date creatTime) {
-        this.creatTime = creatTime;
+    public void setCreateTime(Date creatTime) {
+        this.createTime = creatTime;
     }
 
     public int getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(int status) {
-        Status = status;
+        this.status = status;
     }
 
     public int getRecordId() {
@@ -102,19 +103,28 @@ public class BookingHistoryModel implements Serializable {
         this.airConditioner = airConditioner;
     }
 
+    public String getBookerEmail() {
+        return bookerEmail;
+    }
+
+    public void setBookerEmail(String bookerEmail) {
+        this.bookerEmail = bookerEmail;
+    }
+
     @Override
     public String toString() {
         return "BookingHistoryModel{" +
                 "recordId=" + recordId +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
-                ", creatTime=" + creatTime +
-                ", Status=" + Status +
+                ", createTime=" + createTime +
+                ", status=" + status +
                 ", roomName='" + roomName + '\'' +
                 ", roomAddress='" + roomAddress + '\'' +
                 ", maxPeople=" + maxPeople +
                 ", projection=" + projection +
                 ", airConditioner=" + airConditioner +
+                ", bookerEmail='" + bookerEmail + '\'' +
                 '}';
     }
 }

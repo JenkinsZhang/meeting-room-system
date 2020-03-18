@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -41,4 +42,5 @@ public class BookingServiceTest {
         List<BookingRecord> bookingRecords = bookingRecordMapper.selectBookingRecordByUserEmail("614758656@qq.com", 0, 10, filters);
         System.out.println(bookingRecords);
     }
+
 }

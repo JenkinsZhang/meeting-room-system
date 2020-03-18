@@ -5,55 +5,61 @@ import java.util.Date;
 
 public class BookingRecord implements Serializable {
 
-    private int record_id;
-    private int room_id;
-    private Date start_time;
-    private Date end_time;
-    private Date creation_time;
-    private String booker_email;
+    private int recordId;
+    private int roomId;
+    private Date startTime;
+    private Date endTime;
+    private Date creationTime;
+    private String bookerEmail;
     private int status;
 
-    public int getRecord_id() {
-        return record_id;
+    public int getRecordId() {
+        return recordId;
     }
 
-    public void setRecord_id(int record_id) {
-        this.record_id = record_id;
+    public void setRecordId(int recordId) {
+        this.recordId = recordId;
     }
 
-    public int getRoom_id() {
-        return room_id;
+    public int getRoomId() {
+        return roomId;
     }
 
-    public Date getCreation_time() {
-        return creation_time;
+    public void setRoomId(int roomDd) {
+        this.roomId = roomDd;
     }
 
-    public void setCreation_time(Date creation_time) {
-        this.creation_time = creation_time;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setRoom_id(int room_id) {
-        this.room_id = room_id;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public Date getStart_time() {
-        return start_time;
+    public Date getEndTime() {
+        return endTime;
     }
 
-    public void setStart_time(Date start_time) {
-        this.start_time = start_time;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
-    public Date getEnd_time() {
-        return end_time;
+    public Date getCreationTime() {
+        return creationTime;
     }
 
-    public void setEnd_time(Date end_time) {
-        this.end_time = end_time;
+    public void setCreationTime(Date creationTime) {
+        this.creationTime = creationTime;
     }
 
+    public String getBookerEmail() {
+        return bookerEmail;
+    }
 
+    public void setBookerEmail(String bookerEmail) {
+        this.bookerEmail = bookerEmail;
+    }
 
     public int getStatus() {
         return status;
@@ -63,23 +69,15 @@ public class BookingRecord implements Serializable {
         this.status = status;
     }
 
-    public String getBooker_email() {
-        return booker_email;
-    }
-
-    public void setBooker_email(String booker_email) {
-        this.booker_email = booker_email;
-    }
-
     @Override
     public String toString() {
         return "BookingRecord{" +
-                "record_id=" + record_id +
-                ", room_id=" + room_id +
-                ", start_time=" + start_time +
-                ", end_time=" + end_time +
-                ", creation_time=" + creation_time +
-                ", booker_email='" + booker_email + '\'' +
+                "recordId=" + recordId +
+                ", roomId=" + roomId +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", creationTime=" + creationTime +
+                ", bookerEmail='" + bookerEmail + '\'' +
                 ", status=" + status +
                 '}';
     }

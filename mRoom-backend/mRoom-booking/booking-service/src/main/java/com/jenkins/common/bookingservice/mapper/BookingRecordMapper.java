@@ -13,9 +13,15 @@ import java.util.List;
 @Component
 public interface BookingRecordMapper {
 
-    List<BookingRecord> selectBookingRecordByUserEmail(@Param("booker_email") String bookerEmail, int page,int pageSize,@Param("filters") int[] filters);
+    List<BookingRecord> selectBookingRecordByUserEmail(@Param("bookerEmail") String bookerEmail, int page,int pageSize,@Param("filters") int[] filters);
 
-    int insertBookingRecord(@Param("booking_record") BookingRecord bookingRecord);
+    int insertBookingRecord(@Param("bookingRecord") BookingRecord bookingRecord);
 
     int countRecordByEmail(String bookerEmail,@Param("filters") int[] filters);
+
+    int deleteRecordById(int recordId);
+
+    int updateRecordId(int originalRecordId,int newRecordId);
+
+    int updateStatusByRecordId(int status,int recordId);
 }

@@ -10,28 +10,28 @@ import java.util.Objects;
  */
 public class Room implements Serializable {
 
-    private int room_id;
-    private String room_name;
+    private int roomId;
+    private String roomName;
     private String address;
-    private int max_people;
+    private int maxPeople;
     private int projection;
-    private int air_conditioner;
+    private int airConditioner;
 
 
-    public int getRoom_id() {
-        return room_id;
+    public int getRoomId() {
+        return roomId;
     }
 
-    public void setRoom_id(int room_id) {
-        this.room_id = room_id;
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
     }
 
-    public String getRoom_name() {
-        return room_name;
+    public String getRoomName() {
+        return roomName;
     }
 
-    public void setRoom_name(String room_name) {
-        this.room_name = room_name;
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
 
     public String getAddress() {
@@ -42,12 +42,12 @@ public class Room implements Serializable {
         this.address = address;
     }
 
-    public int getMax_people() {
-        return max_people;
+    public int getMaxPeople() {
+        return maxPeople;
     }
 
-    public void setMax_people(int max_people) {
-        this.max_people = max_people;
+    public void setMaxPeople(int maxPeople) {
+        this.maxPeople = maxPeople;
     }
 
     public int getProjection() {
@@ -58,25 +58,23 @@ public class Room implements Serializable {
         this.projection = projection;
     }
 
-    public int getAir_conditioner() {
-        return air_conditioner;
+    public int getAirConditioner() {
+        return airConditioner;
     }
 
-    public void setAir_conditioner(int air_conditioner) {
-        this.air_conditioner = air_conditioner;
+    public void setAirConditioner(int airConditioner) {
+        this.airConditioner = airConditioner;
     }
 
     @Override
     public String toString() {
         return "Room{" +
-                "room_id=" + room_id +
-                ", room_name='" + room_name + '\'' +
+                "roomId=" + roomId +
+                ", roomName='" + roomName + '\'' +
                 ", address='" + address + '\'' +
-                ", max_people=" + max_people +
+                ", maxPeople=" + maxPeople +
                 ", projection=" + projection +
-                ", air_conditioner=" + air_conditioner +
+                ", airConditioner=" + airConditioner +
                 '}';
     }
-
-
 }

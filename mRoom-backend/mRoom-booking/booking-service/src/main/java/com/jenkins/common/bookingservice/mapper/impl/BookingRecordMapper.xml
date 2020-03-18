@@ -5,11 +5,12 @@
 
 <mapper namespace="com.jenkins.common.bookingservice.mapper.BookingRecordMapper">
     <resultMap id="Base_Result_Map" type="com.jenkins.common.bookinginterface.entity.BookingRecord">
-        <id property="record_id" column="record_id"/>
-        <result property="room_id" column="room_id"/>
-        <result property="start_time" column="start_time"/>
-        <result property="end_time" column="end_time"/>
-        <result property="booker_email" column="booker_email"/>
+        <id property="recordId" column="record_id"/>
+        <result property="roomId" column="room_id"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="creationTime" column="creation_time"/>
+        <result property="bookerEmail" column="booker_email"/>
         <result property="status" column="status"/>
     </resultMap>
 
@@ -17,30 +18,44 @@
         record_id,room_id,start_time,end_time,creation_time,booker_email,status
     </sql>
 
-    <insert id="insertBookingRecord" parameterType="com.jenkins.common.bookinginterface.entity.BookingRecord">
+    <insert id="insertBookingRecord" parameterType="com.jenkins.common.bookinginterface.entity.BookingRecord"
+    useGeneratedKeys="true" keyColumn="record_id" keyProperty="recordId">
         insert into bk_record(room_id,start_time,end_time,creation_time,booker_email,status)
-        select  #{booking_record.room_id},
-                #{booking_record.start_time},
-                #{booking_record.end_time},#{booking_record.creation_time},#{booking_record.booker_email},#{booking_record.status} from DUAL where not exists
+        select  #{bookingRecord.roomId},
+                #{bookingRecord.startTime},
+                #{bookingRecord.endTime},#{bookingRecord.creationTime},#{bookingRecord.bookerEmail},#{bookingRecord.status} from DUAL where not exists
                 (
-                    select start_time,end_time,room_id from bk_record
+                    select start_time,end_time,room_id,status from bk_record
                     where (
-                        #{booking_record.start_time} between start_time and end_time and room_id = #{booking_record.room_id}
+                        #{bookingRecord.startTime} between start_time and end_time and room_id = #{bookingRecord.roomId} and status !=-1
                     ) or
                     (
-                        #{booking_record.end_time} between start_time and end_time and room_id = #{booking_record.room_id}
+                        #{bookingRecord.endTime} between start_time and end_time and room_id = #{bookingRecord.roomId} and status !=-1
                     ) or
                     (
-                        #{booking_record.start_time} &lt; start_time and #{booking_record.end_time} &gt; end_time
-                        and room_id = #{booking_record.room_id}
+                        #{bookingRecord.startTime} &lt; start_time and #{bookingRecord.endTime} &gt; end_time
+                        and room_id = #{bookingRecord.roomId} and status !=-1
                     )
                 )
     </insert>
 
+    <update id="updateRecordId">
+        update bk_record set record_id = #{originalRecordId} where record_id = #{newRecordId}
+    </update>
+
+    <update id="updateStatusByRecordId">
+        update bk_record set status = #{status} where record_id = #{recordId}
+    </update>
+
+
+    <delete id="deleteRecordById">
+        delete from bk_record where record_id = #{recordId}
+    </delete>
+
     <select id="selectBookingRecordByUserEmail" resultMap="Base_Result_Map">
         <bind name="offset" value="page*pageSize"/>
         select <include refid="Base_Column_List"/>,now()-start_time as sort
-        from bk_record where booker_email = #{booker_email} and status in
+        from bk_record where booker_email = #{bookerEmail} and status in
         <foreach collection="filters" item="status" open="(" separator="," close=")">
                 #{status}
         </foreach>

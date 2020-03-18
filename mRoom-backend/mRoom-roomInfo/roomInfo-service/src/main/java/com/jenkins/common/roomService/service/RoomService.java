@@ -41,12 +41,12 @@ public class RoomService {
 
     public Room getRoomDetail(int roomId) {
         ValueOperations valueOperations = redisTemplate.opsForValue();
-        Room roomDetail = (Room)valueOperations.get("room_detail_" + roomId);
+        Room roomDetail = (Room)valueOperations.get("room_detail_" + roomId);;
         System.out.println("Redis中的记录:" + roomDetail);
         if(roomDetail == null)
         {
-            int i = 0;
             Room roomDetailById = roomMapper.getRoomDetailById(roomId);
+            System.out.println("数据库查出来的记录：" +roomDetailById);
             if(roomDetailById == null)
             {
                 return null;

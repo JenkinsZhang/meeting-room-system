@@ -9,9 +9,13 @@ import com.jenkins.common.bookingservice.client.BookingClient;
 import com.jenkins.common.bookingservice.mapper.BookingRecordMapper;
 import com.jenkins.common.components.model.ResultVo;
 import com.jenkins.common.roomInterface.entity.Room;
+import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,8 +28,11 @@ import java.util.regex.Pattern;
  *
  */
 @Service
+
 public class BookingService {
 
+    public static final int INSERT_FAILED = -3;
+    public static final int DELETE_FAILED = -2;
     public static final int EMAIL_FAILED = -1;
     public static final int TIME_CONFLICT = 0;
     private BookingRecordMapper bookingRecordMapper;
@@ -39,7 +46,7 @@ public class BookingService {
 
     public int addBookingRecord(BookingRecord bookingRecord)
     {
-        String email = bookingRecord.getBooker_email();
+        String email = bookingRecord.getBookerEmail();
         if (email==null){
             return EMAIL_FAILED;
         }
@@ -49,35 +56,33 @@ public class BookingService {
             return EMAIL_FAILED;
         }
         Date now = DateTime.now().toDate();
-        bookingRecord.setCreation_time(now);
+        bookingRecord.setCreationTime(now);
+        bookingRecord.setStatus(0);
         return bookingRecordMapper.insertBookingRecord(bookingRecord);
     }
 
     public List<BookingHistoryModel> bookingHistory(String bookerEmail,int page,int page_size,int[] filters)
     {
         List<BookingRecord> bookingRecords = bookingRecordMapper.selectBookingRecordByUserEmail(bookerEmail,page-1,page_size,filters);
-        bookingRecords.sort(((o1, o2) -> {
-             if(o1.getStart_time().before(o2.getStart_time())){
-                 return 1;
-             };
-            return 0;
-        }));
+
         List<BookingHistoryModel> history = new ArrayList<>();
         for (BookingRecord bookingRecord : bookingRecords) {
 
+            System.out.println(bookingRecord);
             BookingHistoryModel bookingHistoryModel = new BookingHistoryModel();
-            Object data = bookingClient.getRoomDetail(bookingRecord.getRoom_id()).getData();
+            Object data = bookingClient.getRoomDetail(bookingRecord.getRoomId()).getData();
             Room roomDetail = JSON.parseObject(JSON.toJSONString(data), Room.class);
-            bookingHistoryModel.setStartTime(bookingRecord.getStart_time());
-            bookingHistoryModel.setEndTime(bookingRecord.getEnd_time());
-            bookingHistoryModel.setCreatTime(bookingRecord.getCreation_time());
-            bookingHistoryModel.setRecordId(bookingRecord.getRecord_id());
-            bookingHistoryModel.setRoomName(roomDetail.getRoom_name());
+            bookingHistoryModel.setStartTime(bookingRecord.getStartTime());
+            bookingHistoryModel.setEndTime(bookingRecord.getEndTime());
+            bookingHistoryModel.setCreateTime(bookingRecord.getCreationTime());
+            bookingHistoryModel.setRecordId(bookingRecord.getRecordId());
+            bookingHistoryModel.setRoomName(roomDetail.getRoomName());
             bookingHistoryModel.setRoomAddress(roomDetail.getAddress());
-            bookingHistoryModel.setMaxPeople(roomDetail.getMax_people());
-            bookingHistoryModel.setAirConditioner(roomDetail.getAir_conditioner());
+            bookingHistoryModel.setMaxPeople(roomDetail.getMaxPeople());
+            bookingHistoryModel.setAirConditioner(roomDetail.getAirConditioner());
             bookingHistoryModel.setProjection(roomDetail.getProjection());
             bookingHistoryModel.setStatus(bookingRecord.getStatus());
+            bookingHistoryModel.setBookerEmail(bookingRecord.getBookerEmail());
 
             history.add(bookingHistoryModel);
         }
@@ -87,5 +92,31 @@ public class BookingService {
     public int countHistory(String bookerEmail,int[] filters)
     {
         return bookingRecordMapper.countRecordByEmail(bookerEmail,filters);
+    }
+
+    @Transactional(rollbackFor = RuntimeException.class)
+    public int updateBookingRecord(BookingRecord bookingRecord)
+    {
+        int originalRecordId = bookingRecord.getRecordId();
+        int delete = bookingRecordMapper.deleteRecordById(originalRecordId);
+        if(delete != 1)
+        {
+
+            return DELETE_FAILED;
+        }
+        int insert = bookingRecordMapper.insertBookingRecord(bookingRecord);
+        if(insert != 1)
+        {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return INSERT_FAILED;
+        }
+        int newRecordId = bookingRecord.getRecordId();
+        int update = bookingRecordMapper.updateRecordId(originalRecordId, newRecordId);
+        return update;
+    }
+
+    public int updateStatus(int status,int recordId)
+    {
+        return bookingRecordMapper.updateStatusByRecordId(status,recordId);
     }
 }
