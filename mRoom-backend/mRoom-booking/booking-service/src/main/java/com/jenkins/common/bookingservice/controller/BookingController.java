@@ -84,6 +84,10 @@ public class BookingController {
     @PostMapping("/history/edit")
     public ResultVo editHistory(@RequestBody BookingRecord bookingRecord)
     {
+        if(bookingRecord == null)
+        {
+            return ResultVo.error("No post data!");
+        }
         int i = bookingService.updateBookingRecord(bookingRecord);
         if (i == BookingService.DELETE_FAILED)
         {

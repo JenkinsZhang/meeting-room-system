@@ -1,16 +1,101 @@
 <template>
-	<div>
-		<!--		<div :class="{'darker':active}"></div>-->
-		<!--		{{history_records}}-->
+	<div v-loading="loading">
+		<b-card class="editCard" v-show="cardShow">
+			<b-container fluid class="booking">
+				<p style="color: red">Pay attention! The following fields are all required!</p>
+				<b-row class="booking_row">
+					<b-col md="6" style="line-height:40px;height:40px;text-align: left">
+						Select booking date:
+						<b>{{selectedRecord.date}}</b>
+					</b-col>
+					<b-col md="6">
+						<el-date-picker
+								:editable="true"
+								v-model="selectedRecord.date"
+								type="date"
+								value-format="yyyy-MM-dd"
+								placeholder="Select booking date..."
+								style="width: 100%;font-size: 1rem"
+								:picker-options="pickerOptions">
+						</el-date-picker>
+					</b-col>
+				</b-row>
+				
+				<b-row class="booking_row">
+					<b-col md="6" style="line-height:40px;text-align: left">
+						Select starting time:&nbsp;&nbsp;<b>{{selectedRecord.startTime}}</b>
+					</b-col>
+					<b-col md="6">
+						<el-time-select
+								v-model="selectedRecord.startTime"
+								:editable="false"
+								placeholder="Select starting time..."
+								style="width: 100%;font-size: 1rem"
+								:picker-options="{
+                                start: '09:00',
+                                step: '00:30',
+                                end: '22:00',
+                                maxTime: selectedRecord.endTime
+                                }">
+						</el-time-select>
+					</b-col>
+				</b-row>
+				<b-row class="booking_row">
+					<b-col md="6" style="line-height:40px;text-align: left">
+						Select ending time:&nbsp;&nbsp;<b>{{selectedRecord.endTime}}</b>
+					</b-col>
+					<b-col md="6">
+						<el-time-select
+								v-model="selectedRecord.endTime"
+								placeholder="select ending time..."
+								style="width: 100%;font-size: 1rem"
+								size="large"
+								:editable="false"
+								:picker-options="{
+                                start: '09:00',
+                                step: '00:30',
+                                end: '22:00',
+                                minTime: selectedRecord.startTime
+                                }">
+						</el-time-select>
+					</b-col>
+				</b-row>
+				<b-row class="booking_row">
+					<b-col md="6" style="line-height:40px;text-align: left">
+						Choose your meeting room:&nbsp;&nbsp;<b>{{this.selectedRecord.roomName}}</b>
+					</b-col>
+					<b-col md="6">
+						<el-select v-model="selectedRecord.roomName" style="width: 100%;" placeholder="Select room..."
+						           no-data-text="No data">
+							<el-option v-for="(room,index) in rooms"
+							           style="font-size: 1rem;"
+							           :key="index"
+							           :value=room.roomName
+							           :label="room.roomName"/>
+						</el-select>
+					</b-col>
+				</b-row>
+				<b-row class="booking_row">
+					<b-col md="12">
+						<b-button @click="submitEdit" style="width: 100px" variant="outline-primary">Submit
+						</b-button>
+						<b-button @click="cancelEdit" style="margin-left: 20%;width: 100px" variant="outline-danger">
+							Cancel
+						</b-button>
+					</b-col>
+				</b-row>
+			
+			</b-container>
+		</b-card>
+		<div :class="{'darker':darkActive}"></div>
+		<!--		{{historyRecords}}-->
 		<el-table
-				:data="history_records"
-				style="width: 100%;"
+				:data="historyRecords"
 				stripe
-				align="center"
+				style="width: 100%;"
 				@filter-change="filter"
-				:cell-style=rowStyle
 		>
-			<el-table-column type="expand" width="16">
+			<el-table-column type="expand">
 				<template slot-scope="props">
 					<el-form label-position="left" inline class="history-table-expand">
 						<el-form-item>
@@ -54,11 +139,11 @@
 				</template>
 			</el-table-column>
 			<el-table-column
-					label="Record ID"
+					label="ID"
 					prop="recordId"
 					sortable
-					width="120"
-					fixed>
+					fixed
+					width="60px">
 			</el-table-column>
 			<el-table-column
 					label="Start Time"
@@ -68,7 +153,8 @@
 			</el-table-column>
 			<el-table-column
 					label="End Time"
-					prop="endTime">
+					prop="endTime"
+			>
 			</el-table-column>
 			<el-table-column
 					label="Room Name"
@@ -90,16 +176,24 @@
 					</el-tag>
 				</template>
 			</el-table-column>
-			<el-table-column label="Action">
+			<el-table-column label="Action" fixed="right" width="250">
 				<template slot-scope="props">
 					<el-button
 							size="mini"
+							:disabled="props.row.status !=='uncompleted'"
 							@click="handleEdit(props.$index, props.row)">Edit
 					</el-button>
 					<el-button
 							size="mini"
 							type="danger"
-							@click="handleCancel(props.$index, props.row)">Delete
+							:disabled="props.row.status !=='uncompleted'"
+							@click="handleCancel(props.$index, props.row)">Cancel
+					</el-button>
+					<el-button
+							size="mini"
+							type="success"
+							:disabled="props.row.status !=='uncompleted'"
+							@click="handleSuccess(props.$index, props.row)">Complete
 					</el-button>
 				</template>
 			</el-table-column>
@@ -126,24 +220,58 @@
 
         data() {
             return {
-                active: false,
-                history_records: [],
+                darkActive: false,
+                historyRecords: [],
                 currentPage: 1,
                 totalItems: 50,
                 pageSize: 8,
-                rowStyle: {
-                    height: "50px"
+                newFilters: [-1, 0, 1],
+                selectedRecord:{
+                    recordId: '',
+                    date: '',
+	                startTime: '',
+	                endTime: '',
+	                roomName: '',
+                    creationTime: '',
+	                recordId: null,
                 },
-                new_filters: [-1, 0, 1]
+                loading: false,
+	            cardShow: false,
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() <= Date.now();
+                    },
+                    shortcuts: [{
+                        text: 'Today',
+                        onClick(picker) {
+                            picker.$emit('pick', new Date());
+                        }
+                    }, {
+                        text: 'Tomorrow',
+                        onClick(picker) {
+                            const date = new Date();
+                            date.setTime(date.getTime() + 3600 * 1000 * 24);
+                            picker.$emit('pick', date);
+                        }
+                    }, {
+                        text: 'A week later',
+                        onClick(picker) {
+                            const date = new Date();
+                            date.setTime(date.getTime() + 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', date);
+                        }
+                    }]
+                },
+	            rooms: []
             }
         },
         mounted() {
             this.getPageData(1).then((res) => {
                 if (res.data.code === 200) {
-                    this.history_records = [];
-                    this.history_records = res.data.data;
+                    this.historyRecords = [];
+                    this.historyRecords = res.data.data;
                     this.renderStatus();
-                    // console.log(this.history_records)
+                    // console.log(this.historyRecords)
                     // console.log("wocaonima")
                 } else {
                     alert(res.data.msg)
@@ -161,6 +289,10 @@
             }).catch((error) => {
                 console.log(error)
             });
+	        
+            this.getRooms();
+	        
+	        this.cardShow = false;
 
         },
         methods: {
@@ -172,32 +304,30 @@
                         + this.currentPage + "/" + this.pageSize,
                     method: 'GET',
                     params: {
-                        filters: this.new_filters
+                        filters: this.newFilters
                     },
                     paramsSerializer: params => {
                         return qs.stringify(params, {indices: false})
                     }
                 }).then((res) => {
                     if (res.data.code === 200) {
-                        this.history_records = [];
-                        this.history_records = res.data.data;
+                        this.historyRecords = [];
+                        this.historyRecords = res.data.data;
                         this.renderStatus();
-                        // console.log(this.history_records)
-                        // console.log("wocaonima")
                     } else {
-                        this.history_records = [];
+                        this.historyRecords = [];
                     }
                 }).catch((error) => {
                     console.log(error)
                 })
             },
-	        getRecordsCount(){
+            getRecordsCount() {
                 return this.axios({
                     url: "api/booking/history/count/" +
                         this.$jwtUtil.getTokenEmail(),
                     method: 'GET',
                     params: {
-                        filters: this.new_filters
+                        filters: this.newFilters
                     },
                     paramsSerializer: params => {
                         return qs.stringify(params, {indices: false})
@@ -207,30 +337,15 @@
                         this.totalItems = res.data.data;
                     } else {
                         // alert(res.data.msg)
-	                    this.totalItems = 0;
+                        this.totalItems = 0;
                     }
-                    
+
                 }).catch((error) => {
                     console.log(error)
                 })
-	        },
-	        // refreshData(val){
-            //     this.getPageData(val).then((res) => {
-            //         if (res.data.code === 200) {
-            //             this.history_records = [];
-            //             this.history_records = res.data.data;
-            //             this.renderStatus();
-            //             // console.log(this.history_records)
-            //             // console.log("wocaonima")
-            //         } else {
-            //             alert(res.data.msg)
-            //         }
-            //     }).catch((error) => {
-            //         console.log(error)
-            //     })
-	        // },
+            },
             renderStatus() {
-                this.history_records.forEach((record, index) => {
+                this.historyRecords.forEach((record, index) => {
                     switch (record.status) {
                         case 0:
                             record.status = "uncompleted";
@@ -256,46 +371,175 @@
                 return null;
             },
             handleCancel(index, row) {
-                console.log(index, row)
+                this.$bvModal.msgBoxConfirm("Are you sure you want to cancel this meeting?",{
+                    title:"Complete",
+                    centered: true
+                }).then(value=>{
+                    if(value)
+                    {
+                        this.axios({
+                            method: "GET",
+                            url: "api/booking/history/"+row.recordId+"/cancel"
+                        }).then((res)=>{
+                            if(res.data.code === 200)
+                            {
+                                this.$message({
+                                    message: "Cancel success!",
+                                    type: "success"
+                                });
+                                this.refresh();
+                            }
+                            else{
+                                this.$message({
+                                    message: "Cancel failed!",
+                                    type: "warning"
+                                })
+                            }
+                        }).catch((error)=>{
+                            this.$message({
+                                message: "Server Error",
+                                type: "danger"
+                            })
+                        })
+
+                    }
+                })
             },
             handleEdit(index, row) {
-                console.log(index, row)
+                // console.log(index, row);
+                console.log(row);
+                let rowStartTime = row.startTime.split(" ");
+                let rowEndTime = row.endTime.split(" ");
+                this.selectedRecord.date = rowStartTime[0];
+                this.selectedRecord.startTime = rowStartTime[1];
+                this.selectedRecord.endTime = rowEndTime[1];
+                this.selectedRecord.roomName = row.roomName;
+                this.selectedRecord.creationTime = row.creationTime;
+                this.selectedRecord.recordId = row.recordId;
+                this.cardShow=true;
+                this.darkActive = true;
             },
+	        handleSuccess(index,row) {
+                this.$bvModal.msgBoxConfirm("Are you sure this meeting has finished?",{
+                    title:"Complete",
+                    centered: true
+                }).then(value=>{
+                    if(value)
+                    {
+	                    this.axios({
+		                    method: "GET",
+		                    url: "api/booking//history/"+row.recordId+"/complete"
+	                    }).then((res)=>{
+	                        if(res.data.code === 200)
+	                        {
+	                            this.$message({
+		                            message: "Complete success!",
+		                            type: "success"
+	                            });
+		                        this.refresh()
+	                        }
+	                        else{
+                                this.$message({
+                                    message: "Complete failed!",
+                                    type: "warning"
+                                })
+	                        }
+	                    }).catch((error)=>{
+                            this.$message({
+                                message: "Server Error",
+                                type: "danger"
+                            })
+	                    })
+	                    
+                    }
+                })
+	        },
+            cancelEdit(index,row) {
+                this.changeStatus();
+                setTimeout(this.changeStatus,500);
+                this.darkActive = false;
+                this.cardShow = false;
+            },
+	        submitEdit(index,row){
+                let roomId = null;
+                let recordId = this.selectedRecord.recordId;
+                let startTime = this.selectedRecord.date + " " + this.selectedRecord.startTime;
+                let endTime = this.selectedRecord.date + " " + this.selectedRecord.endTime;
+                let creationTime = this.selectedRecord.creationTime;
+                let bookerEmail = this.$jwtUtil.getTokenEmail();
+                let status = 0;
+                
+                for (let i = 0; i < this.rooms.length; i++) {
+                    if (this.rooms[i].roomName === this.selectedRecord.roomName) {
+                        roomId = this.rooms[i].roomId;
+                        break;
+                    }
+                }
+		       this.axios({
+			       method: 'POST',
+			       data: {
+                       recordId: recordId,
+                       startTime: startTime,
+                       endTime: endTime,
+				       roomId: roomId,
+				       creationTime: creationTime,
+				       bookerEmail: bookerEmail,
+				       status: status
+			       },
+			       url: "api/booking/history/edit"
+		       }).then((res)=>{
+		           if(res.data.code === 200) {
+		               this.cardShow = false;
+		               this.darkActive = false;
+                       this.$message({
+                           message: "Edit Success!",
+                           type: "success"
+                       });
+                       this.refresh();
+		           }
+		           else {
+		               this.$message({
+			               message: res.data.msg,
+			               type: "warning"
+		               })
+		           }
+		       }).catch((error)=>{
+                   this.$message({
+                       message: "Server Error!",
+                       type: "danger"
+                   })
+		       })
+	        },
             async filter(filters) {
                 // console.log(filters);
                 this.currentPage = 1;
-                this.new_filters = null;
+                this.newFilters = null;
                 for (let key in filters) {
-                    this.new_filters = filters[key]
+                    this.newFilters = filters[key]
                 }
-                // console.log("new_filters:"+this.new_filters);
-	            let temp_filters = [];
-                for (let i = 0; i < this.new_filters.length; i = i + 1) {
-	                if(this.new_filters[i] ==="completed")
-	                {
-	                    temp_filters.push(1)
-	                }
-	                else if(this.new_filters[i] ==="uncompleted")
-	                {
-	                    temp_filters.push(0)
-	                }
-	                else if(this.new_filters[i] ==="canceled")
-	                {
-	                    temp_filters.push(-1)
-	                }
+                // console.log("newFilters:"+this.newFilters);
+                let temp_filters = [];
+                for (let i = 0; i < this.newFilters.length; i = i + 1) {
+                    if (this.newFilters[i] === "completed") {
+                        temp_filters.push(1)
+                    } else if (this.newFilters[i] === "uncompleted") {
+                        temp_filters.push(0)
+                    } else if (this.newFilters[i] === "canceled") {
+                        temp_filters.push(-1)
+                    }
                 }
-                this.new_filters = temp_filters;
-                if (this.new_filters.length === 0 || this.new_filters ==='') {
-                    this.new_filters = [0, -1, 1];
+                this.newFilters = temp_filters;
+                if (this.newFilters.length === 0 || this.newFilters === '') {
+                    this.newFilters = [0, -1, 1];
                 }
-                console.log("new_filters after processing " + this.new_filters);
-                console.log("========================1   " + this.new_filters);
-                await this.getPageData(this.currentPage).then((res) => {
+                console.log("newFilters after processing " + this.newFilters);
+                console.log("========================1   " + this.newFilters);
+                this.getPageData(this.currentPage).then((res) => {
                     if (res.data.code === 200) {
-                        this.history_records = [];
-                        this.history_records = res.data.data;
+                        this.historyRecords = [];
+                        this.historyRecords = res.data.data;
                         this.renderStatus();
-                        // console.log(this.history_records)
+                        // console.log(this.historyRecords)
                         // console.log("wocaonima")
                     } else {
                         alert(res.data.msg)
@@ -303,8 +547,8 @@
                 }).catch((error) => {
                     console.log(error)
                 });
-                // console.log("========================2   " +this.new_filters)
-                await this.getRecordsCount().then((res) => {
+                // console.log("========================2   " +this.newFilters)
+                this.getRecordsCount().then((res) => {
                     if (res.data.code === 200) {
                         this.totalItems = res.data.data;
                     } else {
@@ -314,24 +558,54 @@
                     console.log(error)
                 });
                 // console.log("========================3")
-                // console.log(this.new_filters)
-				// console.log(filters)
-            }
+                // console.log(this.newFilters)
+                // console.log(filters)
+            },
+            changeStatus() {
+                this.loading = !this.loading;
+            },
+            getRooms() {
+                this.axios({
+                    method: 'GET',
+                    url: 'api/roomInfo',
+                }).then((res) => {
+                    for (let i = 0; i < res.data.data.length; i++) {
+                        let room = res.data.data[i];
+                        this.rooms.push(room)
+                    }
+                })
+            },
+	        async refresh(){
+                await this.getPageData(1);
+                await this.getRecordsCount();
+	        }
+	        
         }
+       
     }
 </script>
 
 <style scoped>
 	.darker {
-		background-color: rgba(0, 0, 0, 0.8);
+		background-color: rgba(0, 0, 0, 0.4);
 		height: 100%;
-		z-index: 10000;
+		z-index: 10;
 		position: fixed;
 		width: 100%;
 		left: 0;
 		top: 0;
 	}
 	
+	.editCard {
+		width: 70%;
+		position: fixed;
+		left: 20%;
+		text-align: center;
+		z-index: 100;
+		top: 10%;
+		height: 85%;
+		
+	}
 	
 	.history-table-expand label {
 		width: 150px;
@@ -351,16 +625,27 @@
 		margin-top: 2%;
 	}
 	
-	/*.demo-table-expand {*/
-	/*	font-size: 0;*/
-	/*}*/
-	/*.demo-table-expand label {*/
-	/*	width: 150px;*/
-	/*	color: #99a9bf;*/
-	/*}*/
-	/*.demo-table-expand .el-form-item {*/
-	/*	margin-right: 0;*/
-	/*	margin-bottom: 0;*/
-	/*	width: 50%;*/
-	/*}*/
+	.booking {
+		padding-top: 3%;
+		white-space: pre;
+	}
+	
+	.booking_row:nth-of-type(n+2) {
+		margin-top: 5%;
+	}
+	
+	.booking_row:nth-of-type(5) {
+		margin-top: 10%;
+	}
+	
+	* {
+		font-size: 1rem;
+	}
+</style>
+
+
+<style>
+	.el-table .cell {
+		line-height: 40px;
+	}
 </style>

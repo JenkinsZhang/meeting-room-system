@@ -26,4 +26,7 @@ export default {
   margin-top: 0;
   padding: 0;
 }
+.el-table .cell{
+    line-height: 40px;
+}
 </style>

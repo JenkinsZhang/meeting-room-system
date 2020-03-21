@@ -79,8 +79,8 @@
                 this.$router.push({name:"",params:{username:this.username}})
             },
             logout(){
-                this.$bvModal.msgBoxConfirm("确认登出账号？",{
-                    title:"确认",
+                this.$bvModal.msgBoxConfirm("Are you sure you want to sign out? All your records will be cleaned!",{
+                    title:"Confirm",
 	                centered: true
                 }).then(value=>{
                     if(value)

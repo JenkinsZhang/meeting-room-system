@@ -24,13 +24,13 @@
 			
 			<b-row class="booking_row">
 				<b-col md="6" style="line-height:40px;text-align: left">
-					<b-icon  icon="alert-circle" scale="1.5" variant="danger" v-show="this.date ===null || this.date === undefined || this.date === ''"/>
-					<b-icon  icon="check-circle" scale="1.5" variant="success" v-show="this.date"/>
-					Select starting time:&nbsp;&nbsp;<b>{{start_time}}</b>
+					<b-icon  icon="alert-circle" scale="1.5" variant="danger" v-show="this.startTime ===null || this.startTime === undefined || this.startTime === ''"/>
+					<b-icon  icon="check-circle" scale="1.5" variant="success" v-show="this.startTime"/>
+					Select starting time:&nbsp;&nbsp;<b>{{startTime}}</b>
 				</b-col>
 				<b-col md="6">
 					<el-time-select
-							v-model="start_time"
+							v-model="startTime"
 							:editable="false"
 							placeholder="Select starting time..."
 							style="width: 100%;font-size: 1rem"
@@ -38,20 +38,20 @@
                                 start: '09:00',
                                 step: '00:30',
                                 end: '22:00',
-                                maxTime: end_time
+                                maxTime: endTime
                                 }">
 					</el-time-select>
 				</b-col>
 			</b-row>
 			<b-row class="booking_row">
 				<b-col md="6" style="line-height:40px;text-align: left">
-					<b-icon  icon="alert-circle" scale="1.5" variant="danger" v-show="this.date ===null || this.date === undefined || this.date === ''"/>
-					<b-icon  icon="check-circle" scale="1.5" variant="success" v-show="this.date"/>
-					Select ending time:&nbsp;&nbsp;<b>{{end_time}}</b>
+					<b-icon  icon="alert-circle" scale="1.5" variant="danger" v-show="this.endTime ===null || this.endTime === undefined || this.endTime === ''"/>
+					<b-icon  icon="check-circle" scale="1.5" variant="success" v-show="this.endTime"/>
+					Select ending time:&nbsp;&nbsp;<b>{{endTime}}</b>
 				</b-col>
 				<b-col md="6">
 					<el-time-select
-							v-model="end_time"
+							v-model="endTime"
 							placeholder="select ending time..."
 							style="width: 100%;font-size: 1rem"
 							size="large"
@@ -60,24 +60,24 @@
                                 start: '09:00',
                                 step: '00:30',
                                 end: '22:00',
-                                minTime: start_time
+                                minTime: startTime
                                 }">
 					</el-time-select>
 				</b-col>
 			</b-row>
 			<b-row class="booking_row">
 				<b-col md="6" style="line-height:40px;text-align: left">
-					<b-icon  icon="alert-circle" scale="1.5" variant="danger" v-show="this.room_id===''"/>
-					<b-icon  icon="check-circle" scale="1.5" variant="success" v-show="this.room_id!==''"/>
+					<b-icon  icon="alert-circle" scale="1.5" variant="danger" v-show="this.roomId===''"/>
+					<b-icon  icon="check-circle" scale="1.5" variant="success" v-show="this.roomId!==''"/>
 					Choose your meeting room:&nbsp;&nbsp;<b>{{getRoomNameById}}</b>
 				</b-col>
 				<b-col md="6">
-					<el-select v-model="room_id" style="width: 100%;" placeholder="Select room..." no-data-text="No data">
+					<el-select v-model="roomId" style="width: 100%;" placeholder="Select room..." no-data-text="No data">
 						<el-option v-for="(room,index) in rooms"
 						           style="font-size: 1rem;"
 						           :key="index"
-						           :value=room.room_id
-						           :label="room.room_name" />
+						           :value=room.roomId
+						           :label="room.roomName" />
 					</el-select>
 				</b-col>
 			</b-row>
@@ -99,9 +99,9 @@
         data() {
             return {
                 date: '',
-                start_time: '',
-                end_time: '',
-                room_id: '',
+                startTime: '',
+                endTime: '',
+                roomId: '',
                 loading: true,
                 pickerOptions: {
                     disabledDate(time) {
@@ -134,9 +134,9 @@
         computed: {
             getRoomNameById() {
                 for (let i = 0; i < this.rooms.length; i++) {
-                    if (this.rooms[i].room_id === this.room_id) {
-                        this.room_name = this.rooms[i].room_name;
-                        return this.room_name;
+                    if (this.rooms[i].roomId === this.roomId) {
+                        this.roomName = this.rooms[i].roomName;
+                        return this.roomName;
                     }
                 }
                 return null;
@@ -147,15 +147,15 @@
                 {
                     return flag;
                 }
-                if(this.start_time ==='')
+                if(this.startTime ==='')
                 {
                     return flag;
                 }
-                if(this.end_time ==='')
+                if(this.endTime ==='')
                 {
                     return flag;
                 }
-                if(this.room_id ==='')
+                if(this.roomId ==='')
                 {
                     return flag;
                 }
@@ -181,9 +181,9 @@
 	        
             showMsgBox() {
                 const h = this.$createElement;
-                let start_time = this.date + " " + this.start_time;
-                let end_time = this.date + " " + this.end_time;
-                let room_name = this.room_name;
+                let startTime = this.date + " " + this.startTime;
+                let endTime = this.date + " " + this.endTime;
+                let roomName = this.roomName;
                 const messageNode = h('div', [
                     h('div', [
                             h('span', "The room reserved for you is: "),
@@ -194,7 +194,7 @@
                             }),
                             h('span', {style: {
                                     fontWeight: 'bold'
-                                }},room_name
+                                }},roomName
                             ),
 	                        h('span',{
                                 domProps: {
@@ -212,7 +212,7 @@
                         }),
                         h('span', {style: {
                                 fontWeight: 'bold'
-                            }},start_time
+                            }},startTime
                         ),
                         h('span',{
                             domProps: {
@@ -231,7 +231,7 @@
 	                        {style: {
                                     fontWeight: 'bold'
                                 }},
-                            end_time
+                            endTime
                         ),
                     ])
                 ]);
@@ -241,20 +241,20 @@
                 }).then(value => {
                     if(value)
                     {
-                        this.submit(start_time,end_time);
+                        this.submit(startTime,endTime);
                     }
                 }).catch(error=>{
                     alert(error)
                 })
             },
-	        submit(start_time,end_time){
-                // console.log(start_time,end_time);
+	        submit(startTime,endTime){
+                // console.log(startTime,endTime);
                 this.loading = true;
                 let submitData={
-                    room_id: this.room_id,
-	                start_time : start_time,
-	                end_time : end_time,
-	                booker_email : this.$jwtUtil.getTokenEmail()
+                    roomId: this.roomId,
+	                startTime : startTime,
+	                endTime : endTime,
+	                bookerEmail : this.$jwtUtil.getTokenEmail()
                 };
                 this.axios({
 	                method: 'POST',
@@ -285,9 +285,9 @@
 	        },
 	        reset(){
                 this.date ='';
-                this.start_time ='';
-                this.end_time ='';
-                this.room_id = '';
+                this.startTime ='';
+                this.endTime ='';
+                this.roomId = '';
 	        }
         },
         mounted() {
