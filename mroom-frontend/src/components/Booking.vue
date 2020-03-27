@@ -1,5 +1,5 @@
 <template>
-	<div v-loading="loading" class="booking">
+	<div v-loading =loading >
 		<b-container fluid>
 			<p style="color: red">Pay attention! The following fields are all required!</p>
 			<b-row class="booking_row">
@@ -82,12 +82,12 @@
 				</b-col>
 			</b-row>
 			<b-row class="booking_row">
-				<b-col md="12">
-					<b-button :disabled="checkField" @click="showMsgBox" style="margin-left: 25%;width: 100px" variant="outline-primary">Submit
-					</b-button>
-					<b-button @click="reset" style="margin-left: 25%;width: 100px" variant="outline-danger">Reset</b-button>
-				</b-col>
-			</b-row>
+			<b-col md="12">
+				<b-button :disabled="checkField" @click="showMsgBox" style="margin-left: 25%;width: 100px" variant="outline-primary">Submit
+				</b-button>
+				<b-button @click="reset" style="margin-left: 25%;width: 100px" variant="outline-danger">Reset</b-button>
+			</b-col>
+		</b-row>
 		
 		</b-container>
 	</div>
@@ -298,19 +298,13 @@
 </script>
 
 <style scoped>
-	.booking {
-		padding-top: 3%;
-		white-space: pre;
-	}
 	
 	.booking_row:nth-of-type(n+2) {
-		margin-top: 5%;
+		padding-top: 5%;
 	}
 	
 	.booking_row:nth-of-type(5) {
-		margin-top: 10%;
+		padding-top: 10%;
 	}
-	*{
-		font-size: 1rem;
-	}
+	
 </style>

@@ -33,15 +33,14 @@ axios.interceptors.request.use(function (config) {
   {
     config.headers["access-token"] = token
   }
-  // router.push("/login");
   return config;
 },function (error) {
   console.log(error)
 });
-
 
 axios.defaults.withCredentials = true;
 new Vue({
   router,
   render: h => h(App),
 }).$mount('#app');
+

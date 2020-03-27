@@ -47,14 +47,9 @@
 								</b-form-text>
 							</b-form-group>
 							
-							
-							<b-form-group id="input-group-4">
-								<b-form-checkbox-group id="checkboxes-4" v-model="form.checked">
-									<b-form-checkbox value="remember">Remember Me</b-form-checkbox>
-									<b-form-text> Do not select this option in public</b-form-text>
-								</b-form-checkbox-group>
-							</b-form-group>
-							<a href="#" @click="toRegister">Do not have an account? Click here!</a>
+							<br><br>
+							<a href="javascript:void(0);" @click="toRegister" >Do not have an account? Click here!</a>
+							<br><br>
 							<div class="bottom-buttons">
 								<b-button id="submit" type="submit" variant="primary" size="lg">
 									<b-spinner id="spinner" class="small" style="display: none"/>

@@ -111,8 +111,8 @@
 							<span><b>{{ props.row.endTime }}</b></span>
 						</el-form-item>
 						<el-form-item>
-							<label>Create Time</label>
-							<span><b>{{ props.row.createTime }}</b></span>
+							<label>Creation Time</label>
+							<span><b>{{ props.row.creationTime }}</b></span>
 						</el-form-item>
 						<el-form-item>
 							<label>Room Name</label>
@@ -207,6 +207,7 @@
 				class="history-pagination"
 				:page-size="pageSize"
 				:current-page.sync="currentPage"
+				style="bottom: 0"
 		>
 		</el-pagination>
 	</div>
@@ -227,7 +228,6 @@
                 pageSize: 8,
                 newFilters: [-1, 0, 1],
                 selectedRecord:{
-                    recordId: '',
                     date: '',
 	                startTime: '',
 	                endTime: '',
@@ -475,6 +475,7 @@
                         break;
                     }
                 }
+                console.log(recordId,startTime,endTime,roomId,creationTime,bookerEmail,status);
 		       this.axios({
 			       method: 'POST',
 			       data: {
@@ -625,10 +626,6 @@
 		margin-top: 2%;
 	}
 	
-	.booking {
-		padding-top: 3%;
-		white-space: pre;
-	}
 	
 	.booking_row:nth-of-type(n+2) {
 		margin-top: 5%;
