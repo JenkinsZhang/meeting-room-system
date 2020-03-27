@@ -84,10 +84,6 @@ public class AuthController {
         if(refreshToken == null){
             return ResultVo.error(401,"Invalid Token!");
         }
-        Cookie cookie = new Cookie("access-token",token);
-        cookie.setMaxAge(12*30*24*60*60);
-        cookie.setPath("/");
-
         return ResultVo.ok("Token Refreshed!",refreshToken);
     }
 

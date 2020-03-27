@@ -93,7 +93,6 @@ public class UserService {
         return userMapper.deleteByEmail(email);
     }
 
-
     public int updateByEmail(User user) {
         return userMapper.updateSelective(user);
     }
@@ -131,5 +130,27 @@ public class UserService {
     public boolean checkEmail(String email){
         User user = userMapper.selectUserByEmail(email);
         return user == null;
+    }
+
+    public String getPhone(String email) {
+        User user = userMapper.selectUserByEmail(email);
+        return user.getPhone();
+    }
+
+    public int changePhone(String email,String phone) {
+        User user = new User();
+        user.setEmail(email);
+        user.setPhone(phone);
+        user.setActive(1);
+        return userMapper.updateSelective(user);
+
+    }
+
+    public int changeUsername(String email,String username){
+        User user = new User();
+        user.setEmail(email);
+        user.setUsername(username);
+        user.setActive(1);
+        return userMapper.updateSelective(user);
     }
 }

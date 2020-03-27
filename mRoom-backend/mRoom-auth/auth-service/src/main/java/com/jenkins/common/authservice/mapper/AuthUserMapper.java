@@ -24,4 +24,8 @@ public interface AuthUserMapper {
     List<Integer> getUserRoles(@Param("user_id") int user_id);
 
     String getRoleName(@Param("role_id") int role_id);
+
+    String getUsername(@Param("email") String email);
+
+    List<Integer> getUserRoles(@Param("email") String email);
 }

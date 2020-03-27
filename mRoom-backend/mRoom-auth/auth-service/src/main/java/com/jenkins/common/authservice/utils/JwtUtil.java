@@ -10,8 +10,10 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.jenkins.common.authinterface.model.UserInfo;
+import com.jenkins.common.authservice.mapper.AuthUserMapper;
 import com.jenkins.common.components.model.ResultVo;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -48,6 +50,13 @@ public class JwtUtil {
         this.EXPIRE_TIME = EXPIRE_TIME;
     }
 
+    private AuthUserMapper authUserMapper;
+
+    @Autowired
+    public JwtUtil(AuthUserMapper authUserMapper) {
+        this.authUserMapper = authUserMapper;
+    }
+
     public String createToken(UserInfo userInfo) {
         List<String> roles = userInfo.getRoles();
         Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
@@ -82,8 +91,11 @@ public class JwtUtil {
     public String refreshToken(String token){
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET_KEY)).build();
         UserInfo userInfo = verifyToken(token);
+
         if(userInfo != null)
         {
+            String username = authUserMapper.getUsername(userInfo.getEmail());
+            userInfo.setUsername(username);
             String newToken = createToken(userInfo);
             return newToken;
         }

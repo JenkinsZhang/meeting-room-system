@@ -14,7 +14,7 @@ public class BookingHistoryModel implements Serializable {
     private int recordId;
     private Date startTime;
     private Date endTime;
-    private Date createTime;
+    private Date creationTime;
     private int status;
     private String roomName;
     private String roomAddress;
@@ -39,12 +39,12 @@ public class BookingHistoryModel implements Serializable {
         this.endTime = endTime;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getCreationTime() {
+        return creationTime;
     }
 
-    public void setCreateTime(Date creatTime) {
-        this.createTime = creatTime;
+    public void setCreationTime(Date creationTime) {
+        this.creationTime = creationTime;
     }
 
     public int getStatus() {
@@ -117,7 +117,7 @@ public class BookingHistoryModel implements Serializable {
                 "recordId=" + recordId +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
-                ", createTime=" + createTime +
+                ", creationTime=" + creationTime +
                 ", status=" + status +
                 ", roomName='" + roomName + '\'' +
                 ", roomAddress='" + roomAddress + '\'' +

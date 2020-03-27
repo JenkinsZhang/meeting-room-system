@@ -1,5 +1,7 @@
 package com.jenkins.common.userservice.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -11,6 +13,8 @@ import javax.mail.internet.MimeMessage;
 
 @Component
 public class MailUtil {
+
+    private Logger logger = LoggerFactory.getLogger(MailUtil.class);
 
     @Autowired
     private JavaMailSender javaMailSender;

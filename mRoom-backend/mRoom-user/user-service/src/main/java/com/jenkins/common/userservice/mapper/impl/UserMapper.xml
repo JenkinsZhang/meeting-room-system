@@ -38,6 +38,7 @@
     <select id="selectAllUsers" resultMap="Base_Result_Map">
         select * from bk_user
     </select>
+
     <select id="getEmail" resultType="java.lang.String">
         select email from bk_user
         where id = #{id}

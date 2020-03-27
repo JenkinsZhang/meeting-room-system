@@ -34,20 +34,20 @@ public class AuthService {
         this.authUserMapper = authUserMapper;
     }
 
-    //TODO
+
     public Map<String, Object> issueToken(String email, String password) {
 
 
         Map<String, Object> map = new HashMap<>();
         String salt = authUserMapper.getSaltByEmail(email);
-        try{
-            String passwordStored = BCrypt.hashpw(password, salt);
-        }catch (Exception e)
-        {
-            map.put("status", "fail");
-            map.put("msg","Wrong email or password!");
-            return map;
-        }
+////        try{
+////            String passwordStored = BCrypt.hashpw(password, salt);
+////        }catch (Exception e)
+////        {
+////            map.put("status", "fail");
+////            map.put("msg","Wrong email or password!");
+////            return map;
+////        }
         String passwordStored = BCrypt.hashpw(password, salt);
         AuthUser authUser = authUserMapper.queryUser(email, passwordStored);
         System.out.println(authUser);

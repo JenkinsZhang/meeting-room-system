@@ -68,13 +68,13 @@ public class BookingService {
         List<BookingHistoryModel> history = new ArrayList<>();
         for (BookingRecord bookingRecord : bookingRecords) {
 
-            System.out.println(bookingRecord);
+//            System.out.println(bookingRecord);
             BookingHistoryModel bookingHistoryModel = new BookingHistoryModel();
             Object data = bookingClient.getRoomDetail(bookingRecord.getRoomId()).getData();
             Room roomDetail = JSON.parseObject(JSON.toJSONString(data), Room.class);
             bookingHistoryModel.setStartTime(bookingRecord.getStartTime());
             bookingHistoryModel.setEndTime(bookingRecord.getEndTime());
-            bookingHistoryModel.setCreateTime(bookingRecord.getCreationTime());
+            bookingHistoryModel.setCreationTime(bookingRecord.getCreationTime());
             bookingHistoryModel.setRecordId(bookingRecord.getRecordId());
             bookingHistoryModel.setRoomName(roomDetail.getRoomName());
             bookingHistoryModel.setRoomAddress(roomDetail.getAddress());
@@ -97,6 +97,8 @@ public class BookingService {
     @Transactional(rollbackFor = RuntimeException.class)
     public int updateBookingRecord(BookingRecord bookingRecord)
     {
+        System.out.println("============更新中============");
+        System.out.println(bookingRecord);
         int originalRecordId = bookingRecord.getRecordId();
         int delete = bookingRecordMapper.deleteRecordById(originalRecordId);
         if(delete != 1)

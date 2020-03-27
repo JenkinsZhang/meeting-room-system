@@ -39,4 +39,9 @@
         select role_name from bk_role
         where id = #{role_id}
     </select>
+
+    <select id="getUsername" resultType="java.lang.String">
+        select username from bk_user
+        where email = #{email}
+    </select>
 </mapper>

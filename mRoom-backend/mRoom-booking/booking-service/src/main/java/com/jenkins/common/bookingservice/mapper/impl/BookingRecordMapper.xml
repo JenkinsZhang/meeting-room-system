@@ -33,8 +33,7 @@
                         #{bookingRecord.endTime} between start_time and end_time and room_id = #{bookingRecord.roomId} and status !=-1
                     ) or
                     (
-                        #{bookingRecord.startTime} &lt; start_time and #{bookingRecord.endTime} &gt; end_time
-                        and room_id = #{bookingRecord.roomId} and status !=-1
+                        #{bookingRecord.startTime} &lt; start_time and #{bookingRecord.endTime} &gt; end_time and room_id = #{bookingRecord.roomId} and status !=-1
                     )
                 )
     </insert>

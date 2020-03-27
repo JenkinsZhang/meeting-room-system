@@ -45,7 +45,4 @@ system:
     allowPaths:
       - /auth
       - /user/registry
-      - /user/check
-      - /booking
       - /user/activate
-      - /roomInfo
