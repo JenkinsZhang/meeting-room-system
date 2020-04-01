@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.jenkins.common.roomService.mapper.RoomMapper">
-    <resultMap id="Base_Result_Map" type="com.jenkins.common.roomInterface.entity.Room">
+    <resultMap id="Base_Result_Map" type="com.jenkins.common.roomInterface.entity.Room" >
         <id property="roomId" column="room_id"/>
         <result property="roomName" column="room_name"/>
         <result property="address" column="address"/>
@@ -14,7 +14,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        room_id, room_name, address
+        room_id, room_name, address, max_people
     </sql>
 
     <sql id="All_Column_List">
@@ -35,6 +35,10 @@
         select <include refid="All_Column_List"/>
         from bk_room
         where room_id = #{roomId}
+    </select>
+    <select id="selectAllRoomDetails" resultMap="Base_Result_Map">
+        select <include refid="All_Column_List"/>
+        from bk_room
     </select>
 
 

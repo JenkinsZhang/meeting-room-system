@@ -4,6 +4,7 @@ package com.jenkins.common.bookingservice.controller;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jenkins.common.bookinginterface.entity.BookingRecord;
 import com.jenkins.common.bookinginterface.model.BookingHistoryModel;
+import com.jenkins.common.bookinginterface.model.CalendarEventsModel;
 import com.jenkins.common.bookingservice.client.BookingClient;
 import com.jenkins.common.bookingservice.mapper.BookingRecordMapper;
 import com.jenkins.common.bookingservice.service.BookingService;
@@ -124,6 +125,16 @@ public class BookingController {
             return ResultVo.error("Complete Error! Please try again later!");
         }
         return ResultVo.ok("OK!");
+    }
+
+    @GetMapping("/calendar/events")
+    public ResultVo getCalendarEvents(@RequestParam("startTime") String startTime,
+                                      @RequestParam("endTime") String endTime){
+        Date parsedStartTime = DateTime.parse(startTime).toDate();
+        Date parsedEndTime = DateTime.parse(endTime).toDate();
+        List<CalendarEventsModel> calendarEvents = bookingService.getCalendarEvents(parsedStartTime, parsedEndTime);
+        return calendarEvents.size() > 0 ? ResultVo.ok("OK",calendarEvents) : ResultVo.error("Failed!");
+
     }
 
 }

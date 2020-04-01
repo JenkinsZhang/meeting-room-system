@@ -1,6 +1,8 @@
 package com.jenkins.common.roomService.service;
 
 import com.jenkins.common.roomInterface.entity.Room;
+import com.jenkins.common.roomInterface.model.RoomOverview;
+import com.jenkins.common.roomInterface.model.RoomResources;
 import com.jenkins.common.roomService.mapper.RoomMapper;
 import org.slf4j.ILoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,5 +62,36 @@ public class RoomService {
         {
             return roomDetail;
         }
+    }
+
+    public List<RoomResources> getRoomResources(){
+        List<Room> rooms = roomMapper.selectAllRooms();
+        List<RoomResources>  roomResources = new ArrayList<>();
+        for (Room room : rooms) {
+            RoomResources  roomResource = new RoomResources();
+            roomResource.setId(room.getRoomId());
+            roomResource.setTitle(room.getRoomName());
+            roomResource.setCapacity(room.getMaxPeople());
+            roomResources.add(roomResource);
+
+        }
+        return roomResources;
+    }
+
+    public List<RoomOverview> getRoomOverview(){
+        List<Room> rooms = roomMapper.selectAllRoomDetails();
+        List<RoomOverview> roomOverviews = new ArrayList<>();
+        for (Room room : rooms) {
+            RoomOverview roomOverview = new RoomOverview();
+            roomOverview.setRoomId(room.getRoomId());
+            roomOverview.setAddress(room.getAddress());
+            roomOverview.setAirConditioner(room.getAirConditioner());
+            roomOverview.setProjection(room.getProjection());
+            roomOverview.setCapacity(room.getMaxPeople());
+            roomOverview.setRoomName(room.getRoomName());
+            roomOverviews.add(roomOverview);
+        }
+        return roomOverviews;
+
     }
 }

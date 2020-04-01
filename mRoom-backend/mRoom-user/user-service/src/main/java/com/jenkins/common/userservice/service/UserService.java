@@ -1,6 +1,7 @@
 package com.jenkins.common.userservice.service;
 
 
+import com.jenkins.common.components.model.ResultVo;
 import com.jenkins.common.userinterface.entity.User;
 import com.jenkins.common.userinterface.entity.UserRole;
 import com.jenkins.common.userservice.client.AuthClient;
@@ -152,5 +153,31 @@ public class UserService {
         user.setUsername(username);
         user.setActive(1);
         return userMapper.updateSelective(user);
+    }
+
+    public int changePassword(String email,String oldPassword,String newPassword)
+    {
+        String oldSalt = getSaltByEmail(email);
+        try {
+            oldPassword = BCrypt.hashpw(oldPassword, oldSalt);
+            User user = queryUser(email, oldPassword);
+            if(user != null)
+            {
+                User updateUser = new User();
+                String newSalt = BCrypt.gensalt();
+                String hashedNewPassword =  BCrypt.hashpw(newPassword, newSalt);
+                updateUser.setEmail(email);
+                updateUser.setSalt(newSalt);
+                updateUser.setPassword(hashedNewPassword);
+                updateUser.setActive(1);
+                return userMapper.updateSelective(updateUser);
+            }
+            else
+            {
+                return 0;
+            }
+        } catch (Exception e) {
+            return 0;
+        }
     }
 }

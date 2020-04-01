@@ -67,4 +67,14 @@
             #{status}
         </foreach>
     </select>
+    <select id="getCalendarEvents" resultMap="Base_Result_Map">
+        select  <include refid="Base_Column_List"></include>
+        from bk_record where start_time &gt;= #{startTime} and end_time &lt;= #{endTime} and status = 0
+    </select>
+<!--    <select id="getAll" resultMap="Base_Result_Map">-->
+<!--        select <include refid="Base_Column_List"></include>-->
+<!--        from bk_record-->
+<!--    </select>-->
+
+
 </mapper>

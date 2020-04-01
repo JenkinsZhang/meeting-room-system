@@ -4,6 +4,7 @@ import com.jenkins.common.bookinginterface.entity.BookingRecord;
 import com.jenkins.common.bookinginterface.model.BookingHistoryModel;
 import com.jenkins.common.bookingservice.mapper.BookingRecordMapper;
 import com.jenkins.common.bookingservice.service.BookingService;
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,6 +43,17 @@ public class BookingServiceTest {
         int[] filters = {0,-1,1};
         List<BookingRecord> bookingRecords = bookingRecordMapper.selectBookingRecordByUserEmail("614758656@qq.com", 0, 10, filters);
         System.out.println(bookingRecords);
+    }
+
+    @Test
+    public void test3(){
+        String startTime = "2019-1-1";
+        Date date = DateTime.parse(startTime).toDate();
+        String endTime = "2022-1-1";
+        Date date1 = DateTime.parse(endTime).toDate();
+
+        List<BookingRecord> calendarEvents = bookingRecordMapper.getCalendarEvents(date, date1);
+        System.out.println(calendarEvents);
     }
 
 }

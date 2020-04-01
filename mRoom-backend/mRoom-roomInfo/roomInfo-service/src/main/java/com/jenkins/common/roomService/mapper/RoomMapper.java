@@ -20,4 +20,5 @@ public interface RoomMapper {
 
     Room getRoomDetailById(int roomId);
 
+    List<Room> selectAllRoomDetails();
 }

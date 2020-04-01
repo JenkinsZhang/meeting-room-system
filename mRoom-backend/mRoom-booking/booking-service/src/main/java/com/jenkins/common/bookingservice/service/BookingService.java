@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.jenkins.common.bookinginterface.entity.BookingRecord;
 import com.jenkins.common.bookinginterface.model.BookingHistoryModel;
+import com.jenkins.common.bookinginterface.model.CalendarEventsModel;
 import com.jenkins.common.bookingservice.client.BookingClient;
 import com.jenkins.common.bookingservice.mapper.BookingRecordMapper;
 import com.jenkins.common.components.model.ResultVo;
@@ -20,6 +21,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 /**
@@ -120,5 +122,21 @@ public class BookingService {
     public int updateStatus(int status,int recordId)
     {
         return bookingRecordMapper.updateStatusByRecordId(status,recordId);
+    }
+
+    public List<CalendarEventsModel> getCalendarEvents(Date startTime,Date endTime){
+
+        List<BookingRecord> calendarEvents = bookingRecordMapper.getCalendarEvents(startTime, endTime);
+        System.out.println(calendarEvents);
+        List<CalendarEventsModel> calendarEventsModels = new ArrayList<>();
+        for (BookingRecord calendarEvent : calendarEvents) {
+            CalendarEventsModel calendarEventsModel = new CalendarEventsModel();
+            calendarEventsModel.setId(calendarEvent.getRecordId());
+            calendarEventsModel.setResourceId(calendarEvent.getRoomId());
+            calendarEventsModel.setStart(calendarEvent.getStartTime().getTime());
+            calendarEventsModel.setEnd(calendarEvent.getEndTime().getTime());
+            calendarEventsModels.add(calendarEventsModel);
+        }
+        return calendarEventsModels;
     }
 }

@@ -1,9 +1,11 @@
 package com.jenkins.common.bookingservice.mapper;
 
 import com.jenkins.common.bookinginterface.entity.BookingRecord;
+import com.jenkins.common.bookinginterface.model.CalendarEventsModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,4 +26,8 @@ public interface BookingRecordMapper {
     int updateRecordId(int originalRecordId,int newRecordId);
 
     int updateStatusByRecordId(int status,int recordId);
+
+    List<BookingRecord> getCalendarEvents(@Param("startTime") Date startTime,@Param("endTime") Date endTime);
+
+//    List<BookingRecord> getAll();
 }

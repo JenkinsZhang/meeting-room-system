@@ -2,6 +2,8 @@ package com.jenkins.common.roomService.controller;
 
 import com.jenkins.common.components.model.ResultVo;
 import com.jenkins.common.roomInterface.entity.Room;
+import com.jenkins.common.roomInterface.model.RoomOverview;
+import com.jenkins.common.roomInterface.model.RoomResources;
 import com.jenkins.common.roomService.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,5 +46,19 @@ public class RoomController {
     public ResultVo getRoomDetail(@PathVariable("roomId") int roomId){
         Room roomDetail = roomService.getRoomDetail(roomId);
         return roomDetail == null ? ResultVo.error("No room information!") : ResultVo.ok("OK",roomDetail);
+    }
+
+    @GetMapping("/roomResources")
+    public ResultVo getRoomResources()
+    {
+        List<RoomResources> roomResources = roomService.getRoomResources();
+        return roomResources.size() > 0 ? ResultVo.ok("OK",roomResources) : ResultVo.error("No room information");
+    }
+
+    @GetMapping("/roomOverview")
+    public ResultVo getRoomOverview()
+    {
+        List<RoomOverview> roomOverview = roomService.getRoomOverview();
+        return roomOverview.size() > 0 ? ResultVo.ok("OK",roomOverview) : ResultVo.error("No room information");
     }
 }

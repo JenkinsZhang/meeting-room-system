@@ -88,20 +88,41 @@ public class UserController {
     }
 
     /**
-     * TODO
+     *
      * @param email
-     * @param password
+     * @param oldPassword
      * @param newPassword
      * @return
      */
-    @PutMapping("password/changePassword")
+    @PostMapping("password/changePassword")
     public ResultVo changePassword(@RequestParam("email") String email,
-                                   @RequestParam("oldPassword") String password,
+                                   @RequestParam("oldPassword") String oldPassword,
                                    @RequestParam("newPassword") String newPassword)
     {
-        return null;
+        int i = userService.changePassword(email, oldPassword, newPassword);
+        return i == 1? ResultVo.ok("OK!") : ResultVo.error("Failed!");
     }
 
+    @PostMapping("password/validate")
+    public ResultVo oldPasswordValidation(@RequestParam("email") String email,
+                                          @RequestParam("password") String password)
+    {
+        String salt = userService.getSaltByEmail(email);
+        try {
+            password = BCrypt.hashpw(password, salt);
+            User user = userService.queryUser(email, password);
+            if(user != null)
+            {
+                return ResultVo.ok("OK!");
+            }
+            else
+            {
+                return ResultVo.error("Failed!");
+            }
+        } catch (Exception e) {
+            return ResultVo.error("Error!");
+        }
+    }
 
     @PutMapping("activate")
     public ResultVo activateUser(@RequestParam("token") String token){

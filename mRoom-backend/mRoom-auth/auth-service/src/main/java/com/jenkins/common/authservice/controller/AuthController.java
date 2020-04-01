@@ -28,8 +28,6 @@ import java.util.Map;
 @Api(tags = "token认证接口")
 public class AuthController {
 
-
-
     private AuthService authService;
 
     private JwtUtil jwtUtil;

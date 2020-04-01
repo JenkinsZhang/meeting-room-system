@@ -15,4 +15,10 @@ public interface RoomApi {
 
     @GetMapping("/detail/{roomId}")
     public ResultVo getRoomDetail(@PathVariable("roomId") int roomId);
+
+    @GetMapping("/roomOverview")
+    public ResultVo getRoomOverview();
+
+    @GetMapping("/roomResources")
+    public ResultVo getRoomResources();
 }

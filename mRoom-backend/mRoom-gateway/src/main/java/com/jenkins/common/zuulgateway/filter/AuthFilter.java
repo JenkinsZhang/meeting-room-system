@@ -59,20 +59,20 @@ public class AuthFilter extends ZuulFilter {
 
     @Override
     public Object run() throws ZuulException {
-        RequestContext currentContext = RequestContext.getCurrentContext();
-        HttpServletRequest request = currentContext.getRequest();
-        HttpServletResponse response = currentContext.getResponse();
-        String token = request.getHeader("access-token");
-        if (token == null) {
-            response.setStatus(401);
-            currentContext.setSendZuulResponse(false);
-        } else {
-            ResultVo resultVo = authClient.verifyToken(token);
-            if(200 != resultVo.getCode())
-            {
-                currentContext.setSendZuulResponse(false);
-            }
-        }
+//        RequestContext currentContext = RequestContext.getCurrentContext();
+//        HttpServletRequest request = currentContext.getRequest();
+//        HttpServletResponse response = currentContext.getResponse();
+//        String token = request.getHeader("access-token");
+//        if (token == null) {
+//            response.setStatus(401);
+//            currentContext.setSendZuulResponse(false);
+//        } else {
+//            ResultVo resultVo = authClient.verifyToken(token);
+//            if(200 != resultVo.getCode())
+//            {
+//                currentContext.setSendZuulResponse(false);
+//            }
+//        }
         return null;
     }
 }

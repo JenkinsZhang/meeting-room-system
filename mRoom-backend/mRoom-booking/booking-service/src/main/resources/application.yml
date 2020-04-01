@@ -23,7 +23,9 @@ eureka:
     service-url:
       defaultZone: http://localhost:9090/eureka
     eureka-connection-idle-timeout-seconds: 10
-
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 2000
 mybatis:
   type-aliases-package: com.jenkins.common
   mapper-locations: classpath*:com/jenkins/common/**/mapper/impl/*Mapper.xml
