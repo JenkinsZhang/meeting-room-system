@@ -18,7 +18,7 @@
 		              }"
 		              :themeSystem="'bootstrap'"
 		              :datesRender="dateRender"
-		              :height="450"
+		              :height="480"
 		              :resources="resources"
 		              :resourceColumns="[
 					      {

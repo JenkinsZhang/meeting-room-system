@@ -1,14 +1,13 @@
 <template>
 	<div>
-		<b-card class="editCard" v-show="cardShow">
-			<b-container fluid class="booking">
+		<el-card class="editCard" v-show="cardShow" >
 				<p style="color: red">Pay attention! The following fields are all required!</p>
-				<b-row class="booking_row">
-					<b-col md="6" style="line-height:40px;height:40px;text-align: left">
+				<el-row class="booking_row">
+					<el-col :span="12" style="line-height:40px;height:40px;text-align: left">
 						Select booking date:
 						<b>{{selectedRecord.date}}</b>
-					</b-col>
-					<b-col md="6">
+					</el-col>
+					<el-col :span="12">
 						<el-date-picker
 								:editable="true"
 								v-model="selectedRecord.date"
@@ -18,14 +17,14 @@
 								style="width: 100%;font-size: 1rem"
 								:picker-options="pickerOptions">
 						</el-date-picker>
-					</b-col>
-				</b-row>
+					</el-col>
+				</el-row>
 				
-				<b-row class="booking_row">
-					<b-col md="6" style="line-height:40px;text-align: left">
+				<el-row class="booking_row">
+					<el-col :span="12" style="line-height:40px;text-align: left">
 						Select starting time:&nbsp;&nbsp;<b>{{selectedRecord.startTime}}</b>
-					</b-col>
-					<b-col md="6">
+					</el-col>
+					<el-col :span="12">
 						<el-time-select
 								v-model="selectedRecord.startTime"
 								:editable="false"
@@ -38,13 +37,13 @@
                                 maxTime: selectedRecord.endTime
                                 }">
 						</el-time-select>
-					</b-col>
-				</b-row>
-				<b-row class="booking_row">
-					<b-col md="6" style="line-height:40px;text-align: left">
+					</el-col>
+				</el-row>
+				<el-row class="booking_row">
+					<el-col :span="12" style="line-height:40px;text-align: left">
 						Select ending time:&nbsp;&nbsp;<b>{{selectedRecord.endTime}}</b>
-					</b-col>
-					<b-col md="6">
+					</el-col>
+					<el-col :span="12">
 						<el-time-select
 								v-model="selectedRecord.endTime"
 								placeholder="select ending time..."
@@ -58,13 +57,13 @@
                                 minTime: selectedRecord.startTime
                                 }">
 						</el-time-select>
-					</b-col>
-				</b-row>
-				<b-row class="booking_row">
-					<b-col md="6" style="line-height:40px;text-align: left">
+					</el-col>
+				</el-row>
+				<el-row class="booking_row">
+					<el-col :span="12" style="line-height:40px;text-align: left">
 						Choose your meeting room:&nbsp;&nbsp;<b>{{this.selectedRecord.roomName}}</b>
-					</b-col>
-					<b-col md="6">
+					</el-col>
+					<el-col :span="12">
 						<el-select v-model="selectedRecord.roomName" style="width: 100%;" placeholder="Select room..."
 						           no-data-text="No data">
 							<el-option v-for="(room,index) in rooms"
@@ -73,28 +72,27 @@
 							           :value=room.roomName
 							           :label="room.roomName"/>
 						</el-select>
-					</b-col>
-				</b-row>
-				<b-row class="booking_row">
-					<b-col md="12">
-						<b-button @click="submitEdit" style="width: 100px" variant="outline-primary">Submit
-						</b-button>
-						<b-button @click="cancelEdit" style="margin-left: 20%;width: 100px" variant="outline-danger">
+					</el-col>
+				</el-row>
+				<el-row class="booking_row" style="text-align: center">
+					<el-col md="12">
+						<el-button @click="submitEdit" style="width: 100px" type="primary">Submit
+						</el-button>
+						<el-button @click="cancelEdit" style="margin-left: 20%;width: 100px" type="danger">
 							Cancel
-						</b-button>
-					</b-col>
-				</b-row>
+						</el-button>
+					</el-col>
+				</el-row>
 			
-			</b-container>
-		</b-card>
+		</el-card>
 		<div :class="{'darker':darkActive}"></div>
 		<!--		{{historyRecords}}-->
 		<el-table
 				:data="historyRecords"
 				stripe
-				style="width: 100%;"
+				style="width: 100%;margin-left: 20px"
 				@filter-change="filter"
-				v-loading = loading
+				v-loading.fullscreen = loading
 		>
 			<el-table-column type="expand">
 				<template slot-scope="props">
@@ -177,7 +175,7 @@
 					</el-tag>
 				</template>
 			</el-table-column>
-			<el-table-column label="Action" fixed="right" width="300">
+			<el-table-column label="Action" fixed="right" width="270">
 				<template slot-scope="props">
 					<el-button
 							size="mini"
@@ -266,40 +264,22 @@
 	            rooms: []
             }
         },
-        mounted() {
-            this.getPageData(1).then((res) => {
-                if (res.data.code === 200) {
-                    this.historyRecords = [];
-                    this.historyRecords = res.data.data;
-                    this.renderStatus();
-                    // console.log(this.historyRecords)
-                    // console.log("wocaonima")
-                } else {
-                    alert(res.data.msg)
-                }
-            }).catch((error) => {
-                console.log(error)
-            });
+        async mounted() {
+            this.cardShow = false;
+            this.changeStatus();
+            await this.getRooms();
+            await this.getPageData(1);
 
-            this.getRecordsCount().then((res) => {
-                if (res.data.code === 200) {
-                    this.totalItems = res.data.data;
-                } else {
-                    alert(res.data.msg)
-                }
-            }).catch((error) => {
-                console.log(error)
-            });
+            await this.getRecordsCount();
+            this.changeStatus();
+            window.scrollTo(0,0)
 	        
-            this.getRooms();
 	        
-	        this.cardShow = false;
 
         },
         methods: {
             getPageData(val) {
                 this.currentPage = val;
-                this.loading  = true;
                 return this.axios({
                     url: "/api/booking/history/" +
                         this.$jwtUtil.getTokenEmail() + "/"
@@ -321,8 +301,6 @@
                     }
                 }).catch((error) => {
                     console.log(error)
-                }).finally(()=>{
-                    this.loading = false;
                 })
             },
             getRecordsCount() {
@@ -375,9 +353,11 @@
                 return null;
             },
             handleCancel(index, row) {
-                this.$bvModal.msgBoxConfirm("Are you sure you want to cancel this meeting?",{
-                    title:"Complete",
-                    centered: true
+                this.$confirm("Are you sure you want to cancel this meeting?","Cancel",{
+                    type: "error",
+                    confirmButtonText: "Submit",
+                    cancelButtonText: "Cancel",
+                    customClass: "testClass"
                 }).then(value=>{
                     if(value)
                     {
@@ -421,9 +401,10 @@
                 this.darkActive = true;
             },
 	        handleSuccess(index,row) {
-                this.$bvModal.msgBoxConfirm("Are you sure this meeting has finished?",{
-                    title:"Complete",
-                    centered: true
+                this.$confirm("Are you sure this meeting has finished?","Complete",{
+                    type: "warning",
+	                confirmButtonText: "Submit",
+	                cancelButtonText: "Cancel",
                 }).then(value=>{
                     if(value)
                     {
@@ -593,14 +574,12 @@
 	}
 	
 	.editCard {
-		width: 70%;
+		width: 60%;
 		position: fixed;
 		left: 20%;
-		text-align: center;
 		z-index: 11;
-		top: 10%;
-		height: 85%;
-		
+		top: 20%;
+		height: 75%;
 	}
 	
 	.history-table-expand label {
@@ -640,4 +619,13 @@
 	.el-table .cell {
 		line-height: 40px;
 	}
+	.el-message-box__title{
+		font-size: 22px;
+	}
+	.el-message-box__content{
+		font-size: 16px;
+	}
+	
+
+
 </style>

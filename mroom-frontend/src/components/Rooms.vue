@@ -178,10 +178,6 @@
 		width: 100%;
 	}
 	
-	.rooms {
-		padding-top: 25px;
-		padding-right: 25px;
-	}
 	.dialogMain{
 		height: 100%;
 		position: fixed;

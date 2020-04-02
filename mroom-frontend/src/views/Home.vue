@@ -1,24 +1,27 @@
 <template>
-	
 	<div :class="{'test':isActive}">
 		<div class="darker"></div>
-		<b-navbar id="header" toggleable="lg" style="height: 60px" type="dark" variant="primary">
-			<b-navbar-brand style="margin-left: 2%" to="/home">Meeting Room Booking System</b-navbar-brand>
+		<div id="header">
+			<a style="font-size: 28px;margin-left: 10px"> Meeting Room Booking System </a>
+			<a href="javascript:void(0)"
+			   style="color: white;text-decoration: none;font-size: 22px;position: fixed;right: 25%"
+			   @click="toHome"><i class="el-icon-s-home"/>Home</a>
 			
-			<b-collapse id="nav-collapse" is-nav>
+			<el-dropdown style="position: fixed;right: 5%;color: white;font-size: 22px" trigger="click">
 				
-				<!-- Right aligned nav items -->
-				<b-navbar-nav style="align:center;margin-right: 15%;font-size: 20px;" class="ml-auto">
-					<b-nav-item to="/home">
-						<b-icon-house/>
-						Home
-					</b-nav-item>
-					<b-nav-item-dropdown :text=username right>
-						<b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
-					</b-nav-item-dropdown>
-				</b-navbar-nav>
-			</b-collapse>
-		</b-navbar>
+				<a href="javascript:void(0)" style="text-decoration: none;color:white"><span class="el-dropdown-link">
+                      <i class="el-icon-location-information"/>
+					{{username}}
+					<i class="el-icon-arrow-down el-icon--right"/>
+                 </span>
+				</a>
+				<el-dropdown-menu slot="dropdown">
+					<el-dropdown-item style="width: 100px;font-size: 16px" >
+						<a @click="logout">Sign out</a>
+					</el-dropdown-item>
+				</el-dropdown-menu>
+			</el-dropdown>
+		</div>
 		<el-menu
 				class="side-bar"
 				:default-active="getRouterName"
@@ -63,7 +66,7 @@
 				<el-menu-item index="/rooms/overview">
 					<i class="el-icon-monitor" style="margin-top: -3%"/>Room Overview
 				</el-menu-item>
-				<el-menu-item index="/rooms/repairReport" >
+				<el-menu-item index="/rooms/repairReport">
 					<i class="el-icon-setting" style="margin-top: -3%"/>Repair Report
 				</el-menu-item>
 			</el-submenu>
@@ -75,7 +78,7 @@
 				<el-menu-item index="/user/profile">
 					<i class="el-icon-document" style="margin-top: -3%"/>My Profile
 				</el-menu-item>
-				<el-menu-item index="/user/password" >
+				<el-menu-item index="/user/password">
 					<i class="el-icon-edit" style="margin-top: -3%"/>Change Password
 				</el-menu-item>
 			</el-submenu>
@@ -85,22 +88,22 @@
 					<span>Management</span>
 				</template>
 				<el-menu-item index="/admin/accounts">
-					<i class="el-icon-user-solid"style="margin-top: -3%"/>User Accounts
+					<i class="el-icon-user-solid" style="margin-top: -3%"/>User Accounts
 				</el-menu-item>
 				<el-menu-item index="/admin/records">
 					<i class="el-icon-s-order" style="margin-top: -3%"/>Booking Records
 				</el-menu-item>
 				<el-menu-item index="/admin/rooms">
-					<i class="el-icon-s-platform"style="margin-top: -3%"/>Room Management
+					<i class="el-icon-s-platform" style="margin-top: -3%"/>Room Management
 				</el-menu-item>
 				<el-menu-item index="/admin/roles">
-					<i class="el-icon-s-check"style="margin-top: -3%"/>Roles Authorization
+					<i class="el-icon-s-check" style="margin-top: -3%"/>Roles Authorization
 				</el-menu-item>
 			</el-submenu>
-			
-			
+		
+		
 		</el-menu>
-		<router-view class="main-body" @renderUsername="renderUsername"/>
+		<router-view class="main-body" @renderUsername="renderUsername" />
 	
 	
 	</div>
@@ -119,12 +122,13 @@
         },
         methods: {
             test() {
-	            console.log(this.$router)
+                console.log(this.$router)
             },
             logout() {
-                this.$bvModal.msgBoxConfirm("Are you sure you want to sign out? All your records will be cleaned!", {
-                    title: "Confirm",
-                    centered: true
+                this.$confirm("Are you sure you want to logout? All your data will be cleaned","Logout",{
+                    type: "info",
+                    confirmButtonText: "Submit",
+                    cancelButtonText: "Cancel",
                 }).then(value => {
                     if (value) {
 
@@ -138,16 +142,16 @@
             renderUsername() {
                 this.username = this.$jwtUtil.getTokenUsername();
                 console.log(this.username);
+            },
+            toHome() {
+                this.$router.push("/")
             }
         },
         computed: {
-            getHeight() {
-                return window.outerHeight
-            },
             getRouterName() {
-               
+
                 return this.$route.path;
-	            
+
             }
         },
         mounted() {
@@ -179,33 +183,43 @@
 	
 	.side-bar {
 		position: fixed;
-		z-index: 9;
-		top: 0;
+		z-index: 6;
+		top:3%;
 		left: 0;
 		box-sizing: border-box;
 		width: 18%;
 		height: 100%;
-		padding-top: 80px;
+		padding-top: 70px;
 		border-right: 1px solid #dedede;
 		overflow-y: auto;
 	}
 	
 	#header {
 		position: fixed;
-		z-index: 91;
+		z-index: 7;
 		top: 0;
 		left: 0;
 		width: 100%;
-		height: 55px;
-		line-height: 55px;
+		height: 65px;
+		line-height: 65px;
+		background-color: #007bff;
+		color: white;
 	}
 	
 	.main-body {
-		right: 0px;
-		left: 19%;
-		top: 20%;
 		position: absolute;
+		left: 19%;
+		right: 2%;
+		top: 20%;
+		margin-bottom: 5%;
 	}
-	
-</style>
 
+</style>
+<style>
+	.el-message-box__title{
+		font-size: 22px;
+	}
+	.el-message-box__content{
+		font-size: 16px;
+	}
+</style>

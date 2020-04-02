@@ -18,16 +18,16 @@
 							type="email"
 							v-model="form.email"
 					/>
-					We will never share your email
+					<span style="color: grey">We will never share your email</span>
 				</el-form-item>
 				
 				<el-form-item label="Please enter your password:" prop="password">
 					<el-input
 							placeholder="Enter password"
-							type="text"
+							type="password"
 							v-model="form.password"
 					/>
-					We will never share your email
+					<span style="color: grey">We will never share your password</span>
 				</el-form-item>
 				<a href="javascript:void(0);" @click="toRegister">Do not have an account? Click here!</a>
 				<br><br>

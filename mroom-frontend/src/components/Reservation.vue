@@ -1,95 +1,115 @@
 <template>
-	<div v-loading =loading >
-		<b-container fluid>
-			<p style="color: red">Pay attention! The following fields are all required!</p>
-			<b-row class="booking_row">
-				<b-col md="6" style="line-height:40px;height:40px;text-align: left">
-					<b-icon  icon="alert-circle" scale="1.5" variant="danger" v-show="this.date ===null || this.date === undefined || this.date === ''"/>
-					<b-icon  icon="check-circle" scale="1.5" variant="success" v-show="this.date"/>
-					Select booking date:
-					<b>{{date}}</b>
-				</b-col>
-				<b-col md="6">
-					<el-date-picker
-							:editable="false"
-							v-model="date"
-							type="date"
-							value-format="yyyy-MM-dd"
-							placeholder="Select booking date..."
-							style="width: 100%;font-size: 1rem"
-							:picker-options="pickerOptions">
-					</el-date-picker>
-				</b-col>
-			</b-row>
-			
-			<b-row class="booking_row">
-				<b-col md="6" style="line-height:40px;text-align: left">
-					<b-icon  icon="alert-circle" scale="1.5" variant="danger" v-show="this.startTime ===null || this.startTime === undefined || this.startTime === ''"/>
-					<b-icon  icon="check-circle" scale="1.5" variant="success" v-show="this.startTime"/>
-					Select starting time:&nbsp;&nbsp;<b>{{startTime}}</b>
-				</b-col>
-				<b-col md="6">
-					<el-time-select
-							v-model="startTime"
-							:editable="false"
-							placeholder="Select starting time..."
-							style="width: 100%;font-size: 1rem"
-							:picker-options="{
+	<div style="padding-left: 20px;padding-right: 20px">
+		<p style="color: red">Pay attention! The following fields are all required!</p>
+		<el-row class="booking_row">
+			<el-col :span="12" style="line-height:40px;height:40px;text-align: left">
+				<i class="el-icon-warning-outline" style="color: orangered"
+				        v-show="this.date ===null || this.date === undefined || this.date === ''"/>
+				<i class="el-icon-circle-check"style="color: limegreen" v-show="this.date" />
+				Select booking date:
+				<b>{{date}}</b>
+			</el-col>
+			<el-col :span="12">
+				<el-date-picker
+						:editable="false"
+						v-model="date"
+						type="date"
+						value-format="yyyy-MM-dd"
+						placeholder="Select booking date..."
+						style="width: 100%;font-size: 1rem"
+						:picker-options="pickerOptions">
+				</el-date-picker>
+			</el-col>
+		</el-row>
+		
+		<el-row class="booking_row">
+			<el-col :span="12" style="line-height:40px;text-align: left">
+				<i class="el-icon-warning-outline" style="color: orangered"
+				        v-show="this.startTime ===null || this.startTime === undefined || this.startTime === ''"/>
+				<i class="el-icon-circle-check"style="color: limegreen" v-show="this.startTime"/>
+				Select starting time:&nbsp;&nbsp;<b>{{startTime}}</b>
+			</el-col>
+			<el-col :span="12">
+				<el-time-select
+						v-model="startTime"
+						:editable="false"
+						placeholder="Select starting time..."
+						style="width: 100%;font-size: 1rem"
+						:picker-options="{
                                 start: '09:00',
                                 step: '00:30',
                                 end: '22:00',
                                 maxTime: endTime
                                 }">
-					</el-time-select>
-				</b-col>
-			</b-row>
-			<b-row class="booking_row">
-				<b-col md="6" style="line-height:40px;text-align: left">
-					<b-icon  icon="alert-circle" scale="1.5" variant="danger" v-show="this.endTime ===null || this.endTime === undefined || this.endTime === ''"/>
-					<b-icon  icon="check-circle" scale="1.5" variant="success" v-show="this.endTime"/>
-					Select ending time:&nbsp;&nbsp;<b>{{endTime}}</b>
-				</b-col>
-				<b-col md="6">
-					<el-time-select
-							v-model="endTime"
-							placeholder="select ending time..."
-							style="width: 100%;font-size: 1rem"
-							size="large"
-							:editable="false"
-							:picker-options="{
+				</el-time-select>
+			</el-col>
+		</el-row>
+		<el-row class="booking_row">
+			<el-col :span="12" style="line-height:40px;text-align: left">
+				<i class="el-icon-warning-outline" style="color: orangered"
+				        v-show="this.endTime ===null || this.endTime === undefined || this.endTime === ''"/>
+				<i class="el-icon-circle-check"style="color: limegreen" v-show="this.endTime"/>
+				Select ending time:&nbsp;&nbsp;<b>{{endTime}}</b>
+			</el-col>
+			<el-col :span="12">
+				<el-time-select
+						v-model="endTime"
+						placeholder="select ending time..."
+						style="width: 100%;font-size: 1rem"
+						size="large"
+						:editable="false"
+						:picker-options="{
                                 start: '09:00',
                                 step: '00:30',
                                 end: '22:00',
                                 minTime: startTime
                                 }">
-					</el-time-select>
-				</b-col>
-			</b-row>
-			<b-row class="booking_row">
-				<b-col md="6" style="line-height:40px;text-align: left">
-					<b-icon  icon="alert-circle" scale="1.5" variant="danger" v-show="this.roomId===''"/>
-					<b-icon  icon="check-circle" scale="1.5" variant="success" v-show="this.roomId!==''"/>
-					Choose your meeting room:&nbsp;&nbsp;<b>{{getRoomNameById}}</b>
-				</b-col>
-				<b-col md="6">
-					<el-select v-model="roomId" style="width: 100%;" placeholder="Select room..." no-data-text="No data">
-						<el-option v-for="(room,index) in rooms"
-						           style="font-size: 1rem;"
-						           :key="index"
-						           :value=room.roomId
-						           :label="room.roomName" />
-					</el-select>
-				</b-col>
-			</b-row>
-			<b-row class="booking_row">
-			<b-col md="12">
-				<b-button :disabled="checkField" @click="showMsgBox" style="margin-left: 25%;width: 100px" variant="outline-primary">Submit
-				</b-button>
-				<b-button @click="reset" style="margin-left: 25%;width: 100px" variant="outline-danger">Reset</b-button>
-			</b-col>
-		</b-row>
-		
-		</b-container>
+				</el-time-select>
+			</el-col>
+		</el-row>
+		<el-row class="booking_row">
+			<el-col :span="12" style="line-height:40px;text-align: left">
+				<i class="el-icon-warning-outline" style="color: orangered"  v-show="this.roomId==='' || this.roomId === undefined"/>
+				<i class="el-icon-circle-check"style="color: limegreen"  v-show="!(this.roomId==='' || this.roomId === undefined)"/>
+				Choose your meeting room:&nbsp;&nbsp;<b>{{getRoomNameById}}</b>
+			</el-col>
+			<el-col :span="12">
+				<el-select v-model="roomId" style="width: 100%;" placeholder="Select room..." no-data-text="No data">
+					<el-option v-for="(room,index) in rooms"
+					           style="font-size: 1rem;"
+					           :key="index"
+					           :value=room.roomId
+					           :label="room.roomName"/>
+				</el-select>
+			</el-col>
+		</el-row>
+		<el-row class="booking_row">
+			<el-col :span="24">
+				<el-button :disabled="checkField" @click="showMsgBox" style="margin-left: 25%;width: 100px"
+				           type="primary">Submit
+				</el-button>
+				<el-button @click="reset"  type="danger" style="margin-left: 25%;width: 100px" variant="outline-danger">Reset
+				</el-button>
+			</el-col>
+		</el-row>
+		<el-dialog
+				title="Please confirm your booking information"
+				width="500px" style="border-radius: 12px"
+				center :visible.sync="dialogVisible">
+			<span>The room reserved for you is: </span>
+			<b>{{dialogRoomName}}</b>
+			<br><br><br><br>
+			<span>Starting time:  </span>
+			<b>{{dialogStartTime}}</b>
+			<br><br><br><br>
+			<span>Closing time: </span>
+			<b>{{dialogEndTime}}</b>
+			<br><br>
+			<span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">Cancel</el-button>
+    <el-button type="primary" @click="submit">Submit</el-button>
+  </span>
+		</el-dialog>
 	</div>
 </template>
 
@@ -128,7 +148,11 @@
                         }
                     }]
                 },
-                rooms: []
+                rooms: [],
+	            dialogVisible: false,
+	            dialogStartTime: '',
+	            dialogEndTime: '',
+	            dialogRoomName: '',
             }
         },
         computed: {
@@ -141,22 +165,18 @@
                 }
                 return null;
             },
-            checkField(){
+            checkField() {
                 let flag = true;
-                if(this.date ==='')
-                {
+                if (this.date === '') {
                     return flag;
                 }
-                if(this.startTime ==='')
-                {
+                if (this.startTime === '') {
                     return flag;
                 }
-                if(this.endTime ==='')
-                {
+                if (this.endTime === '') {
                     return flag;
                 }
-                if(this.roomId ==='')
-                {
+                if (this.roomId === '' || this.roomId === undefined) {
                     return flag;
                 }
                 return !flag;
@@ -178,127 +198,64 @@
                     }
                 })
             },
-	        
+
             showMsgBox() {
-                const h = this.$createElement;
-                let startTime = this.date + " " + this.startTime;
-                let endTime = this.date + " " + this.endTime;
-                let roomName = this.roomName;
-                const messageNode = h('div', [
-                    h('div', [
-                            h('span', "The room reserved for you is: "),
-                            h('span',{
-                                domProps: {
-                                    innerHTML: "&nbsp;&nbsp;&nbsp;&nbsp;"
-                                }
-                            }),
-                            h('span', {style: {
-                                    fontWeight: 'bold'
-                                }},roomName
-                            ),
-	                        h('span',{
-                                domProps: {
-                                    innerHTML: "<br><br>"
-                                }
-	                        })
-                        ]
-                    ),
-                    h('div', [
-                        h('span', "Starting time: "),
-                        h('span',{
-                            domProps: {
-                                innerHTML: "&nbsp;&nbsp;&nbsp;&nbsp;"
-                            }
-                        }),
-                        h('span', {style: {
-                                fontWeight: 'bold'
-                            }},startTime
-                        ),
-                        h('span',{
-                            domProps: {
-                                innerHTML: "<br><br>"
-                            }
-                        })
-                    ]),
-                    h('div', [
-                        h('span', "Closing time: "),
-                        h('span',{
-                            domProps: {
-                                innerHTML: "&nbsp;&nbsp;&nbsp;&nbsp;"
-                            }
-                        }),
-                        h('span',
-	                        {style: {
-                                    fontWeight: 'bold'
-                                }},
-                            endTime
-                        ),
-                    ])
-                ]);
-                this.$bvModal.msgBoxConfirm(messageNode, {
-                    title: "Please confirm your booking information",
-                    centered: true
-                }).then(value => {
-                    if(value)
-                    {
-                        this.submit(startTime,endTime);
-                    }
-                }).catch(error=>{
-                    alert(error)
-                })
+                this.dialogStartTime = this.date + " " + this.startTime;
+                this.dialogEndTime = this.date + " " + this.endTime;
+                this.dialogRoomName = this.roomName;
+                this.dialogVisible = true;
             },
-	        submit(startTime,endTime){
+            submit() {
                 // console.log(startTime,endTime);
-                this.loading = true;
-                let submitData={
+                let submitData = {
                     roomId: this.roomId,
-	                startTime : startTime,
-	                endTime : endTime,
-	                bookerEmail : this.$jwtUtil.getTokenEmail()
+                    startTime: this.dialogStartTime,
+                    endTime: this.dialogEndTime,
+                    bookerEmail: this.$jwtUtil.getTokenEmail()
                 };
                 this.axios({
-	                method: 'POST',
-	                data: submitData,
-	                url: '/api/booking'
-                }).then((res)=>{
+                    method: 'POST',
+                    data: submitData,
+                    url: '/api/booking'
+                }).then((res) => {
                     this.loading = false;
-                    if(res.data.code === 200)
-                    {
-                        this.$bvModal.msgBoxOk("Booking success！",{
-                            centered:true
+                    if (res.data.code === 200) {
+                        this.$message({
+	                        message: "Booking Success!",
+	                        type: "success"
                         })
+                    } else {
+                        this.$message({
+	                        message: res.data.msg,
+	                        type: "warning"
+                        });
                     }
-                    else
-                    {
-                        this.$bvModal.msgBoxOk(res.data.msg,{
-                            centered:true
-                        })
-                    }
-                }).catch((error)=>{
+                }).catch((error) => {
                     this.loading = false;
-                    this.$bvModal.msgBoxOk("预订失败！服务器错误",{
-                        centered:true
-                    })
-                }).finally(()=>{
+                    this.$messageUtil.errorMessage(this)
+                }).finally(() => {
                     this.reset();
+                    this.dialogVisible = false;
                 })
-	        },
-	        reset(){
-                this.date ='';
-                this.startTime ='';
-                this.endTime ='';
+            },
+            reset() {
+                this.date = '';
+                this.startTime = '';
+                this.endTime = '';
                 this.roomId = '';
-	        }
+            }
         },
         mounted() {
             setTimeout(this.changeStatus, 500);
             this.getRooms();
-	        
+
         },
-	    created() {
-            if(this.$route.params.roomId !== null)
-            {
+        created() {
+            if (this.$route.params.roomId !== null) {
                 this.roomId = this.$route.params.roomId;
+            }
+            else {
+                this.roomId = "";
             }
         }
     }
@@ -311,7 +268,12 @@
 	}
 	
 	.booking_row:nth-of-type(5) {
-		padding-top: 10%;
+		padding-top: 5%;
 	}
 	
+</style>
+<style>
+	.el-dialog__body{
+		font-size: 16px;
+	}
 </style>

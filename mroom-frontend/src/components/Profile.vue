@@ -1,67 +1,69 @@
 <template>
 	<div id="profile">
-		<b-card title="Personal Information"
+		<el-card
 		        style="border-radius: 12px;
 		        text-align: center;"
 		>
+			<div slot="header">
+				<h1>Personal Information</h1>
+			</div>
 			<br>
-			<b-container fluid style="text-align: left;">
-				<b-row>
-					<b-col sm="4">
+				<el-row>
+					<el-col :span="8">
 						
 						<img src="../assets/images/avatar.jpeg"  width="100%" height="300">
-					</b-col>
-					<b-col sm="8">
-						<b-row class="rowInfo">
-							<b-col sm="3">
+					</el-col>
+					<el-col :span="16">
+						<el-row class="rowInfo">
+							<el-col :span="6">
 								<label for="email"/>Email:
-							</b-col>
-							<b-col sm="6">
+							</el-col>
+							<el-col :span="12">
 								<input id="email" disabled="true"
 								       style="width: 100%" v-model="email"/>
-							</b-col>
-						</b-row>
-						<b-row class="rowInfo">
-							<b-col sm="3">
+							</el-col>
+						</el-row>
+						<el-row class="rowInfo">
+							<el-col :span="6">
 								<label for="role"/>Role:
-							</b-col>
-							<b-col sm="6">
+							</el-col>
+							<el-col :span="12">
 								<input id="role" disabled="true"
 								       style="width: 100%" v-model="role"/>
-							</b-col>
-						</b-row>
-						<b-row class="rowInfo">
-							<b-col sm="3">
+							</el-col>
+						</el-row>
+						<el-row class="rowInfo">
+							<el-col :span="6">
 								<label for="username"/>Username:
-							</b-col>
-							<b-col sm="6">
+							</el-col>
+							<el-col :span="12">
 								<input id="username" disabled="true"
 								       v-model="username" style="width: 100%"/>
-							</b-col>
-							<b-col sm="3">
+							</el-col>
+							<el-col :span="6">
 								<a href="javascript:void(0);" @click="editUsername">Edit</a>
 								<a href="javascript:void(0);" @click="saveUsername" style="margin-left:5%">Save</a>
-							</b-col>
-						</b-row>
-						<b-row class="rowInfo">
-							<b-col sm="3">
+							</el-col>
+						</el-row>
+						<el-row class="rowInfo">
+							<el-col :span="6">
 								<label for="cellPhone"/>Cell Phone:
-							</b-col>
-							<b-col sm="6">
+							</el-col>
+							<el-col :span="12">
 								<input id="cellPhone" disabled="true" style="width: 100%"
 								       v-model="phone"/>
-							</b-col>
-							<b-col sm="3">
+							</el-col>
+							<el-col :span="6">
 								<a href="javascript:void(0);" @click="editPhone">Edit</a>
 								<a href="javascript:void(0);" @click="savePhone" style="margin-left:5%">Save</a>
-							</b-col>
-						</b-row>
-					</b-col>
-				</b-row>
+							</el-col>
+						</el-row>
+					</el-col>
+				</el-row>
 			
 			
 			</b-container>
-		</b-card>
+		</el-card>
 	</div>
 </template>
 
@@ -218,10 +220,17 @@
 		margin-left: 5%;
 		margin-right: 5%;
 		font-weight: bold;
+
 	}
 	
 	.rowInfo {
 		padding-bottom: 10%;
 		text-align: center;
 	}
+	input {
+		font-size: 16px;
+	}
+</style>
+<style>
+
 </style>
