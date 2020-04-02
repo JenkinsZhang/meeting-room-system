@@ -1,9 +1,10 @@
 <template>
 	<div>
 		<FullCalendar scheduler-license-key="GPL-My-Project-Is-Open-Source"
+		              ref="fullCalendar"
+		              style="padding: 25px;padding-top: 0px"
 		              defaultView="resourceTimelineDay"
-		              editable="true"
-		              :editable=true
+		              :editable=false
 		              :plugins="calendarPlugins"
 		              :minTime="'09:00'"
 		              :maxTime="'22:00'"
@@ -17,9 +18,19 @@
 		              }"
 		              :themeSystem="'bootstrap'"
 		              :datesRender="dateRender"
-		              :height="500"
-		              :resources= "'https://fullcalendar.io/demo-resources.json'"
-		              :events="'https://fullcalendar.io/demo-events.json?single-day&for-resource-timeline'"
+		              :height="450"
+		              :resources="resources"
+		              :resourceColumns="[
+					      {
+					        labelText: 'Room',
+					        field: 'title'
+					      },
+					      {
+					        labelText: 'Capacity',
+					        field: 'capacity'
+					      }
+					    ]"
+		              :events="events"
 		
 		/>
 	
@@ -31,6 +42,7 @@
     import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
     import bootstrapPlugin from '@fullcalendar/bootstrap';
     import interactionPlugin from '@fullcalendar/interaction';
+    import formatDate from '../assets/utils/formatDate'
 
     export default {
 
@@ -40,13 +52,62 @@
         },
         data() {
             return {
-                calendarPlugins: [resourceTimelinePlugin, bootstrapPlugin, interactionPlugin]
+                calendarPlugins: [resourceTimelinePlugin, bootstrapPlugin, interactionPlugin],
+                activeStart: null,
+                activeEnd: null,
+                resources: [],
+                events: []
             }
         },
         methods: {
             dateRender(info) {
-
+                let calendarApi = this.$refs.fullCalendar.getApi();
+                let activeStart = new Date(Date.parse(info.view.activeStart));
+                let activeEnd = new Date(Date.parse(info.view.activeEnd));
+                this.activeStart = activeStart;
+                this.activeEnd = activeEnd;
+                this.getResources();
+                calendarApi.refetchResources();
+                this.getEvents();
+                calendarApi.refetchEvents();
+            },
+            getResources() {
+                this.axios({
+                    url: '/api/roomInfo/roomResources',
+                    method: "GET"
+                }).then((res) => {
+                    if (res.data.code === 200) {
+                        this.resources = res.data.data;
+                    } else {
+                        this.resources = [];
+                    }
+                }).catch((err) => {
+                    this.$messageUtil.errorMessage(this);
+                });
+            },
+            getEvents() {
+                this.axios({
+                    url: '/api/booking/calendar/events',
+                    method: "GET",
+                    params: {
+                        startTime: this.activeStart,
+                        endTime: this.activeEnd
+                    }
+                }).then((res) => {
+                    if (res.data.code === 200) {
+                        this.events = res.data.data;
+                    } else {
+                        this.events = []
+                    }
+                }).catch((err) => {
+                    this.$messageUtil.errorMessage(this);
+                })
             }
+
+        },
+        mounted() {
+            this.getResources();
+            this.getEvents();
         }
     }
 </script>

@@ -17,8 +17,6 @@
     "@fullcalendar/resource-timeline": "^4.4.0",
     "@fullcalendar/vue": "^4.4.0",
     "axios": "^0.19.2",
-    "bootstrap": "^4.4.1",
-    "bootstrap-vue": "^2.4.0",
     "core-js": "^3.4.4",
     "element-ui": "^2.13.0",
     "jquery": "^3.4.1",

@@ -20,6 +20,7 @@ export function getUserRoles(){
     let token = localStorage.getItem("access-token");
     if(token == null)
         return null;
+    return jwt.decode(token).roles;
 }
 
 export function getExpireTime(){
@@ -31,7 +32,7 @@ export function getExpireTime(){
 
 export function refreshToken() {
     return axios({
-        url: 'api/auth/refresh',
+        url: '/api/auth/refresh',
         method: "GET"
     })
 }

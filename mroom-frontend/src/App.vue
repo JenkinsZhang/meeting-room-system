@@ -1,11 +1,6 @@
 <template>
   <div id="app">
-<!--    <router-link to="/login">Login</router-link> |-->
-<!--    <router-link to="/registry">Registry</router-link> |-->
-<!--    <router-link to="/">Home</router-link>-->
-    <template>
       <router-view />
-    </template>
     
   </div>
   
@@ -29,4 +24,5 @@ export default {
 .el-table .cell{
     line-height: 40px;
 }
+
 </style>

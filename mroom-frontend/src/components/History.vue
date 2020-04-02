@@ -1,5 +1,5 @@
 <template>
-	<div v-loading="loading">
+	<div>
 		<b-card class="editCard" v-show="cardShow">
 			<b-container fluid class="booking">
 				<p style="color: red">Pay attention! The following fields are all required!</p>
@@ -94,44 +94,45 @@
 				stripe
 				style="width: 100%;"
 				@filter-change="filter"
+				v-loading = loading
 		>
 			<el-table-column type="expand">
 				<template slot-scope="props">
 					<el-form label-position="left" inline class="history-table-expand">
 						<el-form-item>
-							<label>Record ID</label>
+							<label>Record ID: </label>
 							<span><b>{{ props.row.recordId }}</b></span>
 						</el-form-item>
 						<el-form-item>
-							<label>Start Time</label>
+							<label>Start Time: </label>
 							<span><b>{{ props.row.startTime }}</b></span>
 						</el-form-item>
 						<el-form-item>
-							<label>End Time</label>
+							<label>End Time: </label>
 							<span><b>{{ props.row.endTime }}</b></span>
 						</el-form-item>
 						<el-form-item>
-							<label>Creation Time</label>
+							<label>Creation Time: </label>
 							<span><b>{{ props.row.creationTime }}</b></span>
 						</el-form-item>
 						<el-form-item>
-							<label>Room Name</label>
+							<label>Room Name: </label>
 							<span><b>{{ props.row.roomName }}</b></span>
 						</el-form-item>
 						<el-form-item>
-							<label>Room Address</label>
+							<label>Room Address: </label>
 							<span><b>{{ props.row.roomAddress }}</b></span>
 						</el-form-item>
 						<el-form-item>
-							<label>Max People</label>
+							<label>Capacity: </label>
 							<span><b>{{ props.row.maxPeople}}</b></span>
 						</el-form-item>
 						<el-form-item>
-							<label>Projectors</label>
+							<label>Projectors: </label>
 							<span><b>{{ props.row.projection}}</b></span>
 						</el-form-item>
 						<el-form-item>
-							<label>Air Conditioners</label>
+							<label>Air Conditioners: </label>
 							<span><b>{{ props.row.airConditioner}}</b></span>
 						</el-form-item>
 					
@@ -143,7 +144,7 @@
 					prop="recordId"
 					sortable
 					fixed
-					width="60px">
+					width="80px">
 			</el-table-column>
 			<el-table-column
 					label="Start Time"
@@ -176,7 +177,7 @@
 					</el-tag>
 				</template>
 			</el-table-column>
-			<el-table-column label="Action" fixed="right" width="250">
+			<el-table-column label="Action" fixed="right" width="300">
 				<template slot-scope="props">
 					<el-button
 							size="mini"
@@ -298,8 +299,9 @@
         methods: {
             getPageData(val) {
                 this.currentPage = val;
+                this.loading  = true;
                 return this.axios({
-                    url: "api/booking/history/" +
+                    url: "/api/booking/history/" +
                         this.$jwtUtil.getTokenEmail() + "/"
                         + this.currentPage + "/" + this.pageSize,
                     method: 'GET',
@@ -319,11 +321,13 @@
                     }
                 }).catch((error) => {
                     console.log(error)
+                }).finally(()=>{
+                    this.loading = false;
                 })
             },
             getRecordsCount() {
                 return this.axios({
-                    url: "api/booking/history/count/" +
+                    url: "/api/booking/history/count/" +
                         this.$jwtUtil.getTokenEmail(),
                     method: 'GET',
                     params: {
@@ -379,7 +383,7 @@
                     {
                         this.axios({
                             method: "GET",
-                            url: "api/booking/history/"+row.recordId+"/cancel"
+                            url: "/api/booking/history/"+row.recordId+"/cancel"
                         }).then((res)=>{
                             if(res.data.code === 200)
                             {
@@ -396,10 +400,7 @@
                                 })
                             }
                         }).catch((error)=>{
-                            this.$message({
-                                message: "Server Error",
-                                type: "danger"
-                            })
+                            this.$messageUtil.errorMessage(this);
                         })
 
                     }
@@ -428,7 +429,7 @@
                     {
 	                    this.axios({
 		                    method: "GET",
-		                    url: "api/booking//history/"+row.recordId+"/complete"
+		                    url: "/api/booking//history/"+row.recordId+"/complete"
 	                    }).then((res)=>{
 	                        if(res.data.code === 200)
 	                        {
@@ -445,10 +446,7 @@
                                 })
 	                        }
 	                    }).catch((error)=>{
-                            this.$message({
-                                message: "Server Error",
-                                type: "danger"
-                            })
+                            this.$messageUtil.errorMessage(this);
 	                    })
 	                    
                     }
@@ -487,7 +485,7 @@
 				       bookerEmail: bookerEmail,
 				       status: status
 			       },
-			       url: "api/booking/history/edit"
+			       url: "/api/booking/history/edit"
 		       }).then((res)=>{
 		           if(res.data.code === 200) {
 		               this.cardShow = false;
@@ -505,10 +503,7 @@
 		               })
 		           }
 		       }).catch((error)=>{
-                   this.$message({
-                       message: "Server Error!",
-                       type: "danger"
-                   })
+                   this.$messageUtil.errorMessage(this);
 		       })
 	        },
             async filter(filters) {
@@ -568,7 +563,7 @@
             getRooms() {
                 this.axios({
                     method: 'GET',
-                    url: 'api/roomInfo',
+                    url: '/api/roomInfo',
                 }).then((res) => {
                     for (let i = 0; i < res.data.data.length; i++) {
                         let room = res.data.data[i];
@@ -602,7 +597,7 @@
 		position: fixed;
 		left: 20%;
 		text-align: center;
-		z-index: 100;
+		z-index: 11;
 		top: 10%;
 		height: 85%;
 		
@@ -636,7 +631,7 @@
 	}
 	
 	* {
-		font-size: 1rem;
+		font-size: 14px;
 	}
 </style>
 

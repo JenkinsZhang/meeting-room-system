@@ -170,7 +170,7 @@
             getRooms() {
                 this.axios({
                     method: 'GET',
-                    url: 'api/roomInfo',
+                    url: '/api/roomInfo',
                 }).then((res) => {
                     for (let i = 0; i < res.data.data.length; i++) {
                         let room = res.data.data[i];
@@ -259,7 +259,7 @@
                 this.axios({
 	                method: 'POST',
 	                data: submitData,
-	                url: 'api/booking'
+	                url: '/api/booking'
                 }).then((res)=>{
                     this.loading = false;
                     if(res.data.code === 200)
@@ -292,7 +292,14 @@
         },
         mounted() {
             setTimeout(this.changeStatus, 500);
-            this.getRooms()
+            this.getRooms();
+	        
+        },
+	    created() {
+            if(this.$route.params.roomId !== null)
+            {
+                this.roomId = this.$route.params.roomId;
+            }
         }
     }
 </script>

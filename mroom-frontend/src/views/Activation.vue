@@ -30,7 +30,7 @@
             let token = window.location.search;
 		    this.axios({
 			    method: "PUT",
-			    url: 'api/user/activate'+token
+			    url: '/api/user/activate'+token
 		    }).then((res)=>{
 		        if(res.data.code ===200)
 		        {

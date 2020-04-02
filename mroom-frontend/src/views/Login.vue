@@ -7,68 +7,39 @@
 			<br>
 			<h2>欢迎使用会议室预订系统</h2>
 		</div>
-		<b-container fluid="">
-			<b-row style="margin-top: 7%;">
-				<b-col md="4" offset-md="8">
-					<b-card class="login-card"
-					        title="Login"
-					        title-tag="h2"
-							align="center"
-							v-if="show">
-						<b-form   @submit="onSubmit" style="text-align: left">
-							<b-form-group
-									description="We'll never share your email with anyone else."
-									id="input-group-1"
-									label="Email address:"
-									label-for="input-1"
-							>
-								<b-form-input
-										id="input-1"
-										placeholder="Enter email"
-										required
-										type="email"
-										v-model="form.email"
-								/>
-							</b-form-group>
-							
-							<b-form-group
-									id="input-group-2"
-									label="Your Password:"
-									label-for="input-2">
-								<b-form-input
-										id="input-2"
-										placeholder="Enter your password"
-										required
-										type="password"
-										v-model="form.password"
-								/>
-								<b-form-text id="input-2-help">
-									Please enter your Password
-								</b-form-text>
-							</b-form-group>
-							
-							<br><br>
-							<a href="javascript:void(0);" @click="toRegister" >Do not have an account? Click here!</a>
-							<br><br>
-							<div class="bottom-buttons">
-								<b-button id="submit" type="submit" variant="primary" size="lg">
-									<b-spinner id="spinner" class="small" style="display: none"/>
-									Submit
-								</b-button>
-							</div>
-						
-						</b-form>
-					
-					</b-card>
-				</b-col>
-			</b-row>
-		</b-container>
-		<b-modal id="loginServerError" centered title="Error">
-			Server error! Please try another time !
-		</b-modal>
-		<b-modal id="loginInfoError" centered title="Error">
-			{{errorMsg}}
-		</b-modal>
+		<el-card class="login-card">
+			<div slot="header">
+				<h1>Login</h1>
+			</div>
+			<el-form style="text-align: left" label-position="top" :model="form">
+				<el-form-item label="Please enter your email:" prop="email">
+					<el-input
+							placeholder="Enter email"
+							type="email"
+							v-model="form.email"
+					/>
+					We will never share your email
+				</el-form-item>
+				
+				<el-form-item label="Please enter your password:" prop="password">
+					<el-input
+							placeholder="Enter password"
+							type="text"
+							v-model="form.password"
+					/>
+					We will never share your email
+				</el-form-item>
+				<a href="javascript:void(0);" @click="toRegister">Do not have an account? Click here!</a>
+				<br><br>
+				<div class="bottom-buttons">
+					<el-button  @click="onSubmit" v-loading="loading" id="submit" type="primary" size="medium">
+						<span style="font-size: 1.5rem">
+							Submit</span></el-button>
+				</div>
+			
+			</el-form>
+		
+		</el-card>
 	</div>
 </template>
 
@@ -83,11 +54,9 @@
         //     }
         //     setFeedback()
         // },
-        computed: {
-        
-        },
-	    mounted() {
-            window.scrollTo(0,0)
+        computed: {},
+        mounted() {
+            window.scrollTo(0, 0)
         },
         data() {
             return {
@@ -95,48 +64,50 @@
                     email: '',
                     password: '',
                 },
-	            username: '',
+                username: '',
                 show: true,
-	            errorMsg: ''
+                errorMsg: '',
+	            loading: false
             }
         },
         methods: {
             onSubmit(evt) {
                 evt.preventDefault();
                 $("#submit").get(0).disabled = true;
-                $("#spinner").show();
+                this.loading = true;
                 this.axios({
                     method: 'POST',
                     params: {
                         'email': this.form.email,
-	                    'password': this.form.password
+                        'password': this.form.password
                     },
-                    url: 'api/auth/login'
-                }).then((res)=>{
+                    url: '/api/auth/login'
+                }).then((res) => {
                     // console.log(res);
-	                if(res.data.code===200)
-	                {
-		                let token = res.headers["access-token"];
-		                localStorage.removeItem("access-token");
-		                localStorage.setItem("access-token",token);
-	                    this.$router.push({name:"home"})
-	                }
-	                else {
+                    if (res.data.code === 200) {
+                        let token = res.headers["access-token"];
+                        localStorage.removeItem("access-token");
+                        localStorage.setItem("access-token", token);
+                        this.loading = false;
+                        this.$router.push({name: "home"})
+                    } else {
                         this.errorMsg = res.data.msg;
-                        this.$bvModal.show("loginInfoError");
+                        this.$message({
+	                        message: this.errorMsg,
+	                        type: "warning"
+                        });
                         $("#submit").get(0).disabled = false;
-                        $("#spinner").hide();
-	                }
-                }).catch((error)=>{
-                    this.$bvModal.show("loginServerError");
+                        this.loading = false;
+                    }
+                }).catch((error) => {
                     $("#submit").get(0).disabled = false;
-                    $("#spinner").hide();
-                    
+                    this.$messageUtil.errorMessage(this);
+					this.loading = false;
                 })
             },
-	        toRegister(){
+            toRegister() {
                 this.$router.push("/registry")
-	        }
+            }
         }
     }
 </script>
@@ -174,11 +145,15 @@
 		color: black;
 	}
 	
-	.login-card{
-		background: rgba(255,255,255,0.95);
+	.login-card {
+		background: rgba(255, 255, 255, 0.95);
 		border-radius: 12px;
+		padding: 20px;
+		position: fixed;
+		right: 20px;
+		top: 5%;
+		width: 450px;
 	}
-	
 	
 	
 	.bottom-buttons {
@@ -188,6 +163,7 @@
 		/*padding-top: 10%;*/
 		padding-top: 5%;
 		margin-bottom: 5%;
+		height: 50px;
 		/*border: 5px solid pink;*/
 	}
 	
@@ -196,4 +172,10 @@
 		height: 100%;
 	}
 
+</style>
+
+<style>
+	.el-form-item__label{
+		font-size: 16px;
+	}
 </style>

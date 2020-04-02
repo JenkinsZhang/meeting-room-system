@@ -2,150 +2,67 @@
 	<div>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<div class="registry"></div>
-<!--		<b-alert variant="success" show>Success Alert</b-alert>-->
+		<!--		<b-alert variant="success" show>Success Alert</b-alert>-->
 		<div class="description">
 			<h1>Meeting-Room-Booking</h1>
 			<br>
 			<h2>欢迎使用会议室预订系统</h2>
 		</div>
-		<b-container fluid>
-			<b-row>
-				<b-col md="4" xl="4" offset-md="8" offset-xl="8">
-					<b-card class="registry-card"
-					        title="Welcome to Register"
-					        title-tag="h2"
-					        style="margin-bottom: 5%;margin-top: 5%"
-					        align="center">
-						<b-form @submit="onSubmit" @reset="onReset" v-if="show" style="text-align: left;margin-top: 5%">
-							<b-form-group
-									id="input-group-email"
-									label="Email address:"
-									label-for="input-box-email"
-									:invalid-feedback="emailFeedback"
-							>
-								<b-form-input
-										id="input-box-email"
-										v-model="form.email"
-										type="email"
-										required
-										placeholder="Enter your email"
-										:autofocus="true"
-										:lazy="true"
-										:state="emailValid"
-										v-on:change="emailValidate"
-								/>
-							</b-form-group>
+		<el-row>
+			<el-col :span="8" :offset="5">
+				<el-card class="registry-card"
+				>
+					<div slot="header">
+						<h1>Welcome to Register</h1>
+					</div>
+					<el-form style="text-align: left;" :rules="rules" :model="form" status-icon>
+						<el-form-item label="Email address: " style="margin-bottom: 5%" prop="email">
+							<el-input type="email" placeholder="Enter your email" v-model="form.email">
 							
-							<b-form-group id="input-group-username"
-							              label="Your Username:"
-							              label-for="input-box-username"
-							              :invalid-feedback="usernameFeedback">
-								<b-form-input
-										id="input-box-username"
-										v-model="form.username"
-										required
-										placeholder="Enter your username"
-										:state="usernameValid"
-										:lazy="true"
-										v-on:change="usernameValidate"
-								/>
-							</b-form-group>
+							</el-input>
+						</el-form-item>
+						<el-form-item label="Your Username: " style="margin-bottom: 5%" prop="username">
+							<el-input type="text" placeholder="Enter your username" v-model="form.username">
 							
-							<b-form-group
-									id="input-group-password"
-									label="Your Password:"
-									label-for="input-2"
-									:invalid-feedback="passwordFeedback"
+							</el-input>
+						</el-form-item>
+						<el-form-item label="Your Password: " style="margin-bottom: 5%" prop="password">
+							<el-input type="password" placeholder="Please enter your password!" v-model="form.password">
 							
-							>
-								<b-form-input
-										id="input-box-password"
-										v-model="form.password"
-										required
-										type="password"
-										placeholder="Please enter your password!"
-										:state="passwordValid"
-										:lazy="true"
-										v-on:change="passwordValidate"
-								/>
-							</b-form-group>
+							</el-input>
+						</el-form-item>
+						<el-form-item label="Password validation: " style="margin-bottom: 5%" prop="reEnter">
+							<el-input type="password" placeholder="Please enter your password again!"
+							          v-model="form.reEnter">
 							
-							<b-form-group id="input-group-reEnter"
-							              label="Password validation:"
-							              label-for="input-box-reEnter"
-							              :invalid-feedback="reEnterFeedback"
-							>
-								<b-form-input
-										id="input-box-reEnter"
-										v-model="form.reEnter"
-										required
-										type="password"
-										placeholder="Please enter your password again!"
-										:state="reEnterValid"
-										:lazy="true"
-										v-on:change="reEnterValidate"
-								/>
-							</b-form-group>
+							</el-input>
+						</el-form-item>
+						<el-form-item label="Cellphone: " style="margin-bottom: 5%" prop="phone">
+							<el-input type="phone" placeholder="Please enter your Cellphone number!"
+							          v-model="form.phone">
 							
-							<b-form-group id="input-group-phone"
-							              label="Cellphone:"
-							              label-for="input-box-phone"
-							>
-								<b-form-input
-										id="input-box-phone"
-										v-model="form.phone"
-										required
-										type="tel"
-										placeholder="Please enter your Cellphone number!"
-								/>
-							</b-form-group>
-							
-							<div class="bottom-buttons">
-								<b-button id="submit" type="submit" variant="primary" size="lg">
-									<b-spinner id="spinner" class="small" style="display: none"/>
-									Registry
-								</b-button>
-								<b-button type="reset" variant="danger" size="lg">Reset</b-button>
-							</div>
-						</b-form>
-					</b-card>
-				</b-col>
-			
-			
-			</b-row>
-		</b-container>
+							</el-input>
+						</el-form-item>
+						
+						
+						<div class="bottom-buttons">
+							<el-button v-loading="loading" style="height: 50px;" id="submit" type="primary"
+							           @click="onSubmit">
+								Registry
+							</el-button>
+							<el-button style="height: 50px;" type="danger" @click="onReset">Reset</el-button>
+						</div>
+					</el-form>
+				</el-card>
+			</el-col>
+		
+		
+		</el-row>
 	</div>
 </template>
 
 <script>
     export default {
-        computed: {
-            emailFeedback(){
-                if(this.form.email.length <1)
-                {
-                    return "Please enter your email!"
-                }
-                else {
-                    return this.state === true ? "" : "This email has been registered!"
-                }
-                
-            },
-            usernameFeedback() {
-                return this.state === true ? "" : "Your username should be 5 to 20 characters long!"
-            },
-            passwordFeedback() {
-                return this.state === true ? ""
-                    : "Your password should be 8 to 25 characters long and contain at least one [a-z],one [A-Z] and one [0-9]"
-            },
-            reEnterFeedback() {
-                if (this.form.reEnter.length < 1) {
-                    return "Please enter your password again!"
-                } else if (this.form.password !== this.form.reEnter) {
-                    return "Passwords entered twice are inconsistent"
-                }
-
-            }
-        },
         data() {
             return {
                 form: {
@@ -155,45 +72,122 @@
                     password: '',
                     reEnter: ''
                 },
-                show: true,
+                loading: false,
                 emailValid: null,
-	            usernameValid: null,
-	            passwordValid: null,
-	            reEnterValid: null,
+                usernameValid: null,
+                passwordValid: null,
+                reEnterValid: null,
+                rules: {
+                    email: [
+                        {validator: this.emailValidate, trigger: 'blur'}
+                    ],
+                    username: [
+                        {validator: this.usernameValidate, trigger: 'blur'}
+                    ],
+                    password: [
+                        {validator: this.passwordValidate, trigger: 'blur'}
+                    ],
+                    reEnter: [
+                        {validator: this.reEnterValidate, trigger: 'blur'}
+                    ],
+                    phone: [
+                        {validator: this.phoneValidate, trigger: 'blur'}
+                    ]
+                }
             }
         },
         methods: {
-	        emailValidate() {
-	            if(this.form.email.length<1)
-	            {
-	                this.emailValid = false;
-	                return;
-	            }
-                this.axios({
-	                method: 'POST',
-	                url: "api/user/check/"+this.form.email
-                }).then((res) =>{
-                    console.log(res.data);
-                    console.log(res.data.code === 200);
-                    this.emailValid = res.data.code === 200;
-                }).catch((err)=>{
-                    alert("Server error! Please contact the administrator!")
-                })
+            emailValidate(rule, value, callback) {
+                if (!this.form.email) {
+                    this.emailValid = false;
+                    return callback(new Error('Email can not be null!'))
+                }
+                const mailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+                if (mailReg.test(this.form.email)){
+                    setTimeout(() => {
+                        this.axios({
+                            method: 'POST',
+                            url: "/api/user/check/" + this.form.email
+                        }).then((res) => {
+                            console.log(res.data);
+                            console.log(res.data.code === 200);
+                            this.emailValid = res.data.code === 200;
+                            if (!this.emailValid) {
+                                return callback(new Error('This email has been taken!'))
+                            }
+                            else{
+                                callback()
+                            }
+                        }).catch((err) => {
+                            this.$messageUtil.errorMessage(this);
+                        })
+                    }, 500);
+                }
+				else{
+				    callback(new Error("Invalid email format!"))
+                }
+
             },
-	        usernameValidate(){
+            usernameValidate(rule,value,callback) {
                 this.usernameValid = !(this.form.username.length < 5 || this.form.username.length > 25);
-	        },
-	        passwordValidate(){
+                if(! this.usernameValid)
+                {
+                    return callback(new Error("Your username should be 5 to 25 characters long"))
+                }
+                else {
+                    callback();
+                }
+            },
+            passwordValidate(rule,value,callback) {
                 let reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&]{8,25}/g;
                 this.passwordValid = (this.form.password.match(reg) != null);
-	        },
-	        reEnterValidate(){
-                this.reEnterValid = (this.form.reEnter !== '' && (this.form.reEnter === this.form.password))
+                this.reEnterValid = (this.form.reEnter !== '' && (this.form.reEnter === this.form.password));
+                if(!this.passwordValid) {
+                    return callback(new Error("Your password should be 8 to 25 characters long and contain at least one [a-z],one [A-Z] and one [0-9]"))
+                }else{
+	                callback();
+                }
+            },
+            reEnterValidate(rule,value,callback) {
+                this.reEnterValid = (this.form.reEnter !== '' && (this.form.reEnter === this.form.password));
+	            if(!this.reEnterValid)
+	            {
+	                return callback(new Error("Password should be the same!"))
+	            }
+	            else {
+	                callback();
+	            }
+            },
+	        phoneValidate(rule,value,callback)
+	        {
+                const phoneReg = /^1[3|4|5|7|8][0-9]{9}$/;
+                if (!this.form.phone) {
+                    return callback(new Error("Phone number can not be null"))
+                }
+                setTimeout(() => {
+                    // Number.isInteger是es6验证数字是否为整数的方法,但是我实际用的时候输入的数字总是识别成字符串
+                    // 所以我就在前面加了一个+实现隐式转换
+
+                    if (!Number.isInteger(+this.form.phone)) {
+                        callback(new Error("Please enter number!"))
+                    } else {
+                        if (phoneReg.test(value)) {
+                            callback()
+                        } else {
+                            callback(new Error("Format incorrect!"))
+                        }
+                    }
+                }, 100)
 	        },
             onSubmit(evt) {
                 evt.preventDefault();
 
                 let reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&]{8,25}/g;
+                if (this.emailValid !== true)
+                {
+                    alert("Please enter valid email!");
+                    return;
+                }
                 if (!(this.form.username.length >= 5 && this.form.username.length <= 20)) {
                     alert("Username's length should be between 5~20 characters long");
                     return;
@@ -206,6 +200,7 @@
                     alert("Check the password you re - entered");
                     return;
                 }
+                
                 let submitData = {
                     email: this.form.email,
                     password: this.form.password,
@@ -213,50 +208,43 @@
                     phone: this.form.phone
                 };
                 $("#submit").attr("disabled", false);
-                $("#spinner").show();
+                this.loading = true;
                 this.axios({
                     method: 'POST',
                     data: submitData,
-                    url: 'api/user/registry'
+                    url: '/api/user/registry'
                 }).then((res) => {
                     console.log(res.data);
-                    if(res.data.code === 200)
-                    {
+                    if (res.data.code === 200) {
                         $(window).scrollTop(0);
                         alert("Registry succeeded! An activation email has been sent to your email, now returning to login page");
-                        setTimeout(this.toLogin,3000)
-                    }
-                    else {
+                        this.loading = false;
+                        setTimeout(this.toLogin, 3000)
+                    } else {
                         $("#submit").attr("disabled", false);
-                        $("#spinner").hide();
                         $(window).scrollTop(0);
-	                    alert(res.data.msg)
+                        alert(res.data.msg)
                     }
                 }).catch((error) => {
                     $("#submit").attr("disabled", false);
                     // $("#submit").get(0).disabled = false;
-                    $("#spinner").hide();
+                    this.loading = false;
                     alert("Server error! Please contact the administrator!")
                 })
 
             },
             onReset(evt) {
-                evt.preventDefault();
                 // Reset our form values
-                this.form.email = '';
-                this.form.username = '';
-                this.form.password = '';
-                this.form.reEnter = '';
-                this.form.phone = ''
-                // Trick to reset/clear native browser form validation state
-                // this.show = false
-                // this.$nextTick(() => {
-                //     this.show = true
-                // })
+                this.form.email = null;
+                this.form.username = null;
+                this.form.password = null;
+                this.form.reEnter = null;
+                this.form.phone = null;
+                this.emailValid = false;
             },
-	        toLogin(evt){
-	            this.$router.push("/login")
-	        }
+            toLogin(evt) {
+                this.$router.push("/login")
+            }
         }
     }
 </script>
@@ -297,6 +285,10 @@
 	.registry-card {
 		background: rgba(255, 255, 255, 0.95);
 		border-radius: 12px;
+		padding: 20px;
+		width: 450px;
+		position: absolute;
+		right: 0;
 	}
 	
 	
@@ -323,12 +315,11 @@
 		/*top: 100%;*/
 		/*padding-top: 10%;*/
 		padding-top: 5%;
-		margin-bottom: 5%;
 		/*border: 5px solid pink;*/
 	}
 	
 	.bottom-buttons button:nth-child(1) {
-		margin-left: 10%;
+		margin-left: 5%;
 		width: 40%;
 		/*position: absolute;*/
 		/*left: 20%;*/
@@ -337,11 +328,20 @@
 	
 	.bottom-buttons button:nth-child(2) {
 		margin-left: 10%;
-		width: 30%;
+		width: 40%;
 		/*position: absolute;*/
 		/*right: 20%;*/
 		/*bottom: 3%;*/
 		
 	}
 
+</style>
+<style>
+	.el-form-item__label {
+		font-size: 16px;
+	}
+	
+	.el-form-item__error {
+		font-size: 14px;
+	}
 </style>

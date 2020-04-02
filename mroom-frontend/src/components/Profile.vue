@@ -2,7 +2,7 @@
 	<div id="profile">
 		<b-card title="Personal Information"
 		        style="border-radius: 12px;
-		        height: 90%;text-align: center;"
+		        text-align: center;"
 		>
 			<br>
 			<b-container fluid style="text-align: left;">
@@ -19,6 +19,15 @@
 							<b-col sm="6">
 								<input id="email" disabled="true"
 								       style="width: 100%" v-model="email"/>
+							</b-col>
+						</b-row>
+						<b-row class="rowInfo">
+							<b-col sm="3">
+								<label for="role"/>Role:
+							</b-col>
+							<b-col sm="6">
+								<input id="role" disabled="true"
+								       style="width: 100%" v-model="role"/>
 							</b-col>
 						</b-row>
 						<b-row class="rowInfo">
@@ -64,6 +73,7 @@
                 email: null,
                 username: null,
                 phone: null,
+	            role: null
             }
         },
         methods: {
@@ -80,7 +90,7 @@
 	                return
                 }
                 await this.axios({
-                    url: "api/user/username/" + this.email + "/" + this.username,
+                    url: "/api/user/username/" + this.email + "/" + this.username,
                     method: "PUT"
                 }).then((res) => {
                     if (res.data.code === 200) {
@@ -135,12 +145,12 @@
                     return
                 }
                 this.axios({
-                    url: "api/user/phone/" + this.email + "/" + this.phone,
+                    url: "/api/user/phone/" + this.email + "/" + this.phone,
                     method: "PUT"
                 }).then((res) => {
                     if (res.data.code === 200) {
                         this.axios({
-                            url: "api/user/phone/" + this.email,
+                            url: "/api/user/phone/" + this.email,
                             method: "GET"
                         }).then((res) => {
                             if (res.data.code === 200) {
@@ -180,8 +190,9 @@
 	    mounted() {
             this.username = this.$jwtUtil.getTokenUsername();
             this.email = this.$jwtUtil.getTokenEmail();
+            this.role = this.$jwtUtil.getUserRoles();
             this.axios({
-                url: "api/user/phone/" + this.email,
+                url: "/api/user/phone/" + this.email,
                 method: "GET"
             }).then((res) => {
                 if (res.data.code === 200) {
@@ -210,7 +221,7 @@
 	}
 	
 	.rowInfo {
-		padding-bottom: 20%;
+		padding-bottom: 10%;
 		text-align: center;
 	}
 </style>
