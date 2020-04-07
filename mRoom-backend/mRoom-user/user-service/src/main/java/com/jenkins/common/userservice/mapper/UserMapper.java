@@ -1,6 +1,7 @@
 package com.jenkins.common.userservice.mapper;
 
 import com.jenkins.common.userinterface.entity.User;
+import com.jenkins.common.userinterface.model.Account;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,8 @@ public interface UserMapper {
 
     int deleteByEmail(String email);
 
-    List<User> selectAllUsers();
+    List<Account> getUserByPage(@Param("page") Integer page, @Param("size") Integer size, @Param("user") User user);
 
+    int getTotal(@Param("user") User user);
 
 }

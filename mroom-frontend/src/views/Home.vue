@@ -53,10 +53,6 @@
 					<i class="el-icon-s-data" style="margin-top: -3%"/>
 					<span>My Booking Statistics</span>
 				</el-menu-item>
-				<el-menu-item index="/views/admin/bookingStatistics">
-					<i class="el-icon-s-data" style="margin-top: -3%"/>
-					<span>Booking Statistics</span>
-				</el-menu-item>
 			</el-submenu>
 			<el-submenu index="rooms">
 				<template slot="title">
@@ -88,16 +84,13 @@
 					<span>Management</span>
 				</template>
 				<el-menu-item index="/admin/accounts">
-					<i class="el-icon-user-solid" style="margin-top: -3%"/>User Accounts
+					<i class="el-icon-user-solid" style="margin-top: -3%"/>User & Roles
 				</el-menu-item>
 				<el-menu-item index="/admin/records">
 					<i class="el-icon-s-order" style="margin-top: -3%"/>Booking Records
 				</el-menu-item>
 				<el-menu-item index="/admin/rooms">
 					<i class="el-icon-s-platform" style="margin-top: -3%"/>Room Management
-				</el-menu-item>
-				<el-menu-item index="/admin/roles">
-					<i class="el-icon-s-check" style="margin-top: -3%"/>Roles Authorization
 				</el-menu-item>
 			</el-submenu>
 		

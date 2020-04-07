@@ -38,7 +38,7 @@ public class RoleController {
         return userRole;
     }
 
-    @GetMapping("/addUserRole")
+    @PostMapping("/addUserRole")
     public int addUserRole(@RequestBody UserRole userRole)
     {
         return userRoleService.addUserRole(userRole);

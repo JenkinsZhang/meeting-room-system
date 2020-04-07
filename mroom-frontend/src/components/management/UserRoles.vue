@@ -1,12 +1,12 @@
 <template>
-<div>
-	rolesmanagement
-</div>
+	<div>
+		hello world!
+	</div>
 </template>
 
 <script>
     export default {
-        name: "RolesManagement"
+        name: "UserRoles"
     }
 </script>
 

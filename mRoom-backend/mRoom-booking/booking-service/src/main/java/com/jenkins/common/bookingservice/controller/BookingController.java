@@ -48,17 +48,17 @@ public class BookingController {
         return ResultVo.ok("Booking succeeded!");
     }
 
-    @GetMapping("/history/{bookerEmail}/{page}/{pageSize}")
+    @GetMapping("/history/{bookerEmail}/{page}/{size}")
     public ResultVo getHistory(@PathVariable("bookerEmail") String bookerEmail,
                                @PathVariable("page") int page,
-                               @PathVariable("pageSize") int pageSize,
+                               @PathVariable("size") int size,
                                @RequestParam("filters") int[] filters)
     {
         if(filters == null || filters.length == 0)
         {
             filters = new int[]{-1, 0, 1};
         }
-        List<BookingHistoryModel> bookingHistoryModels = bookingService.bookingHistory(bookerEmail, page, pageSize,filters);
+        List<BookingHistoryModel> bookingHistoryModels = bookingService.bookingHistory(bookerEmail, page, size,filters);
         if(bookingHistoryModels == null || bookingHistoryModels.size() ==0)
         {
             return ResultVo.error("No booking history!");

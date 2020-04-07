@@ -11,7 +11,7 @@
 				<el-row>
 					<el-col :span="8">
 						
-						<img src="../assets/images/avatar.jpeg"  width="100%" height="300">
+						<img src="../../assets/images/avatar.jpeg" width="100%" height="300">
 					</el-col>
 					<el-col :span="16">
 						<el-row class="rowInfo">

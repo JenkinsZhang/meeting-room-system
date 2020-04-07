@@ -63,9 +63,9 @@ public class BookingService {
         return bookingRecordMapper.insertBookingRecord(bookingRecord);
     }
 
-    public List<BookingHistoryModel> bookingHistory(String bookerEmail,int page,int page_size,int[] filters)
+    public List<BookingHistoryModel> bookingHistory(String bookerEmail,int page,int size,int[] filters)
     {
-        List<BookingRecord> bookingRecords = bookingRecordMapper.selectBookingRecordByUserEmail(bookerEmail,page-1,page_size,filters);
+        List<BookingRecord> bookingRecords = bookingRecordMapper.selectBookingRecordByUserEmail(bookerEmail,page-1,size,filters);
 
         List<BookingHistoryModel> history = new ArrayList<>();
         for (BookingRecord bookingRecord : bookingRecords) {

@@ -6,3 +6,17 @@ export function errorMessage(vm){
     })
 }
 
+export function successMessage(vm,msg) {
+    return vm.$message({
+        message: msg,
+        type: "success"
+    })
+}
+
+export function warningMessage(vm,msg){
+    return vm.$message({
+        message: msg,
+        type: "warning"
+    })
+}
+

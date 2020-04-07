@@ -92,7 +92,10 @@
 				stripe
 				style="width: 100%;margin-left: 20px"
 				@filter-change="filter"
-				v-loading.fullscreen = loading
+				v-loading="loading"
+				element-loading-text="Loading..."
+				element-loading-spinner="el-icon-loading"
+				element-loading-background="rgba(0, 0, 0, 0.8)"
 		>
 			<el-table-column type="expand">
 				<template slot-scope="props">
@@ -200,9 +203,10 @@
 		</el-table>
 		<el-pagination
 				background
-				layout="prev, pager, next"
+				layout="sizes, prev, pager, next, jumper, ->, total, slot"
 				:total="totalItems"
-				@current-change="getPageData"
+				@current-change="currentChange"
+				@size-change="sizeChange"
 				class="history-pagination"
 				:page-size="pageSize"
 				:current-page.sync="currentPage"
@@ -223,8 +227,8 @@
                 darkActive: false,
                 historyRecords: [],
                 currentPage: 1,
-                totalItems: 50,
-                pageSize: 8,
+                totalItems: 0,
+                pageSize: 10,
                 newFilters: [-1, 0, 1],
                 selectedRecord:{
                     date: '',
@@ -268,9 +272,10 @@
             this.cardShow = false;
             this.changeStatus();
             await this.getRooms();
-            await this.getPageData(1);
-
             await this.getRecordsCount();
+            await this.getPageData();
+
+            
             this.changeStatus();
             window.scrollTo(0,0)
 	        
@@ -278,8 +283,15 @@
 
         },
         methods: {
-            getPageData(val) {
+            currentChange(val) {
                 this.currentPage = val;
+                this.getPageData();
+            },
+	        sizeChange(val) {
+                this.pageSize = val;
+                this.getPageData();
+	        },
+            getPageData() {
                 return this.axios({
                     url: "/api/booking/history/" +
                         this.$jwtUtil.getTokenEmail() + "/"

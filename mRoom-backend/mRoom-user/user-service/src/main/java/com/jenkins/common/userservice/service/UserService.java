@@ -1,19 +1,24 @@
 package com.jenkins.common.userservice.service;
 
 
+import com.jenkins.common.components.model.AccountVo;
 import com.jenkins.common.components.model.ResultVo;
+import com.jenkins.common.userinterface.entity.Role;
 import com.jenkins.common.userinterface.entity.User;
 import com.jenkins.common.userinterface.entity.UserRole;
+import com.jenkins.common.userinterface.model.Account;
 import com.jenkins.common.userservice.client.AuthClient;
+import com.jenkins.common.userservice.mapper.RoleMapper;
 import com.jenkins.common.userservice.mapper.UserMapper;
 import com.jenkins.common.userservice.mapper.UserRoleMapper;
 import com.jenkins.common.userservice.utils.JwtUtil;
 import com.jenkins.common.userservice.utils.MailUtil;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * @author jenkinszhang
@@ -26,28 +31,49 @@ import java.util.List;
 @Service
 public class UserService {
 
-    @Autowired
     private UserMapper userMapper;
 
-    @Autowired
     private UserRoleMapper userRoleMapper;
 
-    @Autowired
+    private RoleMapper roleMapper;
+
     private MailUtil mailUtil;
 
-    @Autowired
     private JwtUtil jwtUtil;
 
-    @Autowired
     private AuthClient authClient;
+
+    @Autowired
+    public UserService(UserMapper userMapper, UserRoleMapper userRoleMapper, RoleMapper roleMapper, MailUtil mailUtil, JwtUtil jwtUtil, AuthClient authClient) {
+        this.userMapper = userMapper;
+        this.userRoleMapper = userRoleMapper;
+        this.roleMapper = roleMapper;
+        this.mailUtil = mailUtil;
+        this.jwtUtil = jwtUtil;
+        this.authClient = authClient;
+    }
 
     public User queryUser(String email, String password) {
         return userMapper.queryUser(email, password);
     }
 
-    public List<User> selectAllUsers() {
-        return userMapper.selectAllUsers();
+    public AccountVo getAccounts(Integer page,Integer size,User user){
+        List<Account> accounts = userMapper.getUserByPage(page-1, size, user);
+        for (Account account : accounts) {
+            long id = account.getId();
+            account.setViewId(String.format("%07d",id));
+            int active = account.getActive();
+            account.setStatus(active == 1 ? "Activated" :"Unactivated");
+        }
+
+        int total = userMapper.getTotal(user);
+        AccountVo accountVo = new AccountVo();
+        accountVo.setAccounts(accounts);
+        accountVo.setTotal((long) total);
+        return accountVo;
     }
+
+
 
     /**
      * This method does:
@@ -90,14 +116,43 @@ public class UserService {
         return 1;
     }
 
-    public int deleteByEmail(String email) {
-        return userMapper.deleteByEmail(email);
-    }
+    public int deleteUser(String email)
+    {
+        User user = new User();
+        user.setEmail(email);
+        user.setActive(0);
 
-    public int updateByEmail(User user) {
         return userMapper.updateSelective(user);
     }
 
+    public int updateUser(User user) {
+        int userId = user.getId();
+        String userEmail = user.getEmail();
+        User existingUser = userMapper.selectUserByEmail(userEmail);
+        if(existingUser == null)
+        {
+            return userMapper.updateSelective(user);
+        }else {
+            if(existingUser.getId() == userId)
+            {
+                return userMapper.updateSelective(user);
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+
+    }
+
+    public int activateByEmail(String email)
+    {
+        User user = new User();
+        user.setActive(1);
+        user.setEmail(email);
+        return userMapper.updateSelective(user);
+    }
     public int activateUser(String token) {
 
         if(jwtUtil.verifyActivationToken(token) == null)
@@ -115,6 +170,16 @@ public class UserService {
         return userMapper.getSalt(email);
     }
 
+    public String getEmailById(int id){
+        String email = userMapper.getEmail(id);
+        return email;
+    }
+
+    public List<Account> getUserByPage(Integer page,Integer size,User user)
+    {
+        page = page-1;
+        return userMapper.getUserByPage(page,size,user);
+    }
     public int sendVerificationEmail(User user){
         String email = user.getEmail();
         String username = user.getUsername();
@@ -123,10 +188,6 @@ public class UserService {
         return mailUtil.sendHtmlMail("noreplyz@163.com",email,"Test Mail",username,url);
     }
 
-    public String getEmailById(int id){
-        String email = userMapper.getEmail(id);
-        return email;
-    }
 
     public boolean checkEmail(String email){
         User user = userMapper.selectUserByEmail(email);

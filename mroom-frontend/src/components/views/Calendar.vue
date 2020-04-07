@@ -42,7 +42,7 @@
     import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
     import bootstrapPlugin from '@fullcalendar/bootstrap';
     import interactionPlugin from '@fullcalendar/interaction';
-    import formatDate from '../assets/utils/formatDate'
+    import formatDate from '../../assets/utils/formatDate'
 
     export default {
 
@@ -118,11 +118,11 @@
 
 <style lang='scss'>
 	
-	@import '~@fullcalendar/core/main.css';
-	@import '~@fullcalendar/timeline/main.css';
-	@import '~@fullcalendar/resource-timeline/main.css';
-	@import '~@fullcalendar/bootstrap/main.css';
-	@import '~@fullcalendar/daygrid/main.css';
+	@import '../../../node_modules/@fullcalendar/core/main.css';
+	@import '../../../node_modules/@fullcalendar/timeline/main.css';
+	@import '../../../node_modules/@fullcalendar/resource-timeline/main.css';
+	@import '../../../node_modules/@fullcalendar/bootstrap/main.css';
+	@import '../../../node_modules/@fullcalendar/daygrid/main.css';
 	@import url('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css');
 	@import url('https://use.fontawesome.com/releases/v5.0.6/css/all.css');
 

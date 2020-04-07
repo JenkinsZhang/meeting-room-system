@@ -46,7 +46,7 @@ const router = new VueRouter({
                     {
                         path: '/booking/reservation',
                         name: 'booking',
-                        component: ()=>import("../components/Reservation"),
+                        component: ()=>import("../components/booking/Reservation"),
                         meta: {
                             title: 'Booking Room',
                             icon: 'el-icon-s-claim'
@@ -55,7 +55,7 @@ const router = new VueRouter({
                     {
                         path: '/booking/history',
                         name: 'history',
-                        component: ()=>import("../components/History"),
+                        component: ()=>import("../components/booking/History"),
                         meta: {
                             title: 'Booking History',
                             icon: 'el-icon-time'
@@ -64,7 +64,7 @@ const router = new VueRouter({
                     {
                         path: '/views/calendar',
                         name: 'calendar',
-                        component: ()=>import("../components/Calendar"),
+                        component: ()=>import("../components/views/Calendar"),
                         meta: {
                             title: 'Resources Calendar',
                             icon: 'el-icon-date'
@@ -73,25 +73,16 @@ const router = new VueRouter({
                     {
                         path: '/views/bookingStatistics',
                         name: 'bookingStatistics',
-                        component: ()=>import("../components/BookingStatistics"),
+                        component: ()=>import("../components/views/BookingStatistics"),
                         meta: {
                             title: 'My Booking Statistics',
                             icon: 'el-icon-s-data'
                         }
                     },
                     {
-                        path: '/views/admin/bookingStatistics',
-                        name: 'adminBookingStatistics',
-                        component: ()=>import("../components/AdminBookingStatistics"),
-                        meta: {
-                            title: 'Booking Statistics',
-                            icon: 'el-icon-s-data'
-                        }
-                    },
-                    {
                         path: '/rooms/overview',
                         name: 'rooms',
-                        component: ()=>import("../components/Rooms"),
+                        component: ()=>import("../components/rooms/Rooms"),
                         meta: {
                             title: 'Room Overview',
                             icon: 'el-icon-monitor'
@@ -100,7 +91,7 @@ const router = new VueRouter({
                     {
                         path: '/rooms/repairReport',
                         name: 'report',
-                        component: ()=>import("../components/RepairReport"),
+                        component: ()=>import("../components/rooms/RepairReport"),
                         meta: {
                             title: 'Repair Report',
                             icon: 'el-icon-setting'
@@ -109,7 +100,7 @@ const router = new VueRouter({
                     {
                         path: 'user/profile',
                         name: "profile",
-                        component: ()=>import("../components/Profile"),
+                        component: ()=>import("../components/user/Profile"),
                         meta: {
                             title: "My Profile",
                             icon: "el-icon-document"
@@ -118,7 +109,7 @@ const router = new VueRouter({
                     {
                         path: "user/password",
                         name: "password",
-                        component: ()=>import("../components/Password"),
+                        component: ()=>import("../components/user/Password"),
                         meta: {
                             title: "Change Password",
                             icon: "el-icon-edit"
@@ -127,16 +118,16 @@ const router = new VueRouter({
                     {
                         path: "/admin/accounts",
                         name: "accounts",
-                        component: ()=>import("../components/AccountManagement"),
+                        component: ()=>import("../components/management/UserAndRoles"),
                         meta: {
-                            title: "User Accounts",
+                            title: "User & Roles",
                             icon: "el-icon-user-solid"
                         }
                     },
                     {
                         path: "/admin/records",
                         name: "records",
-                        component: ()=>import("../components/BookingManagement"),
+                        component: ()=>import("../components/management/BookingManagement"),
                         meta: {
                             title: "Booking Records",
                             icon: "el-icon-s-order"
@@ -145,19 +136,10 @@ const router = new VueRouter({
                     {
                         path: "/admin/rooms",
                         name: "adminRooms",
-                        component: ()=>import("../components/RoomsManagement"),
+                        component: ()=>import("../components/management/RoomsManagement"),
                         meta: {
                             title: "Room Management",
                             icon: "el-icon-s-platform"
-                        }
-                    },
-                    {
-                        path: "/admin/roles",
-                        name: "roles",
-                        component: ()=>import("../components/RolesManagement"),
-                        meta: {
-                            title: "Roles Authorization",
-                            icon: "el-icon-s-check"
                         }
                     },
 
@@ -212,7 +194,7 @@ const router = new VueRouter({
 //             }
 //             //redirect to login page
 //             else if (expireTime < greaterNow) {
-//                 alert("User authentication expired");
+//                 alert("user authentication expired");
 //                 console.log(expireTime < greaterNow)
 //                 localStorage.removeItem("access-token");
 //                 next("/login")

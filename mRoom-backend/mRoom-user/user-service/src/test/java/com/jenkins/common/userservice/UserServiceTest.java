@@ -28,11 +28,7 @@ public class UserServiceTest {
         System.out.println(i);
     }
 
-    @Test
-    public void testAll(){
-        List<User> users = userService.selectAllUsers();
-        System.out.println(users);
-    }
+
 
     @Test
     public void testMail(){

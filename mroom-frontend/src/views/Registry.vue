@@ -158,8 +158,7 @@
 	                callback();
 	            }
             },
-	        phoneValidate(rule,value,callback)
-	        {
+	        phoneValidate(rule,value,callback) {
                 const phoneReg = /^1[3|4|5|7|8][0-9]{9}$/;
                 if (!this.form.phone) {
                     return callback(new Error("Phone number can not be null"))

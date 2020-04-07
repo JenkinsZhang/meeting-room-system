@@ -52,7 +52,7 @@
     </delete>
 
     <select id="selectBookingRecordByUserEmail" resultMap="Base_Result_Map">
-        <bind name="offset" value="page*pageSize"/>
+        <bind name="offset" value="page*size"/>
         select <include refid="Base_Column_List"/>,now()-start_time as sort
         from bk_record where booker_email = #{bookerEmail} and status in
         <foreach collection="filters" item="status" open="(" separator="," close=")">
@@ -67,6 +67,7 @@
             #{status}
         </foreach>
     </select>
+
     <select id="getCalendarEvents" resultMap="Base_Result_Map">
         select  <include refid="Base_Column_List"></include>
         from bk_record where start_time &gt;= #{startTime} and end_time &lt;= #{endTime} and status = 0

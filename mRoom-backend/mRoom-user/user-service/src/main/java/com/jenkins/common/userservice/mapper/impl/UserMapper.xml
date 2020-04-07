@@ -14,6 +14,16 @@
         <result column="active" property="active"/>
 
     </resultMap>
+    <resultMap id="Account" type="com.jenkins.common.userinterface.model.Account">
+        <id column="userId" property="id"/>
+        <result column="username" property="username"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="active" property="active"/>
+        <result column="role_id" property="roleId"/>
+        <result column="role_name" property="roleName"/>
+    </resultMap>
+
     <sql id="Base_Column_List">
         id,username,password,phone,email,salt,active
     </sql>
@@ -35,13 +45,60 @@
         select salt from bk_user
         where email = #{email}
     </select>
-    <select id="selectAllUsers" resultMap="Base_Result_Map">
-        select * from bk_user
-    </select>
+
 
     <select id="getEmail" resultType="java.lang.String">
         select email from bk_user
         where id = #{id}
+    </select>
+
+
+    <select id="getUserByPage" resultMap="Account">
+        <bind name="offset" value="page*size"/>
+
+        select bk_user.id as userId,username,email,phone,active,role_id,role_name from bk_user
+        LEFT JOIN bk_user_role on bk_user.id = bk_user_role.user_id
+        LEFT JOIN bk_role on bk_user_role.role_id = bk_role.id
+        where 1 = 1
+        <if test="user !=null">
+            <if test="user.username!=null and user.username !=''">
+                and bk_user.username like concat('%',#{user.username},'%')
+            </if>
+            <if test="user.id !=0">
+                and bk_user.id like concat('%',#{user.id},"%")
+            </if>
+            <if test="user.email !=null">
+                and bk_user.email = #{user.email}
+            </if>
+            <if test="user.phone != null">
+                and bk_user.phone like concat('%',#{user.phone},'%')
+            </if>
+            <if test="page !=null and size!=null">
+                limit #{offset},#{size}
+            </if>
+        </if>
+
+    </select>
+
+    <select id="getTotal" resultType="java.lang.Integer">
+        select count(*) from bk_user
+        <where>
+            <if test="user !=null">
+                <if test="user.username !=null and user.username !=''">
+                    and bk_user.username like concat('%',#{user.username},'%')
+                </if>
+                <if test="user.email !=null">
+                    and bk_user.email = #{user.email}
+                </if>
+                <if test="user.id != 0">
+                    and bk_user.id = #{user.id}
+                </if>
+                <if test="user.phone != null">
+                    and bk_user.phone like concat('%',#{user.phone},'%')
+                </if>
+
+            </if>
+        </where>
     </select>
 
 
@@ -74,7 +131,7 @@
                 password = #{user.password},
             </if>
         </set>
-        where email = #{user.email}
+        where email = #{user.email} or id = #{user.id}
     </update>
 
 

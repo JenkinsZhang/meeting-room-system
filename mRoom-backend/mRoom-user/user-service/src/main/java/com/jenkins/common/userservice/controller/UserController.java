@@ -3,10 +3,13 @@ package com.jenkins.common.userservice.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.jenkins.common.authinterface.model.UserInfo;
+import com.jenkins.common.components.model.AccountVo;
 import com.jenkins.common.components.model.ResultVo;
 import com.jenkins.common.userinterface.entity.User;
+import com.jenkins.common.userinterface.model.Account;
 import com.jenkins.common.userservice.client.AuthClient;
 import com.jenkins.common.userservice.service.UserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author jenkinszhang
@@ -44,25 +48,61 @@ public class UserController {
     }
 
 
-    /**
-     * TODO
-     * @param token
-     * @return
-     */
-    @GetMapping("")
-    public ResultVo selectAllUsers(@RequestHeader("access-token") String token) {
-        ResultVo resultVo = authClient.verifyToken(token);
-        UserInfo userInfo = (UserInfo) resultVo.getData();
-        List<String> roles = userInfo.getRoles();
-        if(roles.size()<2)
-        {
-            return ResultVo.error("You're not authorized!");
-        }
-        List<User> users = userService.selectAllUsers();
-        return ResultVo.ok("Select successful!",users);
+
+    @GetMapping("admin/accounts")
+    public ResultVo selectAccountsByPage(@RequestParam(defaultValue = "1") Integer page,
+                                         @RequestParam(defaultValue = "10") Integer size,
+                                         User user) {
+
+
+        AccountVo accounts = userService.getAccounts(page, size, user);
+        System.out.println(accounts);
+        return ResultVo.ok("OK",accounts);
+    }
+
+    @PostMapping("admin/addAccount")
+    public ResultVo addAccount(@RequestBody  User user)
+    {
+        int code = userService.addUser(user);
+        return code == 1 ? ResultVo.ok("User added!") : ResultVo.error("Failed!");
+    }
+
+    @DeleteMapping("admin/{email}")
+    public ResultVo deleteByEmail(@PathVariable("email") String email) {
+        int code = userService.deleteUser(email);
+        return code == 1 ? ResultVo.ok("Account closed!") : ResultVo.error("Failed!");
     }
 
 
+    @PutMapping("admin/{email}")
+    public ResultVo activateByEmail(@PathVariable("email") String email)
+    {
+        int i = userService.activateByEmail(email);
+        return i == 1? ResultVo.ok("User activated") : ResultVo.error("Failed");
+    }
+    @PutMapping("admin")
+    public ResultVo editUser(User user)
+    {
+        int code = userService.updateUser(user);
+        if(code == -1)
+        {
+            return ResultVo.error("Email address already exists");
+        }
+        if(code == 0)
+        {
+            return ResultVo.error("Failed! Please check all fields!");
+        }
+        if(code == 1)
+        {
+            return ResultVo.ok("Success!");
+        }
+        return ResultVo.error("Unexpected Error!");
+    }
+    /**
+     * TODO Email Validation
+     * @param user
+     * @return
+     */
     @PostMapping("/registry")
     public ResultVo registry(@RequestBody User user) {
         int addCode = userService.addUser(user);
@@ -82,10 +122,6 @@ public class UserController {
         return ResultVo.ok("Registry success! Return to login page!");
     }
 
-    @PutMapping("")
-    public int updateByEmail(@RequestBody User user) {
-        return userService.updateByEmail(user);
-    }
 
     /**
      *
@@ -134,10 +170,7 @@ public class UserController {
         return ResultVo.ok("Activation success!");
     }
 
-    @DeleteMapping("email/{email}")
-    public int deleteByEmail(@PathVariable("email") String email) {
-        return userService.deleteByEmail(email);
-    }
+
 
     @PostMapping("check/{email}")
     public ResultVo checkEmail(@PathVariable("email") String email)
