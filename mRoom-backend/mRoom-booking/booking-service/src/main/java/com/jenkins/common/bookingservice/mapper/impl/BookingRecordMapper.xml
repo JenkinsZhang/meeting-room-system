@@ -58,7 +58,7 @@
         <foreach collection="filters" item="status" open="(" separator="," close=")">
                 #{status}
         </foreach>
-        order by if(sort&lt;0,0,1) asc,abs(sort) limit #{offset},#{pageSize}
+        order by if(sort&lt;0,0,1) asc,abs(sort) limit #{offset},#{size}
     </select>
 
     <select id="countRecordByEmail" resultType="java.lang.Integer">

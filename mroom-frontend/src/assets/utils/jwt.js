@@ -16,11 +16,18 @@ export function getTokenUsername() {
     return jwt.decode(token).username;
 }
 
-export function getUserRoles(){
+export function getUserRoleName(){
     let token = localStorage.getItem("access-token");
     if(token == null)
         return null;
-    return jwt.decode(token).roles;
+    return jwt.decode(token).roleName;
+}
+
+export function getUserRoleID() {
+    let token = localStorage.getItem("access-token");
+    if(token == null)
+        return null;
+    return jwt.decode(token).roleID;
 }
 
 export function getExpireTime(){

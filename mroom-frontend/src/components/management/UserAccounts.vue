@@ -213,7 +213,7 @@
 
 <script>
     export default {
-        name: "AccountAccounts",
+        name: "UserAccounts",
         data() {
             return {
                 searchValue: {

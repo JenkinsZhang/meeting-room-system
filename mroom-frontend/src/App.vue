@@ -1,15 +1,25 @@
 <template>
   <div id="app">
       <router-view />
-    
   </div>
   
 </template>
 
 <script>
+    import router, {resetRouter} from "./router/router";
+import developerRoutes from "./router/DeveloperRouter";
+    import userRoutes from "./router/userRouter";
+    import {initMenu} from "./assets/utils/menu";
 
 export default {
   name: 'app',
+    created() {
+      if(localStorage.getItem("access-token"))
+      {
+          initMenu(this.$router,this.$store)
+      }
+      
+    }
 }
 </script>
 

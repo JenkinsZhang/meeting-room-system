@@ -3,7 +3,7 @@
 		<el-row>
 			<el-col :span="7" v-for="(room, index) in rooms" :key="room.roomId" :offset="1" style="height: 25%">
 				<el-card :body-style="{ padding: '0px'}" shadow="hover" style="height: 100%;margin-bottom: 20px;padding-bottom: 20px">
-					<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585561997091&di=a6ebbcdeb9b2c5c2c4ee86a37009e81a&imgtype=0&src=http%3A%2F%2Fwww.meilin888.com%2FPublic%2FUploads%2Fimage%2F20170422%2F58fab4b2bb841.jpg"
+					<img :src="room.imageURL"
 					     class="image">
 					<div>
 						<div style="margin-top: 30px;width: 100%;">
@@ -43,7 +43,7 @@
 				class="dialogMain">
 			<el-row>
 				<el-col :span="16">
-					<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585561997091&di=a6ebbcdeb9b2c5c2c4ee86a37009e81a&imgtype=0&src=http%3A%2F%2Fwww.meilin888.com%2FPublic%2FUploads%2Fimage%2F20170422%2F58fab4b2bb841.jpg"
+					<img :src="this.selectedRoom.imageURL"
 					     class="dialogImage" alt="Null"/>
 				</el-col>
 				<el-col :span="7" :offset=1 class="dialogDetail">

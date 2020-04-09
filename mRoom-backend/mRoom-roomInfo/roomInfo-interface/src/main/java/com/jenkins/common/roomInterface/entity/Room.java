@@ -16,7 +16,15 @@ public class Room implements Serializable {
     private int maxPeople;
     private int projection;
     private int airConditioner;
+    private String imageUrl;
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public int getRoomId() {
         return roomId;
@@ -75,6 +83,7 @@ public class Room implements Serializable {
                 ", maxPeople=" + maxPeople +
                 ", projection=" + projection +
                 ", airConditioner=" + airConditioner +
+                ", imageUrl='" + imageUrl + '\'' +
                 '}';
     }
 }

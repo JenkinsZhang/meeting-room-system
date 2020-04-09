@@ -25,79 +25,79 @@
 		<el-menu
 				class="side-bar"
 				:default-active="getRouterName"
+				:unique-opened="true"
 				router>
-			<el-submenu index="booking">
+			<el-submenu :index="item.name" v-for="(item,index) in routes" :key="index">
 				<template slot="title">
-					<i class="el-icon-reading" style="margin-top: -3%"/>
-					<span>Booking</span>
+					<i :class="item.meta.icon" style="margin-top: -3%"/>
+					<span>{{item.name}}</span>
 				</template>
-				<el-menu-item index="/booking/reservation">
-					<i class="el-icon-s-claim" style="margin-top: -3%"/>
-					<span>Booking Room</span>
-				</el-menu-item>
-				<el-menu-item index="/booking/history">
-					<i class="el-icon-time" style="margin-top: -3%"/>
-					<span>Booking History</span>
+				<el-menu-item :index="child.path" v-for="(child,index) in item.children" :key="index">
+					<i :class="child.meta.icon" style="margin-top: -3%"/>
+					<span>{{child.meta.title}}</span>
 				</el-menu-item>
 			</el-submenu>
-			<el-submenu index="views">
-				<template slot="title">
-					<i class="el-icon-view" style="margin-top: -3%"/>
-					<span>Views</span>
-				</template>
-				<el-menu-item index="/views/calendar">
-					<i class="el-icon-date" style="margin-top: -3%"/>
-					<span>Resources Calendar</span>
-				</el-menu-item>
-				<el-menu-item index="/views/bookingStatistics">
-					<i class="el-icon-s-data" style="margin-top: -3%"/>
-					<span>My Booking Statistics</span>
-				</el-menu-item>
-			</el-submenu>
-			<el-submenu index="rooms">
-				<template slot="title">
-					<i class="el-icon-office-building" style="margin-top: -3%"/>
-					<span>Rooms</span>
-				</template>
-				<el-menu-item index="/rooms/overview">
-					<i class="el-icon-monitor" style="margin-top: -3%"/>Room Overview
-				</el-menu-item>
-				<el-menu-item index="/rooms/repairReport">
-					<i class="el-icon-setting" style="margin-top: -3%"/>Repair Report
-				</el-menu-item>
-			</el-submenu>
-			<el-submenu index="user">
-				<template slot="title">
-					<i class="el-icon-user" style="margin-top: -3%"/>
-					<span>User</span>
-				</template>
-				<el-menu-item index="/user/profile">
-					<i class="el-icon-document" style="margin-top: -3%"/>My Profile
-				</el-menu-item>
-				<el-menu-item index="/user/password">
-					<i class="el-icon-edit" style="margin-top: -3%"/>Change Password
-				</el-menu-item>
-			</el-submenu>
-			<el-submenu index="management">
-				<template slot="title">
-					<i class="el-icon-s-custom" style="margin-top: -3%"/>
-					<span>Management</span>
-				</template>
-				<el-menu-item index="/admin/accounts">
-					<i class="el-icon-user-solid" style="margin-top: -3%"/>User & Roles
-				</el-menu-item>
-				<el-menu-item index="/admin/records">
-					<i class="el-icon-s-order" style="margin-top: -3%"/>Booking Records
-				</el-menu-item>
-				<el-menu-item index="/admin/rooms">
-					<i class="el-icon-s-platform" style="margin-top: -3%"/>Room Management
-				</el-menu-item>
-			</el-submenu>
+<!--			<el-submenu index="views">-->
+<!--				<template slot="title">-->
+<!--					<i class="el-icon-view" style="margin-top: -3%"/>-->
+<!--					<span>Views</span>-->
+<!--				</template>-->
+<!--				<el-menu-item index="/views/calendar">-->
+<!--					<i class="el-icon-date" style="margin-top: -3%"/>-->
+<!--					<span>Resources Calendar</span>-->
+<!--				</el-menu-item>-->
+<!--				<el-menu-item index="/views/bookingStatistics">-->
+<!--					<i class="el-icon-s-data" style="margin-top: -3%"/>-->
+<!--					<span>My Booking Statistics</span>-->
+<!--				</el-menu-item>-->
+<!--			</el-submenu>-->
+<!--			<el-submenu index="rooms">-->
+<!--				<template slot="title">-->
+<!--					<i class="el-icon-office-building" style="margin-top: -3%"/>-->
+<!--					<span>Rooms</span>-->
+<!--				</template>-->
+<!--				<el-menu-item index="/rooms/overview">-->
+<!--					<i class="el-icon-monitor" style="margin-top: -3%"/>Room Overview-->
+<!--				</el-menu-item>-->
+<!--				<el-menu-item index="/rooms/repairReport">-->
+<!--					<i class="el-icon-setting" style="margin-top: -3%"/>Repair Report-->
+<!--				</el-menu-item>-->
+<!--			</el-submenu>-->
+<!--			<el-submenu index="user">-->
+<!--				<template slot="title">-->
+<!--					<i class="el-icon-user" style="margin-top: -3%"/>-->
+<!--					<span>User</span>-->
+<!--				</template>-->
+<!--				<el-menu-item index="/user/profile">-->
+<!--					<i class="el-icon-document" style="margin-top: -3%"/>My Profile-->
+<!--				</el-menu-item>-->
+<!--				<el-menu-item index="/user/password">-->
+<!--					<i class="el-icon-edit" style="margin-top: -3%"/>Change Password-->
+<!--				</el-menu-item>-->
+<!--			</el-submenu>-->
+<!--			<el-submenu index="management">-->
+<!--				<template slot="title">-->
+<!--					<i class="el-icon-s-custom" style="margin-top: -3%"/>-->
+<!--					<span>Management</span>-->
+<!--				</template>-->
+<!--				<el-menu-item index="/admin/accounts">-->
+<!--					<i class="el-icon-user-solid" style="margin-top: -3%"/>User Accounts-->
+<!--				</el-menu-item>-->
+<!--				<el-menu-item index="/admin/records">-->
+<!--					<i class="el-icon-s-order" style="margin-top: -3%"/>Booking Records-->
+<!--				</el-menu-item>-->
+<!--				<el-menu-item index="/admin/rooms">-->
+<!--					<i class="el-icon-s-platform" style="margin-top: -3%"/>Room Management-->
+<!--				</el-menu-item>-->
+<!--				<el-menu-item index="/admin/roles">-->
+<!--					<i class="el-icon-s-cooperation" style="margin-top: -3%"/>Roles Management-->
+<!--				</el-menu-item>-->
+<!--			</el-submenu>-->
 		
 		
 		</el-menu>
 		<router-view class="main-body" @renderUsername="renderUsername" />
-	
+		
 	
 	</div>
 
@@ -110,7 +110,7 @@
             return {
                 username: this.$jwtUtil.getTokenUsername(),
                 isActive: false,
-                show: true
+                show: true,
             }
         },
         methods: {
@@ -126,6 +126,7 @@
                     if (value) {
 
                         localStorage.removeItem("access-token");
+                        this.$store.commit("initRoutes",[]);
                         this.username = '';
                         this.$router.push("/login");
                     }
@@ -137,19 +138,21 @@
                 console.log(this.username);
             },
             toHome() {
-                this.$router.push("/")
+                this.$router.push("/home")
             }
         },
         computed: {
             getRouterName() {
-
-                return this.$route.path;
-
-            }
+	            return this.$route.path;
+            },
+	        routes(){
+                return this.$store.state.routes;
+	        }
         },
         mounted() {
             // console.log(localStorage.getItem("access-token"))
-            console.log(this.$jwtUtil.getTokenEmail())
+            console.log(this.$jwtUtil.getTokenEmail());
+            console.log(this.menus)
         }
     }
 </script>

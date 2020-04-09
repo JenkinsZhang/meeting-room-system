@@ -84,13 +84,13 @@ public class AuthService {
         /*
             get user's roles
          */
-        List<Integer> userRoleId = authUserMapper.getUserRoles(authUser.getId());
+        List<Integer> userRoleIds = authUserMapper.getUserRoles(authUser.getId());
+        Integer userRoleId = userRoleIds.get(0);
         System.out.println(userRoleId);
-        List<String> roles = new LinkedList<>();
-        for (Integer role_id : userRoleId) {
-            roles.add(authUserMapper.getRoleName(role_id));
-        }
-        userInfo.setRoles(roles);
+        String roleName = authUserMapper.getRoleName(userRoleId);
+
+        userInfo.setRoleID(userRoleId);
+        userInfo.setRoleName(roleName);
 
 //        System.out.println(userInfo);
         String token = jwtUtil.createToken(userInfo);

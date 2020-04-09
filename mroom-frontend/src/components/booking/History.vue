@@ -75,7 +75,7 @@
 					</el-col>
 				</el-row>
 				<el-row class="booking_row" style="text-align: center">
-					<el-col md="12">
+					<el-col :span="24">
 						<el-button @click="submitEdit" style="width: 100px" type="primary">Submit
 						</el-button>
 						<el-button @click="cancelEdit" style="margin-left: 20%;width: 100px" type="danger">
@@ -565,7 +565,7 @@
                 })
             },
 	        async refresh(){
-                await this.getPageData(1);
+                await this.getPageData();
                 await this.getRecordsCount();
 	        }
 	        

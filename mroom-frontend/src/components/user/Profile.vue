@@ -29,7 +29,7 @@
 							</el-col>
 							<el-col :span="12">
 								<input id="role" disabled="true"
-								       style="width: 100%" v-model="role"/>
+								       style="width: 100%" v-model="roleName"/>
 							</el-col>
 						</el-row>
 						<el-row class="rowInfo">
@@ -75,7 +75,7 @@
                 email: null,
                 username: null,
                 phone: null,
-	            role: null
+	            roleName: null
             }
         },
         methods: {
@@ -192,7 +192,7 @@
 	    mounted() {
             this.username = this.$jwtUtil.getTokenUsername();
             this.email = this.$jwtUtil.getTokenEmail();
-            this.role = this.$jwtUtil.getUserRoles();
+            this.roleName = this.$jwtUtil.getUserRoleName();
             this.axios({
                 url: "/api/user/phone/" + this.email,
                 method: "GET"

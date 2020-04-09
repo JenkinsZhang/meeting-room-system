@@ -44,6 +44,8 @@
 </template>
 
 <script>
+    import {initMenu} from "../assets/utils/menu";
+
     export default {
         name: 'login',
         // mounted() {
@@ -88,8 +90,10 @@
                         let token = res.headers["access-token"];
                         localStorage.removeItem("access-token");
                         localStorage.setItem("access-token", token);
+                        this.$store.commit("initRoutes",[]);
+                        initMenu(this.$router,this.$store);
                         this.loading = false;
-                        this.$router.push({name: "home"})
+                        this.$router.push("/home")
                     } else {
                         this.errorMsg = res.data.msg;
                         this.$message({

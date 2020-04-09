@@ -89,6 +89,7 @@ public class RoomService {
             roomOverview.setProjection(room.getProjection());
             roomOverview.setCapacity(room.getMaxPeople());
             roomOverview.setRoomName(room.getRoomName());
+            roomOverview.setImageURL(room.getImageUrl());
             roomOverviews.add(roomOverview);
         }
         return roomOverviews;

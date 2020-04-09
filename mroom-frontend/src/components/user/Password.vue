@@ -128,6 +128,7 @@
 			                    type: "success"
                             });
 		                    localStorage.clear();
+		                    this.$store.commit("initRoutes",[]);
 		                    this.$router.push("/login");
 		                }
 		                else{

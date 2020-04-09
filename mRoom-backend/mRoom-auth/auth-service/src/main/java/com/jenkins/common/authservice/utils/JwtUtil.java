@@ -58,13 +58,13 @@ public class JwtUtil {
     }
 
     public String createToken(UserInfo userInfo) {
-        List<String> roles = userInfo.getRoles();
         Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
         String token = null;
         Date dateTime = new DateTime().plusMinutes(EXPIRE_TIME).toDate();
         token = JWT.create().withClaim("email", userInfo.getEmail())
                 .withClaim("username", userInfo.getUsername())
-                .withArrayClaim("roles",roles.toArray(new String[roles.size()]))
+                .withClaim("roleID",userInfo.getRoleID())
+                .withClaim("roleName",userInfo.getRoleName())
                 .withExpiresAt(dateTime)
                 .sign(algorithm);
 
@@ -78,7 +78,8 @@ public class JwtUtil {
             UserInfo userInfo = new UserInfo();
             userInfo.setEmail(verify.getClaim("email").asString());
             userInfo.setUsername(verify.getClaim("username").asString());
-            userInfo.setRoles(verify.getClaim("roles").asList(String.class));
+            userInfo.setRoleID(verify.getClaim("roleID").asInt());
+            userInfo.setRoleName(verify.getClaim("roleName").asString());
             System.out.println(userInfo);
             return userInfo;
         } catch (Exception e) {

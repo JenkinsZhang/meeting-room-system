@@ -14,6 +14,8 @@ public class RoomOverview implements Serializable {
     private int capacity;
     private int projection;
     private int airConditioner;
+    private String imageURL;
+
 
     public int getRoomId() {
         return roomId;
@@ -63,6 +65,14 @@ public class RoomOverview implements Serializable {
         this.airConditioner = airConditioner;
     }
 
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
     @Override
     public String toString() {
         return "RoomOverview{" +
@@ -72,6 +82,7 @@ public class RoomOverview implements Serializable {
                 ", capacity=" + capacity +
                 ", projection=" + projection +
                 ", airConditioner=" + airConditioner +
+                ", imageURL='" + imageURL + '\'' +
                 '}';
     }
 }

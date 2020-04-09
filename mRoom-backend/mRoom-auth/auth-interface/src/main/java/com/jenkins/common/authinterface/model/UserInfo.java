@@ -12,7 +12,9 @@ public class UserInfo implements Serializable {
 
     private String username;
 
-    private List<String> roles;
+    private int roleID;
+
+    private String roleName;
 
     public String getUsername() {
         return username;
@@ -30,12 +32,20 @@ public class UserInfo implements Serializable {
         this.email = email;
     }
 
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
+    public int getRoleID() {
+        return roleID;
     }
 
-    public List<String> getRoles() {
-        return roles;
+    public void setRoleID(int roleID) {
+        this.roleID = roleID;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     @Override
@@ -43,7 +53,8 @@ public class UserInfo implements Serializable {
         return "UserInfo{" +
                 "email='" + email + '\'' +
                 ", username='" + username + '\'' +
-                ", roles=" + roles +
+                ", roleID=" + roleID +
+                ", roleName='" + roleName + '\'' +
                 '}';
     }
 }
