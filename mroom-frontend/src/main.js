@@ -40,8 +40,6 @@ router.beforeEach((to,from,next)=>{
       const greaterNow = Number(now + 60 * 1000 * 5);
       const lessNow = Number(now - 60 * 1000 * 5);
       //refresh Token
-      console.log("expireTime: "+ expireTime);
-      console.log("greaterNow: "+ greaterNow);
       if (lessNow <= expireTime && expireTime <= greaterNow) {
         axios({
           url: 'api/auth/refresh',
@@ -51,21 +49,24 @@ router.beforeEach((to,from,next)=>{
             console.log("Token refreshed!");
             let newToken = res.data.data;
             localStorage.setItem("access-token", newToken);
+            initMenu(router,store)
             next()
           } else {
+            initMenu(router,store)
             next("/login")
           }
         }).catch((error) => {
+          initMenu(router,store)
           next("/login")
         })
       }
       //redirect to login page
       else if (expireTime < greaterNow) {
         alert("user authentication expired");
-        console.log(expireTime < greaterNow);
         localStorage.removeItem("access-token");
         next("/login")
       } else {
+        initMenu(router,store)
         next();
       }
     }
@@ -74,7 +75,9 @@ router.beforeEach((to,from,next)=>{
 
 
 });
-
+router.onReady(()=>{
+  initMenu(router,store);
+})
 
 axios.interceptors.request.use(function (config) {
   // console.log(config);

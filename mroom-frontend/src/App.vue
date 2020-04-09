@@ -13,13 +13,6 @@ import developerRoutes from "./router/DeveloperRouter";
 
 export default {
   name: 'app',
-    created() {
-      if(localStorage.getItem("access-token"))
-      {
-          initMenu(this.$router,this.$store)
-      }
-      
-    }
 }
 </script>
 

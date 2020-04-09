@@ -4,7 +4,6 @@ import adminRouter from "../../router/AdminRouter";
 import * as jwtUtil from "../utils/jwt"
 import {resetRouter} from "../../router/router";
 export const initMenu = (router,store) =>{
-    console.log(store.state.routes);
     if(store.state.routes.length > 0) {
         return;
     }
