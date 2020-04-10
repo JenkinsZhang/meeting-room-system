@@ -72,7 +72,7 @@
 						fixed
 						align="left"
 						label="Username"
-						width="90">
+						width="130">
 				</el-table-column>
 				<el-table-column
 						prop="viewId"
@@ -95,7 +95,7 @@
 				</el-table-column>
 				<el-table-column
 						prop="roleName"
-						width="100"
+						width="120"
 						align="left"
 						label="Role">
 				</el-table-column>

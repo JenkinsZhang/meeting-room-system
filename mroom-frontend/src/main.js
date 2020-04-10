@@ -39,6 +39,7 @@ router.beforeEach((to,from,next)=>{
       const now = Number(Date.now());
       const greaterNow = Number(now + 60 * 1000 * 5);
       const lessNow = Number(now - 60 * 1000 * 5);
+
       //refresh Token
       if (lessNow <= expireTime && expireTime <= greaterNow) {
         axios({
@@ -49,14 +50,11 @@ router.beforeEach((to,from,next)=>{
             console.log("Token refreshed!");
             let newToken = res.data.data;
             localStorage.setItem("access-token", newToken);
-            initMenu(router,store)
             next()
           } else {
-            initMenu(router,store)
             next("/login")
           }
         }).catch((error) => {
-          initMenu(router,store)
           next("/login")
         })
       }
@@ -66,7 +64,6 @@ router.beforeEach((to,from,next)=>{
         localStorage.removeItem("access-token");
         next("/login")
       } else {
-        initMenu(router,store)
         next();
       }
     }
@@ -75,9 +72,6 @@ router.beforeEach((to,from,next)=>{
 
 
 });
-router.onReady(()=>{
-  initMenu(router,store);
-})
 
 axios.interceptors.request.use(function (config) {
   // console.log(config);

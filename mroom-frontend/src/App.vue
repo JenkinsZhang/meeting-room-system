@@ -13,6 +13,9 @@ import developerRoutes from "./router/DeveloperRouter";
 
 export default {
   name: 'app',
+    created() {
+      initMenu(this.$router,this.$store);
+    }
 }
 </script>
 

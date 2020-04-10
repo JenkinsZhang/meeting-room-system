@@ -152,7 +152,6 @@
         mounted() {
             // console.log(localStorage.getItem("access-token"))
             console.log(this.$jwtUtil.getTokenEmail());
-            console.log(this.menus)
         }
     }
 </script>
