@@ -31,14 +31,8 @@
 
     <update id="updateById" parameterType="com.jenkins.common.userinterface.entity.UserRole">
         update bk_user_role
-        set user_id = #{userRole.user_id},
-            role_id = #{userRole.role_id}
+        set role_id = #{userRole.role_id}
         where user_id = #{userRole.user_id}
     </update>
 
-    <delete id="deleteUserRoleById" parameterType="com.jenkins.common.userinterface.entity.UserRole">
-        delete from bk_user_role
-        where user_id = #{userRole.user_id} and
-              role_id = #{userRole.role_id}
-    </delete>
 </mapper>

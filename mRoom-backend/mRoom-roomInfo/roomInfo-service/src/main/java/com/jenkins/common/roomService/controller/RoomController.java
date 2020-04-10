@@ -6,9 +6,8 @@ import com.jenkins.common.roomInterface.model.RoomOverview;
 import com.jenkins.common.roomInterface.model.RoomResources;
 import com.jenkins.common.roomService.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -60,5 +59,12 @@ public class RoomController {
     {
         List<RoomOverview> roomOverview = roomService.getRoomOverview();
         return roomOverview.size() > 0 ? ResultVo.ok("OK",roomOverview) : ResultVo.error("No room information");
+    }
+
+    @PostMapping("/addRoom")
+    public ResultVo addRoom(@RequestParam("roomImage")MultipartFile file,Room room)
+    {
+
+        return null;
     }
 }

@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @author JenkinsZhang
@@ -28,4 +32,16 @@ public class RoomServiceTest {
         Room roomDetail = roomService.getRoomDetail(2);
         System.out.println(roomDetail);
     }
+
+    @Test
+    public void testAddRoom() throws IOException {
+        File directory = new File("");
+        String canonicalPath = directory.getCanonicalPath();
+        System.out.println(canonicalPath);
+        System.out.println(System.getProperty("user.dir"));
+
+        String projectPath = System.getProperty("user.dir") + File.separator + "src"+File.separator+"main" + File.separator + "resources" + File.separator + "static";
+        System.out.println(projectPath);
+    }
+
 }

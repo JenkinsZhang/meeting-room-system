@@ -6,6 +6,8 @@ import com.jenkins.common.userservice.mapper.RoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RoleService {
 
@@ -21,5 +23,10 @@ public class RoleService {
     {
         String a = new String("123123");
         return roleMapper.getRoleById(id);
+    }
+
+    public List<Role> getAllRoles()
+    {
+        return roleMapper.getAllRole();
     }
 }

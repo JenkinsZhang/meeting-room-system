@@ -46,7 +46,6 @@ public class UserRoleMapperTest {
         UserRole userRole = new UserRole();
         userRole.setUser_id(2);
         userRole.setRole_id(4);
-        int i = userRoleMapper.deleteUserRoleById(userRole);
 
     }
 

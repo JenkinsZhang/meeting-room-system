@@ -17,9 +17,12 @@ public class UserRoleService {
         return userRoleMapper.insertUserRole(userRole);
     }
 
-    public int revokeUserRole(UserRole userRole)
+    public int alterUserRole(int userId,int roleId)
     {
-        return userRoleMapper.deleteUserRoleById(userRole);
+        UserRole userRole = new UserRole();
+        userRole.setUser_id(userId);
+        userRole.setRole_id(roleId);
+        return userRoleMapper.updateById(userRole);
     }
 
     public List<Integer> getUserRole(int user_id)

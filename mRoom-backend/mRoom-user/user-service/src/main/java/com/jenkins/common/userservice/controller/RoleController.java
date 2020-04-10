@@ -1,6 +1,7 @@
 package com.jenkins.common.userservice.controller;
 
 
+import com.jenkins.common.components.model.ResultVo;
 import com.jenkins.common.userinterface.entity.Role;
 import com.jenkins.common.userinterface.entity.UserRole;
 import com.jenkins.common.userservice.service.RoleService;
@@ -24,6 +25,13 @@ public class RoleController {
         return roleService.addRole(role);
     }
 
+    @GetMapping("/admin/roles")
+    public ResultVo getRoles()
+    {
+        List<Role> allRoles = roleService.getAllRoles();
+        return ResultVo.ok("Success!",allRoles);
+    }
+
     @GetMapping("/getRole/{id}")
     public String getRoleName(@PathVariable("id") int id)
     {
@@ -31,10 +39,10 @@ public class RoleController {
         return role.getRole_name();
     }
 
-    @GetMapping("/getUserRoleId/{user_id}")
-    public List<Integer> getUserRoleId(@PathVariable("user_id") int user_id)
+    @GetMapping("/getUserRoleId/{userId}")
+    public List<Integer> getUserRoleId(@PathVariable("user_id") int userId)
     {
-        List<Integer> userRole = userRoleService.getUserRole(user_id);
+        List<Integer> userRole = userRoleService.getUserRole(userId);
         return userRole;
     }
 
@@ -43,4 +51,12 @@ public class RoleController {
     {
         return userRoleService.addUserRole(userRole);
     }
+
+    @PutMapping("/admin/changeRole/{userId}/{roleId}")
+    public ResultVo changeUserRole(@PathVariable("userId") int userId,@PathVariable("roleId") int roleId)
+    {
+        int i = userRoleService.alterUserRole(userId, roleId);
+        return i == 1? ResultVo.ok("Success!") : ResultVo.error("Failed!");
+    }
+
 }

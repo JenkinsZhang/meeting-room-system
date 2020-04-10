@@ -1,6 +1,8 @@
 package com.jenkins.common.userservice.service;
 
 
+import com.alibaba.fastjson.JSON;
+import com.jenkins.common.authinterface.model.UserInfo;
 import com.jenkins.common.components.model.AccountVo;
 import com.jenkins.common.components.model.ResultVo;
 import com.jenkins.common.userinterface.entity.Role;
@@ -17,7 +19,10 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -116,12 +121,20 @@ public class UserService {
         return 1;
     }
 
-    public int deleteUser(String email)
+    public int deleteUser(String email,String token)
     {
-        User user = new User();
-        user.setEmail(email);
+        ResultVo resultVo = authClient.verifyToken(token);
+        Object data = resultVo.getData();
+        UserInfo userInfo = JSON.parseObject(JSON.toJSONString(data), UserInfo.class);
+        int actorRoleID = userInfo.getRoleID();
+        User user = userMapper.selectUserByEmail(email);
+        int userID = user.getId();
+        Integer userRoleID = userRoleMapper.getUserRoles(userID).get(0);
+        if(actorRoleID <= userRoleID)
+        {
+            return 0;
+        }
         user.setActive(0);
-
         return userMapper.updateSelective(user);
     }
 
@@ -146,11 +159,20 @@ public class UserService {
 
     }
 
-    public int activateByEmail(String email)
+    public int activateByEmail(String email,String token)
     {
-        User user = new User();
+        ResultVo resultVo = authClient.verifyToken(token);
+        Object data = resultVo.getData();
+        UserInfo userInfo = JSON.parseObject(JSON.toJSONString(data), UserInfo.class);
+        int actorRoleID = userInfo.getRoleID();
+        User user = userMapper.selectUserByEmail(email);
+        int userID = user.getId();
+        Integer userRoleID = userRoleMapper.getUserRoles(userID).get(0);
+        if(actorRoleID <= userRoleID)
+        {
+            return 0;
+        }
         user.setActive(1);
-        user.setEmail(email);
         return userMapper.updateSelective(user);
     }
     public int activateUser(String token) {

@@ -10,9 +10,12 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * @author JenkinsZhang
@@ -94,5 +97,19 @@ public class RoomService {
         }
         return roomOverviews;
 
+    }
+
+    public int addRoom(MultipartFile file,Room room)
+    {
+        String roomName = room.getRoomName();
+        if(roomName == null)
+        {
+            return 0;
+        }
+        String storePath = System.getProperty("user.dir") +
+                File.separator + "src"+File.separator+"main" +
+                File.separator + "resources" + File.separator + "static";
+
+        return 1;
     }
 }

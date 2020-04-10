@@ -13,6 +13,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -69,17 +71,21 @@ public class UserController {
 
     @DeleteMapping("admin/{email}")
     public ResultVo deleteByEmail(@PathVariable("email") String email) {
-        int code = userService.deleteUser(email);
-        return code == 1 ? ResultVo.ok("Account closed!") : ResultVo.error("Failed!");
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String token = request.getHeader("access-token");
+        int code = userService.deleteUser(email,token);
+        return code == 1 ? ResultVo.ok("Account closed!") : ResultVo.error("Failed! Access denied!");
     }
-
 
     @PutMapping("admin/{email}")
     public ResultVo activateByEmail(@PathVariable("email") String email)
     {
-        int i = userService.activateByEmail(email);
-        return i == 1? ResultVo.ok("User activated") : ResultVo.error("Failed");
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String token = request.getHeader("access-token");
+        int i = userService.activateByEmail(email,token);
+        return i == 1? ResultVo.ok("User activated") : ResultVo.error("Failed! Access denied!");
     }
+
     @PutMapping("admin")
     public ResultVo editUser(User user)
     {
