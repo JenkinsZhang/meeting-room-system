@@ -10,6 +10,11 @@ export const initMenu = (router,store) =>{
     else
     {
         let role = jwtUtil.getUserRoleName();
+        if(role == null)
+        {
+            resetRouter();
+            return;
+        }
         if(role.toString() === "Developer")
         {
             resetRouter();

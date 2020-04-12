@@ -25,7 +25,6 @@ Vue.use(ElementUI,{locale});
 router.beforeEach((to,from,next)=>{
   if(to.fullPath === "/login" || to.fullPath ==="/registry" || to.fullPath ==="/activation")
   {
-    console.log(Date.now());
     next()
   }
   else{
@@ -52,15 +51,17 @@ router.beforeEach((to,from,next)=>{
             localStorage.setItem("access-token", newToken);
             next()
           } else {
+            alert("User authentication failed");
             next("/login")
           }
         }).catch((error) => {
+          alert("Sever error! Please login again!");
           next("/login")
         })
       }
       //redirect to login page
       else if (expireTime < greaterNow) {
-        alert("user authentication expired");
+        alert("User authentication expired");
         localStorage.removeItem("access-token");
         next("/login")
       } else {

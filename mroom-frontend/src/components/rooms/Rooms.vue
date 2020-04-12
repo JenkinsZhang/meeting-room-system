@@ -7,11 +7,11 @@
 					     class="image">
 					<div>
 						<div style="margin-top: 30px;width: 100%;">
-							<el-row>
+							<el-row style="height: 50px">
 								<el-col :span="8" :offset="1">Room Name:</el-col>
 								<el-col :span="14" :offset="1" style="font-weight: bolder">{{room.roomName}}</el-col>
 							</el-row>
-							<el-row>
+							<el-row style="height: 60px">
 								<el-col :span="8" :offset="1">Address:</el-col>
 								<el-col :span="14" :offset="1" style="font-weight: bolder">{{room.address}}</el-col>
 							</el-row>
@@ -22,12 +22,6 @@
 								</el-col>
 								<el-col :span="10" :offset="2">
 									<el-button type="success" @click="booking(room.roomId)">Booking</el-button>
-								</el-col>
-							</el-row>
-							<el-row>
-								<el-col :span="22" :offset="1">
-									<el-button style="margin-top: 10px" type="danger" @click="report(room.roomId)">Report
-									</el-button>
 								</el-col>
 							</el-row>
 						</div>
@@ -77,12 +71,9 @@
 						<el-col :span="12" :offset="1" style="font-weight: bolder;font-size: 16px">{{this.selectedRoom.airConditioner}}</el-col>
 
 					</el-row>
-					<el-row>
-						<el-col :span="10" :offset="1">
+					<el-row style="margin-top:50px">
+						<el-col :span="14" :offset="6">
 							<el-button type="success" @click="booking(selectedRoom.roomId)">Booking</el-button>
-						</el-col>
-						<el-col :span="10" :offset="2">
-							<el-button type="danger" @click="report(selectedRoom.roomId)">Report</el-button>
 						</el-col>
 					</el-row>
 				</el-col>
@@ -175,6 +166,7 @@
 	}
 	
 	.image {
+		height: 200px;
 		width: 100%;
 	}
 	
