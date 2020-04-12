@@ -22,6 +22,37 @@
         room_id, room_name, address, max_people,projection, air_conditioner,img
     </sql>
 
+    <update id="updateRoomSelective" >
+        update bk_room
+        <set>
+            <if test="room.roomName != null">
+                room_name = #{room.roomName},
+            </if>
+            <if test="room.maxPeople > 0">
+                max_people = #{room.maxPeople},
+            </if>
+            <if test="room.projection > -1">
+                projection = #{room.projection},
+            </if>
+            <if test="room.airConditioner > -1">
+                air_conditioner = #{room.airConditioner},
+            </if>
+            <if test="room.imageUrl !=null">
+                img = #{room.imageUrl},
+            </if>
+        </set>
+        where room_id = #{room.roomId}
+    </update>
+
+    <delete id="deleteRoomById">
+        delete from bk_room
+        where room_id = #{roomId}
+    </delete>
+
+    <insert id="insertRoom" parameterType="com.jenkins.common.roomInterface.entity.Room" useGeneratedKeys="true" keyProperty="roomId" keyColumn="room_id">
+        insert into bk_room(room_name,address,max_people,projection,air_conditioner,img)
+        values (#{room.roomName},#{room.address},#{room.maxPeople},#{room.projection},#{room.airConditioner},#{room.imageUrl})
+    </insert>
     <select id="selectAllRooms" resultMap="Base_Result_Map">
         select <include refid="Base_Column_List"/>
         from bk_room
@@ -37,10 +68,12 @@
         from bk_room
         where room_id = #{roomId}
     </select>
+
     <select id="selectAllRoomDetails" resultMap="Base_Result_Map">
         select <include refid="All_Column_List"/>
         from bk_room
     </select>
+
 
 
 </mapper>

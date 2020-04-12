@@ -5,6 +5,7 @@ import com.jenkins.common.roomInterface.entity.Room;
 import com.jenkins.common.roomInterface.model.RoomOverview;
 import com.jenkins.common.roomInterface.model.RoomResources;
 import com.jenkins.common.roomService.service.RoomService;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,11 +61,36 @@ public class RoomController {
         List<RoomOverview> roomOverview = roomService.getRoomOverview();
         return roomOverview.size() > 0 ? ResultVo.ok("OK",roomOverview) : ResultVo.error("No room information");
     }
-
-    @PostMapping("/addRoom")
-    public ResultVo addRoom(@RequestParam("roomImage")MultipartFile file,Room room)
+    @PostMapping("/admin")
+    public ResultVo addRoom(@RequestBody Room room)
     {
-
-        return null;
+        int code = roomService.addRoom(room);
+        return code == 1? ResultVo.ok("OK!") : ResultVo.error("Failed!");
     }
+
+
+    @PostMapping("/admin/post/roomImage")
+    public ResultVo addRoomImage(@RequestParam("roomImage")MultipartFile file,@RequestParam("roomId") int roomId)
+    {
+        System.out.println(roomId);
+        int code = roomService.addRoomImage(file,roomId);
+        return code == 1? ResultVo.ok("OK!") : ResultVo.error("Failed!");
+
+    }
+
+    @PostMapping("/admin/editRoom")
+    public ResultVo editRoom(@RequestBody Room room)
+    {
+        int code = roomService.editRoom(room);
+        return code == 1? ResultVo.ok("OK!") : ResultVo.error("Failed!");
+    }
+
+    @DeleteMapping("/admin/{roomId}")
+    public ResultVo deleteRoom(@PathVariable("roomId") int roomId)
+    {
+        int code =roomService.deleteRoom(roomId);
+        return code == 1? ResultVo.ok("OK!") : ResultVo.error("Failed!");
+    }
+
+
 }

@@ -99,17 +99,37 @@ public class RoomService {
 
     }
 
-    public int addRoom(MultipartFile file,Room room)
+    public int addRoom(Room room)
     {
-        String roomName = room.getRoomName();
+        return roomMapper.insertRoom(room);
+    }
+    public int editRoom(Room room)
+    {
+        return roomMapper.updateRoomSelective(room);
+    }
+
+    public int deleteRoom(int roomId)
+    {
+        return roomMapper.deleteRoomById(roomId);
+    }
+    public int addRoomImage(MultipartFile file,int roomId)
+    {
+        String roomName = file.getOriginalFilename();
+        String imageUrl = "http://localhost:10086/roomInfo/images/"+roomName;
         if(roomName == null)
+        {
+            return -1;
+        }
+        String storePath = "/Users/jenkinszhang/GRADUATION_PROJECT/meeting-room-system/mRoom-backend/mRoom-roomInfo/roomInfo-service/src/main/resources/static/";
+        try{
+            System.out.println(storePath);
+            file.transferTo(new File(storePath,roomName));
+            Room roomDetailById = roomMapper.getRoomDetailById(roomId);
+            roomDetailById.setImageUrl(imageUrl);
+            return roomMapper.updateRoomSelective(roomDetailById);
+        }catch (Exception e)
         {
             return 0;
         }
-        String storePath = System.getProperty("user.dir") +
-                File.separator + "src"+File.separator+"main" +
-                File.separator + "resources" + File.separator + "static";
-
-        return 1;
     }
 }
