@@ -37,68 +37,10 @@
 					<span>{{child.meta.title}}</span>
 				</el-menu-item>
 			</el-submenu>
-<!--			<el-submenu index="views">-->
-<!--				<template slot="title">-->
-<!--					<i class="el-icon-view" style="margin-top: -3%"/>-->
-<!--					<span>Views</span>-->
-<!--				</template>-->
-<!--				<el-menu-item index="/views/calendar">-->
-<!--					<i class="el-icon-date" style="margin-top: -3%"/>-->
-<!--					<span>Resources Calendar</span>-->
-<!--				</el-menu-item>-->
-<!--				<el-menu-item index="/views/bookingStatistics">-->
-<!--					<i class="el-icon-s-data" style="margin-top: -3%"/>-->
-<!--					<span>My Booking Statistics</span>-->
-<!--				</el-menu-item>-->
-<!--			</el-submenu>-->
-<!--			<el-submenu index="rooms">-->
-<!--				<template slot="title">-->
-<!--					<i class="el-icon-office-building" style="margin-top: -3%"/>-->
-<!--					<span>Rooms</span>-->
-<!--				</template>-->
-<!--				<el-menu-item index="/rooms/overview">-->
-<!--					<i class="el-icon-monitor" style="margin-top: -3%"/>Room Overview-->
-<!--				</el-menu-item>-->
-<!--				<el-menu-item index="/rooms/repairReport">-->
-<!--					<i class="el-icon-setting" style="margin-top: -3%"/>Repair Report-->
-<!--				</el-menu-item>-->
-<!--			</el-submenu>-->
-<!--			<el-submenu index="user">-->
-<!--				<template slot="title">-->
-<!--					<i class="el-icon-user" style="margin-top: -3%"/>-->
-<!--					<span>User</span>-->
-<!--				</template>-->
-<!--				<el-menu-item index="/user/profile">-->
-<!--					<i class="el-icon-document" style="margin-top: -3%"/>My Profile-->
-<!--				</el-menu-item>-->
-<!--				<el-menu-item index="/user/password">-->
-<!--					<i class="el-icon-edit" style="margin-top: -3%"/>Change Password-->
-<!--				</el-menu-item>-->
-<!--			</el-submenu>-->
-<!--			<el-submenu index="management">-->
-<!--				<template slot="title">-->
-<!--					<i class="el-icon-s-custom" style="margin-top: -3%"/>-->
-<!--					<span>Management</span>-->
-<!--				</template>-->
-<!--				<el-menu-item index="/admin/accounts">-->
-<!--					<i class="el-icon-user-solid" style="margin-top: -3%"/>User Accounts-->
-<!--				</el-menu-item>-->
-<!--				<el-menu-item index="/admin/records">-->
-<!--					<i class="el-icon-s-order" style="margin-top: -3%"/>Booking Records-->
-<!--				</el-menu-item>-->
-<!--				<el-menu-item index="/admin/rooms">-->
-<!--					<i class="el-icon-s-platform" style="margin-top: -3%"/>Room Management-->
-<!--				</el-menu-item>-->
-<!--				<el-menu-item index="/admin/roles">-->
-<!--					<i class="el-icon-s-cooperation" style="margin-top: -3%"/>Roles Management-->
-<!--				</el-menu-item>-->
-<!--			</el-submenu>-->
-		
 		
 		</el-menu>
 		<router-view class="main-body" @renderUsername="renderUsername" />
 		
-	
 	</div>
 
 

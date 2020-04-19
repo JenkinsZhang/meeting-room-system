@@ -300,6 +300,7 @@
                     this.$messageUtil.errorMessage(this);
                 }).finally(() => {
                     this.loading = false;
+                    window.scrollTo(0,0);
                 })
             },
             tagType(val) {
@@ -534,8 +535,7 @@
 </script>
 
 <style scoped>
-	/* 可以设置不同的进入和离开动画 */
-	/* 设置持续时间和动画函数 */
+	
 	.slide-fade-enter-active {
 		transition: all .8s ease;
 	}

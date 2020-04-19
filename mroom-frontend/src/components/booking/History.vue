@@ -87,6 +87,32 @@
 		</el-card>
 		<div :class="{'darker':darkActive}"></div>
 		<!--		{{historyRecords}}-->
+		<div>
+			<el-row>
+				<el-col :span="16">
+					<div style="display: flex;justify-content: space-between;">
+						<div>
+							<el-date-picker
+									v-model="date"
+									prefix-icon="el-icon-search"
+									type="date"
+									value-format="yyyy-MM-dd"
+									placeholder="Please select date"
+									style="width: 350px;margin-right: 10px"
+									clearable
+									@clear="getPageData"
+									@keydown.enter.native="getPageData">
+							</el-date-picker>
+							<el-button icon="el-icon-search" type="primary" @click="getPageData">Search</el-button>
+						</div>
+					</div>
+				</el-col>
+				<el-col style="margin-top: 0.5%;font-size: 20px" :span="4" :offset="4">
+					<el-button @click="autoComplete" type="info">Complete Overdue </el-button>
+				</el-col>
+			</el-row>
+			
+		</div>
 		<el-table
 				:data="historyRecords"
 				stripe
@@ -265,17 +291,15 @@
                         }
                     }]
                 },
-	            rooms: []
+	            rooms: [],
+	            date: null,
             }
         },
         async mounted() {
             this.cardShow = false;
             this.changeStatus();
             await this.getRooms();
-            await this.getRecordsCount();
             await this.getPageData();
-
-            
             this.changeStatus();
             window.scrollTo(0,0)
 	        
@@ -298,7 +322,8 @@
                         + this.currentPage + "/" + this.pageSize,
                     method: 'GET',
                     params: {
-                        filters: this.newFilters
+                        filters: this.newFilters,
+	                    date: this.date
                     },
                     paramsSerializer: params => {
                         return qs.stringify(params, {indices: false})
@@ -307,6 +332,7 @@
                     if (res.data.code === 200) {
                         this.historyRecords = [];
                         this.historyRecords = res.data.data;
+                        this.getRecordsCount();
                         this.renderStatus();
                     } else {
                         this.historyRecords = [];
@@ -321,7 +347,8 @@
                         this.$jwtUtil.getTokenEmail(),
                     method: 'GET',
                     params: {
-                        filters: this.newFilters
+                        filters: this.newFilters,
+	                    date: this.date
                     },
                     paramsSerializer: params => {
                         return qs.stringify(params, {indices: false})
@@ -567,6 +594,23 @@
 	        async refresh(){
                 await this.getPageData();
                 await this.getRecordsCount();
+	        },
+	        autoComplete(){
+                this.axios({
+	                url: "/api/booking//history/autoComplete/" + this.$jwtUtil.getTokenEmail(),
+	                method: "PUT"
+                }).then((res)=>{
+                    if(res.data.code === 200)
+                    {
+                        this.getPageData();
+                        this.$messageUtil.successMessage(this,res.data.msg);
+                    }
+                    else{
+                        this.$messageUtil.warningMessage(this,res.data.msg);
+                    }
+                }).catch((err)=>{
+                    this.$messageUtil.errorMessage(this);
+                })
 	        }
 	        
         }

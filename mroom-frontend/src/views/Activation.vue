@@ -11,7 +11,7 @@
 			<h1>Activation failed! Please try to get a new activation email!</h1>
 		</div>
 		<h4>Now returning to login page...  {{time}}</h4>
-		<a href="#">if your browser doesn't respond, please click here! </a>
+		<a href="#" @click="toLogin">if your browser doesn't respond, please click here! </a>
 	</div>
 </template>
 
@@ -57,8 +57,11 @@
                 this.time = this.time-1;
                 if(this.time ===0)
                 {
-                    this.$router.push("/login")
+                    this.$router.push("/login");
                 }
+            },
+            toLogin(){
+                this.$router.push("/login");
             }
 	    }
     }

@@ -247,6 +247,7 @@
                     this.$messageUtil.errorMessage(this);
                 }).finally(() => {
                     this.loading = false;
+                    window.scrollTo(0,0);
                 })
             },
             tagType(val) {

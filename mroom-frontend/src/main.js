@@ -23,7 +23,7 @@ Vue.use(VueAxios,axios);
 Vue.use(ElementUI,{locale});
 
 router.beforeEach((to,from,next)=>{
-  if(to.fullPath === "/login" || to.fullPath ==="/registry" || to.fullPath ==="/activation")
+  if(to.fullPath === "/login" || to.fullPath ==="/registry" || to.fullPath.startsWith("/activation"))
   {
     next()
   }
@@ -42,7 +42,7 @@ router.beforeEach((to,from,next)=>{
       //refresh Token
       if (lessNow <= expireTime && expireTime <= greaterNow) {
         axios({
-          url: 'api/auth/refresh',
+          url: '/api/auth/refresh',
           method: "GET"
         }).then((res) => {
           if (res.data.code === 200) {

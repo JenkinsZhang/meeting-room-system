@@ -79,16 +79,7 @@ const adminRouter =[
                     title: 'Room Overview',
                     icon: 'el-icon-monitor'
                 }
-            },
-            {
-                path: '/rooms/repairReport',
-                name: 'report',
-                component: () => import("../components/rooms/RepairReport"),
-                meta: {
-                    title: 'Repair Report',
-                    icon: 'el-icon-setting'
-                }
-            },
+            }
         ]
     },
     {

@@ -80,15 +80,6 @@ const developerRoutes = [
                     icon: 'el-icon-monitor'
                 }
             },
-            {
-                path: '/rooms/repairReport',
-                name: 'report',
-                component: () => import("../components/rooms/RepairReport"),
-                meta: {
-                    title: 'Repair Report',
-                    icon: 'el-icon-setting'
-                }
-            },
         ]
     },
     {
