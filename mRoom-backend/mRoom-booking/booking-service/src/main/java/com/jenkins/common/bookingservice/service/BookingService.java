@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.jenkins.common.bookinginterface.entity.BookingRecord;
+import com.jenkins.common.bookinginterface.model.AdminBookingHistoryModel;
 import com.jenkins.common.bookinginterface.model.BookingHistoryModel;
 import com.jenkins.common.bookinginterface.model.CalendarEventsModel;
 import com.jenkins.common.bookingservice.client.BookingClient;
@@ -63,9 +64,16 @@ public class BookingService {
         return bookingRecordMapper.insertBookingRecord(bookingRecord);
     }
 
-    public List<BookingHistoryModel> bookingHistory(String bookerEmail,int page,int size,int[] filters)
+    public List<BookingHistoryModel> bookingHistory(String bookerEmail,int page,int size,int[] filters,Date date)
     {
-        List<BookingRecord> bookingRecords = bookingRecordMapper.selectBookingRecordByUserEmail(bookerEmail,page-1,size,filters);
+        Date startTime = null;
+        Date endTime = null;
+        if(date != null)
+        {
+            startTime = new DateTime(date).toDate();
+            endTime = new DateTime(startTime).plusDays(1).toDate();
+        }
+        List<BookingRecord> bookingRecords = bookingRecordMapper.selectBookingRecordByUserEmail(bookerEmail,page-1,size,filters,startTime,endTime);
 
         List<BookingHistoryModel> history = new ArrayList<>();
         for (BookingRecord bookingRecord : bookingRecords) {
@@ -91,9 +99,66 @@ public class BookingService {
         return history;
     }
 
-    public int countHistory(String bookerEmail,int[] filters)
+    public List<AdminBookingHistoryModel> bookingRecords(String bookerEmail, int page, int size, int[] filters, String date)
     {
-        return bookingRecordMapper.countRecordByEmail(bookerEmail,filters);
+        if(bookerEmail == null || bookerEmail.length() == 0)
+        {
+            bookerEmail = null;
+        }
+        List<BookingRecord> allBookingRecords = null;
+        if(date == null || date.length() == 0)
+        {
+            date = null;
+            allBookingRecords = bookingRecordMapper.getAllBookingRecords(bookerEmail, page - 1, size, filters, null, null);
+        }else {
+            Date startTime = DateTime.parse(date).toDate();
+            Date endTime = new DateTime(startTime).plusDays(1).toDate();
+            allBookingRecords= bookingRecordMapper.getAllBookingRecords(bookerEmail,page-1,size,filters,startTime,endTime);
+        }
+        System.out.println(allBookingRecords);
+        List<AdminBookingHistoryModel> adminBookingHistoryModelList = new ArrayList<>();
+        for (BookingRecord bookingRecord : allBookingRecords) {
+            AdminBookingHistoryModel adminBookingHistoryModel = new AdminBookingHistoryModel();
+            Object data = bookingClient.getRoomDetail(bookingRecord.getRoomId()).getData();
+            Room roomDetail = JSON.parseObject(JSON.toJSONString(data), Room.class);
+            adminBookingHistoryModel.setBookerEmail(bookingRecord.getBookerEmail());
+            adminBookingHistoryModel.setCreationTime(bookingRecord.getCreationTime());
+            adminBookingHistoryModel.setStartTime(bookingRecord.getStartTime());
+            adminBookingHistoryModel.setEndTime(bookingRecord.getEndTime());
+            adminBookingHistoryModel.setRoomName(roomDetail.getRoomName());
+            adminBookingHistoryModel.setStatus(bookingRecord.getStatus());
+            adminBookingHistoryModel.setRecordId(bookingRecord.getRecordId());
+            adminBookingHistoryModelList.add(adminBookingHistoryModel);
+        }
+        return adminBookingHistoryModelList;
+    }
+
+    public int countHistoryAll(String bookerEmail,int[] filters,String date)
+    {
+        if(bookerEmail == null || bookerEmail.length() == 0)
+        {
+            bookerEmail = null;
+        }
+        Date startTime = null;
+        Date endTime = null;
+        if(date != null && date.length()!=0 && date != "")
+        {
+            startTime = DateTime.parse(date).toDate();
+            endTime = new DateTime(startTime).plusDays(1).toDate();
+        }
+        return bookingRecordMapper.countAllRecords(bookerEmail,filters,startTime,endTime);
+    }
+
+    public int countHistory(String bookerEmail,int[] filters,String date)
+    {
+        Date startTime = null;
+        Date endTime = null;
+        if(date != null && date.length()!=0 && date != "")
+        {
+            startTime = DateTime.parse(date).toDate();
+            endTime = new DateTime(startTime).plusDays(1).toDate();
+        }
+        return bookingRecordMapper.countRecordByEmail(bookerEmail,filters,startTime,endTime);
     }
 
     @Transactional(rollbackFor = RuntimeException.class)
@@ -138,5 +203,17 @@ public class BookingService {
             calendarEventsModels.add(calendarEventsModel);
         }
         return calendarEventsModels;
+    }
+
+    public int autoComplete(String bookerEmail)
+    {
+        Date now = DateTime.now().toDate();
+        return  bookingRecordMapper.autoComplete(bookerEmail,now);
+    }
+
+    public int autoCompleteAll()
+    {
+        Date now = DateTime.now().toDate();
+        return bookingRecordMapper.autoComplete(null,now);
     }
 }

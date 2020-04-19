@@ -1,10 +1,14 @@
 package com.jenkins.common.bookingservice.controller;
 
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jenkins.common.authinterface.model.UserInfo;
 import com.jenkins.common.bookinginterface.entity.BookingRecord;
+import com.jenkins.common.bookinginterface.model.AdminBookingHistoryModel;
 import com.jenkins.common.bookinginterface.model.BookingHistoryModel;
 import com.jenkins.common.bookinginterface.model.CalendarEventsModel;
+import com.jenkins.common.bookingservice.client.AuthClient;
 import com.jenkins.common.bookingservice.client.BookingClient;
 import com.jenkins.common.bookingservice.mapper.BookingRecordMapper;
 import com.jenkins.common.bookingservice.service.BookingService;
@@ -12,7 +16,10 @@ import com.jenkins.common.components.model.ResultVo;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -20,9 +27,11 @@ import java.util.List;
 public class BookingController {
 
     private BookingService bookingService;
+    private AuthClient authClient;
 
     @Autowired
-    public BookingController(BookingService bookingService) {
+    public BookingController(BookingService bookingService,AuthClient authClient) {
+        this.authClient = authClient;
         this.bookingService = bookingService;
     }
 
@@ -52,13 +61,22 @@ public class BookingController {
     public ResultVo getHistory(@PathVariable("bookerEmail") String bookerEmail,
                                @PathVariable("page") int page,
                                @PathVariable("size") int size,
-                               @RequestParam("filters") int[] filters)
+                               @RequestParam("filters") int[] filters,
+                               @RequestParam("date") String date)
     {
         if(filters == null || filters.length == 0)
         {
             filters = new int[]{-1, 0, 1};
         }
-        List<BookingHistoryModel> bookingHistoryModels = bookingService.bookingHistory(bookerEmail, page, size,filters);
+        Date newDate = new Date();
+        if(date == null || date.equals("") || date.length() == 0)
+        {
+            newDate = null;
+        }
+        else {
+            newDate = DateTime.parse(date).toDate();
+        }
+        List<BookingHistoryModel> bookingHistoryModels = bookingService.bookingHistory(bookerEmail, page, size,filters,newDate);
         if(bookingHistoryModels == null || bookingHistoryModels.size() ==0)
         {
             return ResultVo.error("No booking history!");
@@ -68,13 +86,38 @@ public class BookingController {
 
     @GetMapping("/history/count/{bookerEmail}")
     public ResultVo countHistory(@PathVariable("bookerEmail") String bookerEmail,
-                                 @RequestParam("filters") int[] filters)
+                                 @RequestParam("filters") int[] filters,@RequestParam("date") String date)
     {
         if(filters == null || filters.length == 0)
         {
             filters = new int[]{-1, 0, 1};
         }
-        int countHistory = bookingService.countHistory(bookerEmail,filters);
+        int countHistory = bookingService.countHistory(bookerEmail,filters,date);
+        if(countHistory == 0)
+        {
+            return ResultVo.error("No booking history!");
+        }
+        return ResultVo.ok("OK!",countHistory);
+    }
+
+    @GetMapping("/admin/history/{page}/{size}")
+    public ResultVo getAllBookingRecords(@RequestParam("filters") int[] filters,@RequestParam("date") String date,
+                                         @RequestParam("bookerEmail") String bookerEmail, @PathVariable("page") int page,
+                                         @PathVariable("size") int size)
+    {
+        List<AdminBookingHistoryModel> adminBookingHistoryModelList = bookingService.bookingRecords(bookerEmail, page, size, filters, date);
+        return ResultVo.ok("OK!",adminBookingHistoryModelList);
+    }
+
+    @GetMapping("/admin/history/count/")
+    public ResultVo countAllHistory(@RequestParam("filters") int[] filters,@RequestParam("date") String date,
+                                 @RequestParam("bookerEmail") String bookerEmail)
+    {
+        if(filters == null || filters.length == 0)
+        {
+            filters = new int[]{-1, 0, 1};
+        }
+        int countHistory = bookingService.countHistoryAll(bookerEmail,filters,date);
         if(countHistory == 0)
         {
             return ResultVo.error("No booking history!");
@@ -85,6 +128,15 @@ public class BookingController {
     @PostMapping("/history/edit")
     public ResultVo editHistory(@RequestBody BookingRecord bookingRecord)
     {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String token = request.getHeader("access-token");
+        Object data = authClient.verifyToken(token).getData();
+        UserInfo userInfo = JSON.parseObject(JSON.toJSONString(data), UserInfo.class);
+        if(userInfo.getEmail() != bookingRecord.getBookerEmail() && userInfo.getRoleID()==1)
+        {
+            return ResultVo.error("Not authorized!");
+        }
+
         if(bookingRecord == null)
         {
             return ResultVo.error("No post data!");
@@ -137,4 +189,17 @@ public class BookingController {
 
     }
 
+    @PutMapping("/history/autoComplete/{bookerEmail}")
+    public ResultVo autoComplete(@PathVariable("bookerEmail") String bookerEmail)
+    {
+        int count = bookingService.autoComplete(bookerEmail);
+        return count == 0 ? ResultVo.error("No Records To Be Completed!") : ResultVo.ok("Auto Complete Success!");
+    }
+
+    @PutMapping("/admin/history/autoComplete")
+    public ResultVo autoCompleteAll()
+    {
+        int count = bookingService.autoCompleteAll();
+        return count == 0 ? ResultVo.error("No Records To Be Completed!") : ResultVo.ok("Auto Complete Success!");
+    }
 }

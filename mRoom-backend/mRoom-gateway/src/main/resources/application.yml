@@ -46,3 +46,5 @@ system:
       - /auth
       - /user/registry
       - /user/activate
+      - /user/check/
+      - /roomInfo/images

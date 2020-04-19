@@ -1,6 +1,7 @@
 package com.jenkins.common.bookingservice;
 
 import com.jenkins.common.bookinginterface.entity.BookingRecord;
+import com.jenkins.common.bookinginterface.model.AdminBookingHistoryModel;
 import com.jenkins.common.bookinginterface.model.BookingHistoryModel;
 import com.jenkins.common.bookingservice.mapper.BookingRecordMapper;
 import com.jenkins.common.bookingservice.service.BookingService;
@@ -39,14 +40,24 @@ public class BookingServiceTest {
 //    }
 
     @Test
-    public void test2(){
+    public void testBookingHistory(){
         int[] filters = {0,-1,1};
-        List<BookingRecord> bookingRecords = bookingRecordMapper.selectBookingRecordByUserEmail("614758656@qq.com", 0, 10, filters);
-        System.out.println(bookingRecords);
+        Date date = DateTime.now().toDate();
+        List<BookingHistoryModel> bookingHistoryModels = bookingService.bookingHistory("614758656@qq.com", 1, 10, filters, date);
+        System.out.println(bookingHistoryModels);
     }
 
     @Test
-    public void test3(){
+    public void testAllBookingRecords()
+    {
+        int[] filters = {0,-1,1};
+        List<AdminBookingHistoryModel> adminBookingHistoryModelList = bookingService.bookingRecords("614758656@qq.com", 1, 100, filters, null);
+        System.out.println(adminBookingHistoryModelList.size());
+    }
+
+
+    @Test
+    public void testGetCalendarEvents(){
         String startTime = "2019-1-1";
         Date date = DateTime.parse(startTime).toDate();
         String endTime = "2022-1-1";
@@ -55,6 +66,14 @@ public class BookingServiceTest {
         List<BookingRecord> calendarEvents = bookingRecordMapper.getCalendarEvents(date, date1);
         System.out.println(calendarEvents);
     }
+
+    @Test
+    public void testAutoComplete(){
+        int i = bookingService.autoComplete("614758656@qq.com");
+        System.out.println(i);
+    }
+
+
 
 
 

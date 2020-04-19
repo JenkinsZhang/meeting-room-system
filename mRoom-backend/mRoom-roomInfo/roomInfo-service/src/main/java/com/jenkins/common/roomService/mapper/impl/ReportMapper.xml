@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jenkins.common.roomService.mapper.ReportMapper">
+    <resultMap id="Base_Result_Map" type="com.jenkins.common.roomInterface.entity.Report">
+        <id property="reportId" column="report_id"></id>
+        <result property="roomId" column="room_id"></result>
+        <result property="reporter" column="reporter"></result>
+        <result property="detail" column="detail"></result>
+        <result property="status" column="status"></result>
+        <result property="createTime" column="createTime"></result>
+        <result property="completeTime" column="completeTime"></result>
+    </resultMap>
+    
+    <resultMap id="Overview_Result_Map" type="com.jenkins.common.roomInterface.model.ReportOverview">
+        <id property="reportId" column="report_id"></id>
+        <result property="roomId" column="room_id"></result>
+        <result property="roomName" column="room_name"></result>
+        <result property="address" column="address"></result>
+        <result property="reporter" column="reporter"></result>
+        <result property="detail" column="detail"></result>
+        <result property="status" column="report_status"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="completeTime" column="complete_time"></result>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        report_id,room_id,detail,status
+    </sql>
+
+    <insert id="insertReport" useGeneratedKeys="true" keyColumn="report_id" keyProperty="reportId">
+        insert into bk_report(room_id,reporter,detail,status,create_time,complete_time) values (#{report.roomId},#{report.reporter},#{report.detail},#{report.status},#{report.createTime},#{report.completeTime})
+    </insert>
+
+    <update id="updateReport">
+        update bk_report
+        set status = #{status},complete_time= #{completeTime} where report_id = #{reportId}
+    </update>
+
+    <select id="selectAllReports" resultType="com.jenkins.common.roomInterface.entity.Report">
+        select <include refid="Base_Column_List"></include>
+        from bk_report
+    </select>
+
+    <select id="selectAllReportOverviews" resultMap="Overview_Result_Map">
+        <bind name="offset" value="page*size"/>
+        select report_id,bk_report.room_id as room_id, room_name,address,reporter,detail,bk_report.status as report_status,create_time,complete_time
+        from  bk_report left JOIN bk_room
+        on bk_report.room_id = bk_room.room_id
+        where 1 = 1
+        <if test="reportSearch != null">
+            <if test="reportSearch.reporter!=null and reportSearch.reporter !=''">
+                and reporter = #{reportSearch.reporter}
+            </if>
+            <if test="reportSearch.roomId !=0">
+                and bk_report.room_id = #{reportSearch.roomId}
+            </if>
+            <if test="reportSearch.startDate !=null and reportSearch.endDate !=null">
+                and create_time between #{reportSearch.startDate} and #{reportSearch.endDate}
+            </if>
+        </if>
+        limit #{offset},#{size}
+
+    </select>
+    <select id="getFinishedCount" resultType="java.lang.Integer">
+        select count(report_id) from bk_report where status = 1
+    </select>
+    <select id="getUnfinishedCount" resultType="java.lang.Integer">
+        select count(report_id) from bk_report where status = 0
+    </select>
+
+
+</mapper>

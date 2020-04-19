@@ -1,5 +1,7 @@
 package com.jenkins.common.zuulgateway.filter;
 
+import com.alibaba.fastjson.JSON;
+import com.jenkins.common.authinterface.model.UserInfo;
 import com.jenkins.common.components.model.ResultVo;
 import com.jenkins.common.zuulgateway.client.AuthClient;
 import com.jenkins.common.zuulgateway.config.FilterProperties;
@@ -59,20 +61,36 @@ public class AuthFilter extends ZuulFilter {
 
     @Override
     public Object run() throws ZuulException {
-//        RequestContext currentContext = RequestContext.getCurrentContext();
-//        HttpServletRequest request = currentContext.getRequest();
-//        HttpServletResponse response = currentContext.getResponse();
-//        String token = request.getHeader("access-token");
-//        if (token == null) {
-//            response.setStatus(401);
-//            currentContext.setSendZuulResponse(false);
-//        } else {
-//            ResultVo resultVo = authClient.verifyToken(token);
-//            if(200 != resultVo.getCode())
-//            {
-//                currentContext.setSendZuulResponse(false);
-//            }
-//        }
+        RequestContext currentContext = RequestContext.getCurrentContext();
+        HttpServletRequest request = currentContext.getRequest();
+        HttpServletResponse response = currentContext.getResponse();
+        String requestURI = request.getRequestURI();
+
+        String token = request.getHeader("access-token");
+        if (token == null) {
+            response.setStatus(401);
+            currentContext.setSendZuulResponse(false);
+        } else {
+            ResultVo resultVo = authClient.verifyToken(token);
+            if(200 != resultVo.getCode())
+            {
+                currentContext.setSendZuulResponse(false);
+            }
+            Object data = resultVo.getData();
+            UserInfo userInfo = JSON.parseObject(JSON.toJSONString(data), UserInfo.class);
+            int roleID = userInfo.getRoleID();
+            if(requestURI.contains("admin"))
+            {
+                if(roleID == 1)
+                {
+                    currentContext.setSendZuulResponse(false);
+                }
+                if(requestURI.contains("changeRole") && roleID != 3)
+                {
+                    currentContext.setSendZuulResponse(false);
+                }
+            }
+        }
         return null;
     }
 }

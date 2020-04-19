@@ -54,10 +54,17 @@
     <select id="selectBookingRecordByUserEmail" resultMap="Base_Result_Map">
         <bind name="offset" value="page*size"/>
         select <include refid="Base_Column_List"/>,now()-start_time as sort
-        from bk_record where booker_email = #{bookerEmail} and status in
-        <foreach collection="filters" item="status" open="(" separator="," close=")">
+        from bk_record
+        <where>
+            booker_email = #{bookerEmail}
+            and status in
+            <foreach collection="filters" item="status" open="(" separator="," close=")">
                 #{status}
-        </foreach>
+            </foreach>
+            <if test="startTime !=null">
+                and start_time between #{startTime} and #{endTime}
+            </if>
+        </where>
         order by if(sort&lt;0,0,1) asc,abs(sort) limit #{offset},#{size}
     </select>
 
@@ -66,12 +73,63 @@
         <foreach collection="filters" item="status" open="(" separator="," close=")">
             #{status}
         </foreach>
+        <if test="startTime != null">
+            and start_time between #{startTime} and #{endTime}
+        </if>
+    </select>
+
+    <select id="countAllRecords" resultType="java.lang.Integer">
+        select count(record_id) from bk_record where status in
+        <foreach collection="filters" item="status" open="(" separator="," close=")">
+            #{status}
+        </foreach>
+        <if test="startTime != null">
+            and start_time between #{startTime} and #{endTime}
+        </if>
+        <if test="bookerEmail !=null">
+            and booker_email = #{bookerEmail}
+        </if>
     </select>
 
     <select id="getCalendarEvents" resultMap="Base_Result_Map">
         select  <include refid="Base_Column_List"></include>
         from bk_record where start_time &gt;= #{startTime} and end_time &lt;= #{endTime} and status = 0
     </select>
+
+    <select id="getAllBookingRecords" resultMap="Base_Result_Map">
+        <bind name="offset" value="page*size"/>
+        select <include refid="Base_Column_List"/>
+        from bk_record
+        <where>
+            1 = 1
+            <if test="bookerEmail!=null">
+                and booker_email = #{bookerEmail}
+            </if>
+            and status in
+            <foreach collection="filters" item="status" open="(" separator="," close=")">
+                #{status}
+            </foreach>
+            <if test="startTime !=null">
+                and start_time between #{startTime} and #{endTime}
+            </if>
+        </where>
+        order by start_time limit #{offset},#{size}
+    </select>
+
+
+
+    <update id="autoComplete">
+        update bk_record set status = 1
+        <where>
+            <if test="bookerEmail !=null">
+                and booker_email = #{bookerEmail}
+            </if>
+                and end_time &lt; #{now}
+                and status = 0
+        </where>
+
+
+    </update>
 <!--    <select id="getAll" resultMap="Base_Result_Map">-->
 <!--        select <include refid="Base_Column_List"></include>-->
 <!--        from bk_record-->

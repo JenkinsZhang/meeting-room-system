@@ -80,7 +80,7 @@ public class JwtUtil {
             userInfo.setUsername(verify.getClaim("username").asString());
             userInfo.setRoleID(verify.getClaim("roleID").asInt());
             userInfo.setRoleName(verify.getClaim("roleName").asString());
-            System.out.println(userInfo);
+//            System.out.println(userInfo);
             return userInfo;
         } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());

@@ -23,6 +23,8 @@ public interface RoomMapper {
 
     List<Room> selectAllRoomDetails();
 
+    List<Room> selectRoomDetails();
+
     int updateRoomSelective(@Param("room") Room room);
 
     int insertRoom(@Param("room") Room room);

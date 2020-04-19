@@ -50,7 +50,7 @@ public class AuthService {
 ////        }
         String passwordStored = BCrypt.hashpw(password, salt);
         AuthUser authUser = authUserMapper.queryUser(email, passwordStored);
-        System.out.println(authUser);
+//        System.out.println(authUser);
 //        User user = userClient.queryUser(email, password);
 
         /*
@@ -86,7 +86,7 @@ public class AuthService {
          */
         List<Integer> userRoleIds = authUserMapper.getUserRoles(authUser.getId());
         Integer userRoleId = userRoleIds.get(0);
-        System.out.println(userRoleId);
+//        System.out.println(userRoleId);
         String roleName = authUserMapper.getRoleName(userRoleId);
 
         userInfo.setRoleID(userRoleId);

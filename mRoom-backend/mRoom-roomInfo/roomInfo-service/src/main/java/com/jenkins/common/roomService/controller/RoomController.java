@@ -61,6 +61,14 @@ public class RoomController {
         List<RoomOverview> roomOverview = roomService.getRoomOverview();
         return roomOverview.size() > 0 ? ResultVo.ok("OK",roomOverview) : ResultVo.error("No room information");
     }
+
+    @GetMapping("/admin/roomOverview")
+    public ResultVo getRoomOverviewAll(){
+
+        List<RoomOverview> roomOverview = roomService.getRoomOverviewAll();
+        return roomOverview.size() > 0 ? ResultVo.ok("OK",roomOverview) : ResultVo.error("No room information");
+    }
+
     @PostMapping("/admin")
     public ResultVo addRoom(@RequestBody Room room)
     {

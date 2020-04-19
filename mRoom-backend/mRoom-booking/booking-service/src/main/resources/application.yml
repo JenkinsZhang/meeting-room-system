@@ -1,7 +1,8 @@
 spring:
   application:
     name: booking-service
-
+  main:
+    allow-bean-definition-overriding: true
   datasource:
     url: jdbc:mysql://localhost:3306/meeting_room_reservation_system?serverTimezone=Asia/Shanghai
     username: root

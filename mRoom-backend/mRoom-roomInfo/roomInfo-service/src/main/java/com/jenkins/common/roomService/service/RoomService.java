@@ -48,7 +48,7 @@ public class RoomService {
     public Room getRoomDetail(int roomId) {
         ValueOperations valueOperations = redisTemplate.opsForValue();
         Room roomDetail = (Room)valueOperations.get("room_detail_" + roomId);;
-        System.out.println("Redis中的记录:" + roomDetail);
+//        System.out.println("Redis中的记录:" + roomDetail);
         if(roomDetail == null)
         {
             Room roomDetailById = roomMapper.getRoomDetailById(roomId);
@@ -81,8 +81,28 @@ public class RoomService {
         return roomResources;
     }
 
-    public List<RoomOverview> getRoomOverview(){
+    public List<RoomOverview> getRoomOverviewAll(){
         List<Room> rooms = roomMapper.selectAllRoomDetails();
+        List<RoomOverview> roomOverviews = new ArrayList<>();
+        for (Room room : rooms) {
+            RoomOverview roomOverview = new RoomOverview();
+            roomOverview.setRoomId(room.getRoomId());
+            roomOverview.setAddress(room.getAddress());
+            roomOverview.setAirConditioner(room.getAirConditioner());
+            roomOverview.setProjection(room.getProjection());
+            roomOverview.setCapacity(room.getMaxPeople());
+            roomOverview.setRoomName(room.getRoomName());
+            roomOverview.setImageURL(room.getImageUrl());
+            int status = room.getStatus();
+            roomOverview.setStatus(status == 1? "Opening" : "Closed");
+            roomOverviews.add(roomOverview);
+        }
+        return roomOverviews;
+
+    }
+
+    public List<RoomOverview> getRoomOverview(){
+        List<Room> rooms = roomMapper.selectRoomDetails();
         List<RoomOverview> roomOverviews = new ArrayList<>();
         for (Room room : rooms) {
             RoomOverview roomOverview = new RoomOverview();
@@ -96,16 +116,22 @@ public class RoomService {
             roomOverviews.add(roomOverview);
         }
         return roomOverviews;
-
     }
-
     public int addRoom(Room room)
     {
         return roomMapper.insertRoom(room);
     }
     public int editRoom(Room room)
     {
-        return roomMapper.updateRoomSelective(room);
+        ValueOperations valueOperations = redisTemplate.opsForValue();
+        int roomId = room.getRoomId();
+        String key = "room_detail_" + roomId;
+        int code = roomMapper.updateRoomSelective(room);
+        if(code != 0)
+        {
+            valueOperations.set(key,null);
+        }
+        return code;
     }
 
     public int deleteRoom(int roomId)

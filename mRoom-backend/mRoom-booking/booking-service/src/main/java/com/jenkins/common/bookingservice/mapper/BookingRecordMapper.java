@@ -15,11 +15,19 @@ import java.util.List;
 @Component
 public interface BookingRecordMapper {
 
-    List<BookingRecord> selectBookingRecordByUserEmail(@Param("bookerEmail") String bookerEmail, int page,int size,@Param("filters") int[] filters);
+    List<BookingRecord> selectBookingRecordByUserEmail(@Param("bookerEmail") String bookerEmail,
+                                                       int page,int size,@Param("filters") int[] filters,
+                                                       Date startTime,Date endTime);
+
+    List<BookingRecord> getAllBookingRecords(@Param("bookerEmail") String bookerEmail,
+                                             int page,int size, @Param("filters") int[] filters,
+                                             Date startTime,Date endTime);
 
     int insertBookingRecord(@Param("bookingRecord") BookingRecord bookingRecord);
 
-    int countRecordByEmail(String bookerEmail,@Param("filters") int[] filters);
+    int countRecordByEmail(String bookerEmail,@Param("filters") int[] filters,Date startTime,Date endTime);
+
+    int countAllRecords(@Param("bookerEmail") String bookerEmail,int[] filters,Date startTime,Date endTime);
 
     int deleteRecordById(int recordId);
 
@@ -29,5 +37,6 @@ public interface BookingRecordMapper {
 
     List<BookingRecord> getCalendarEvents(@Param("startTime") Date startTime,@Param("endTime") Date endTime);
 
+    int autoComplete(String bookerEmail,Date now);
 //    List<BookingRecord> getAll();
 }
