@@ -93,7 +93,7 @@
 
     <select id="getCalendarEvents" resultMap="Base_Result_Map">
         select  <include refid="Base_Column_List"></include>
-        from bk_record where start_time &gt;= #{startTime} and end_time &lt;= #{endTime} and status = 0
+        from bk_record where start_time &gt;= #{startTime} and end_time &lt;= #{endTime} and (status = 0 or status = 1)
     </select>
 
     <select id="getAllBookingRecords" resultMap="Base_Result_Map">

@@ -12,7 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
-@SpringBootTest(classes = ComponentsApplication.class)
+@SpringBootTest(classes = {ComponentsApplication.class})
 @RunWith(SpringRunner.class)
 public class RedisTest {
 
