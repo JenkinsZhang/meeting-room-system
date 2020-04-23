@@ -23,7 +23,8 @@ Vue.use(VueAxios,axios);
 Vue.use(ElementUI,{locale});
 
 router.beforeEach((to,from,next)=>{
-  if(to.fullPath === "/login" || to.fullPath ==="/registry" || to.fullPath.startsWith("/activation"))
+  if(to.fullPath === "/login" || to.fullPath ==="/registry" || to.fullPath.startsWith("/activation")
+    ||to.fullPath === "/test")
   {
     next()
   }

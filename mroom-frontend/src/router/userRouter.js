@@ -54,7 +54,7 @@ const userRoutes = [
                 name: 'bookingStatistics',
                 component: () => import("../components/views/BookingStatistics"),
                 meta: {
-                    title: 'My Booking Statistics',
+                    title: 'Booking Statistics',
                     icon: 'el-icon-s-data'
                 }
             }

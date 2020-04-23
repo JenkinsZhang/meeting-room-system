@@ -122,7 +122,7 @@
 				<el-row>
 					<el-col :span="7" :offset="1">
 						<el-row>
-							Reporter's email:
+							Booker's email:
 						</el-row>
 						
 						<el-row>

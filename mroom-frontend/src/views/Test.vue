@@ -1,24 +1,29 @@
 <template>
 	<div>
-		<el-button @click="testRoute">
-		</el-button>
-		<el-upload
-				class="upload-demo"
-				drag
-				ref="upload"
-				:action="'aaa'"
-				:limit="1"
-				accept="image/*"
-				:http-request="upload"
-				:before-upload="beforeUpload"
-				:auto-upload="false"
-				>
-			<i class="el-icon-upload"/>
-			<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-			<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-			
-		</el-upload>
-		<el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+		<div class='tableauPlaceholder' id='viz1587449784753' style='position: relative;z-index: 9999;border: 1px solid black;height: 500px'>
+			<noscript>
+				<a href='https://www.tableau.com/covid-19-coronavirus-data-resources'>
+					<img alt=' '
+					     src='https://public.tableau.com/static/images/CO/COVID-19Cases_15840488375320/COVID-19Cases/1_rss.png'
+					     style='border: none'/>
+				</a>
+			</noscript>
+			<object class='tableauViz' style='display:none;'>
+				<param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F'/>
+				<param name='embed_code_version' value='3'/>
+				<param name='site_root' value=''/>
+				<param name='name' value='COVID-19Cases_15840488375320/COVID-19Cases'/>
+				<param name='tabs' value='no'/>
+				<param name='toolbar' value='yes'/>
+				<param name='static_image'
+				       value='https://public.tableau.com/static/images/CO/COVID-19Cases_15840488375320/COVID-19Cases/1.png'/>
+				<param name='animate_transition' value='yes'/>
+				<param name='display_static_image' value='yes'/>
+				<param name='display_spinner' value='yes'/>
+				<param name='display_overlay' value='yes'/>
+				<param name='display_count' value='yes'/>
+			</object>
+		</div>
 	</div>
 	
 </template>
@@ -35,55 +40,26 @@
         },
         data() {
             return {
-                calendarPlugins: [ resourceTimelinePlugin ],
-	            headers: {
-                    'Content-Type': 'multipart/form-data'
-	            },
-	            file: null
+                msg: 'Hello Tableau Fans!',
+                url: "https://public.tableau.com/views/COVID-19Cases_15840488375320/COVID-19Cases?:display_count=y&:origin=viz_share_link",
             }
         },
-	    methods: {
-            handleOpen(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            handleClose(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            testRoute()
-            {
-                localStorage.setItem("routes",JSON.stringify(adminRouter));
-                this.$router.addRoutes(adminRouter);
-	            this.$router.options.routes = adminRouter;
-	            this.$router.push("/registry");
-            },
-		    upload(){
-                console.log(this.file);
-                const form = new FormData();
-                form.append("roomImage", this.file);
-                this.axios({
-                    url: "/api/roomInfo/post/roomImage",
-                    method: 'POST',
-                    data: form,
-	                params: {
-                        roomId : 1
-	                },
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }).then((res) => {
-                    console.log(res.data);
-                })
-		    },
-		    beforeUpload(file){
-                
-                const filenameSplit = file.name.split(".")
-			    const suffix = filenameSplit[filenameSplit.length-1];
-                this.file = new File([file],"heiheihei"+"."+suffix)
-                // console.log(this.file);
-		    },
-            submitUpload() {
-                this.$refs.upload.submit();
-            },
+        mounted() {
+            const divElement = document.getElementById('viz1587449784753');
+            const vizElement = divElement.getElementsByTagName('object')[0];
+            if (divElement.offsetWidth > 800) {
+                vizElement.style.width = '1240px';
+                vizElement.style.height = '877px';
+            } else if (divElement.offsetWidth > 500) {
+                vizElement.style.width = '1240px';
+                vizElement.style.height = '877px';
+            } else {
+                vizElement.style.width = '100%';
+                vizElement.style.height = '827px';
+            }
+            const scriptElement = document.createElement('script');
+            scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+            vizElement.parentNode.insertBefore(scriptElement, vizElement);
         }
     
     }
