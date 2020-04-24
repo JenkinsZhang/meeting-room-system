@@ -16,7 +16,12 @@ import com.jenkins.common.userservice.mapper.UserRoleMapper;
 import com.jenkins.common.userservice.utils.JwtUtil;
 import com.jenkins.common.userservice.utils.MailUtil;
 import org.apache.ibatis.annotations.Param;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -48,14 +53,17 @@ public class UserService {
 
     private AuthClient authClient;
 
+    private RedisTemplate redisTemplate;
+
     @Autowired
-    public UserService(UserMapper userMapper, UserRoleMapper userRoleMapper, RoleMapper roleMapper, MailUtil mailUtil, JwtUtil jwtUtil, AuthClient authClient) {
+    public UserService(UserMapper userMapper, UserRoleMapper userRoleMapper, RoleMapper roleMapper, MailUtil mailUtil, JwtUtil jwtUtil, AuthClient authClient,RedisTemplate redisTemplate) {
         this.userMapper = userMapper;
         this.userRoleMapper = userRoleMapper;
         this.roleMapper = roleMapper;
         this.mailUtil = mailUtil;
         this.jwtUtil = jwtUtil;
         this.authClient = authClient;
+        this.redisTemplate = redisTemplate;
     }
 
     public User queryUser(String email, String password) {
@@ -77,7 +85,6 @@ public class UserService {
         accountVo.setTotal((long) total);
         return accountVo;
     }
-
 
 
     /**
@@ -192,16 +199,6 @@ public class UserService {
         return userMapper.getSalt(email);
     }
 
-    public String getEmailById(int id){
-        String email = userMapper.getEmail(id);
-        return email;
-    }
-
-    public List<Account> getUserByPage(Integer page,Integer size,User user)
-    {
-        page = page-1;
-        return userMapper.getUserByPage(page,size,user);
-    }
     public int sendVerificationEmail(User user){
         String email = user.getEmail();
         String username = user.getUsername();
@@ -209,7 +206,6 @@ public class UserService {
         String url = "http://localhost:8080/activation?token="+token;
         return mailUtil.sendHtmlMail("noreplyz@163.com",email,"Test Mail",username,url);
     }
-
 
     public boolean checkEmail(String email){
         User user = userMapper.selectUserByEmail(email);
@@ -260,6 +256,91 @@ public class UserService {
                 return 0;
             }
         } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    public int sendVerificationCode(String email)
+    {
+        StringBuilder stringBuilder = new StringBuilder("");
+        for(int i = 0;i<6;i++)
+        {
+            int digit = new Random().nextInt(10);
+            stringBuilder.append(digit);
+        }
+        String code = stringBuilder.toString();
+
+        try
+        {
+            int verification = mailUtil.sendCode("noreplyz@163.com", email, "Verification From Meeting Room System", code);
+            if(verification == 1)
+            {
+                HashMap<String, String> map = new HashMap<>();
+                long millis = DateTime.now().plusMinutes(10).getMillis();
+                String expire = String.valueOf(millis);
+                map.put("email",email);
+                map.put("code",code);
+                map.put("expire",expire);
+                map.put("permit","no");
+                redisTemplate.opsForHash().putAll(email+"_forgetPassword",map);
+                return verification;
+            }
+            return 0;
+
+        }catch (Exception e)
+        {
+            return 0;
+        }
+
+
+    }
+
+    public boolean verifyCode(String email,String code)
+    {
+        HashOperations hashOperations = redisTemplate.opsForHash();
+        String storedCode = (String)hashOperations.get(email + "_forgetPassword", "code");
+        String expire = (String)hashOperations.get(email + "_forgetPassword", "expire");
+        Long expireTime = Long.valueOf(expire);
+        long now = DateTime.now().getMillis();
+        if(now > expireTime)
+        {
+            return false;
+        }
+        else{
+            if(code.equals(storedCode))
+            {
+                hashOperations.put(email + "_forgetPassword","permit","yes");
+                return true;
+            }
+            return false;
+        }
+    }
+
+    public int forgetPassword(String email,String newPassword)
+    {
+
+        String permit = (String)redisTemplate.opsForHash().get(email + "_forgetPassword", "permit");
+        if(!("yes".equals(permit)))
+        {
+            return 0;
+        }
+        try {
+            User updateUser = new User();
+            String newSalt = BCrypt.gensalt();
+            String hashedNewPassword = BCrypt.hashpw(newPassword, newSalt);
+            updateUser.setEmail(email);
+            updateUser.setSalt(newSalt);
+            updateUser.setPassword(hashedNewPassword);
+            updateUser.setActive(1);
+            int code = userMapper.updateSelective(updateUser);
+            if(code == 1)
+            {
+                redisTemplate.opsForHash().put(email + "_forgetPassword","permit","no");
+                return code;
+            }
+            return code;
+        }catch (Exception e)
+        {
             return 0;
         }
     }

@@ -43,4 +43,22 @@ public class MailUtil {
         }
 
     }
+
+    public int sendCode(String from,String to,String subject,String code){
+
+        try{
+            String text = "Your verification code is <b>"+ code + "</b><br/>It will expire in 10 minutes.";
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(from);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(text,true);
+            javaMailSender.send(message);
+            return 1;
+        }catch (Exception e)
+        {
+            return -1;
+        }
+    }
 }

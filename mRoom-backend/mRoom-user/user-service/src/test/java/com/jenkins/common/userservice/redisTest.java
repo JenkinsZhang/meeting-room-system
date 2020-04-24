@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Map;
 import java.util.Set;
 
 @SpringBootTest
@@ -21,13 +22,8 @@ public class redisTest {
 
     @Test
     public void test1(){
-        redisTemplate.opsForValue().set("ab","111");
-        System.out.println(redisTemplate.opsForValue().get("ab"));
-        Set keys = redisTemplate.keys("ab");
-        System.out.println(keys);
-        for (Object key : keys) {
-            System.out.println(key);
-        }
+        String code = (String)redisTemplate.opsForHash().get("614758656@qq.com" + "_forgetPassword", "code");
+        System.out.println(code);
     }
 
 }

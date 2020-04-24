@@ -229,4 +229,30 @@ public class UserController {
                 ? ResultVo.error("Cannot find user!")
                 : ResultVo.ok("OK!");
     }
+
+    @PostMapping("/password/forget/sendCode")
+    public ResultVo sendEmailCode(@RequestParam("email") String email)
+    {
+        int code = userService.sendVerificationCode(email);
+        return code == 0
+                ? ResultVo.error("Email Server error!")
+                : ResultVo.ok("OK!");
+
+    }
+
+    @PostMapping("/password/forget/verifyCode")
+    public ResultVo verifyCode(@RequestParam("code") String code, @RequestParam("email") String email)
+    {
+        boolean b = userService.verifyCode(email, code);
+        return b ? ResultVo.ok("OK!") : ResultVo.error("Failed!");
+    }
+
+    @PostMapping("/password/forget/forgetPassword")
+    public ResultVo forgetPassword(@RequestParam("email") String email, @RequestParam("newPassword") String newPassword)
+    {
+        int code = userService.forgetPassword(email, newPassword);
+        return code == 0
+                ? ResultVo.error("Change Success!")
+                : ResultVo.ok("Failed!");
+    }
 }

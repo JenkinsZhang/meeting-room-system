@@ -48,3 +48,4 @@ system:
       - /user/activate
       - /user/check/
       - /roomInfo/images
+      - /user/password/forget
