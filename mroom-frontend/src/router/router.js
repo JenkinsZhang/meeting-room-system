@@ -37,6 +37,14 @@ const createRouter = ()=> new VueRouter({
                 meta: {
                     title: 'Registry'
                 }
+            },
+            {
+                path: '/forgetPassword',
+                name: 'forgetPassword',
+                component: ()=>import("../views/ForgetPassword"),
+                meta: {
+                    title: "Password Forget"
+                }
             }
 
         ],

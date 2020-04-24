@@ -19,78 +19,77 @@ import {initMenu} from "./assets/utils/menu";
 Vue.prototype.$jwtUtil = jwtUtil;
 Vue.prototype.$messageUtil = messageUtil;
 Vue.config.productionTip = false;
-Vue.use(VueAxios,axios);
-Vue.use(ElementUI,{locale});
+Vue.use(VueAxios, axios);
+Vue.use(ElementUI, {locale});
 
-router.beforeEach((to,from,next)=>{
-  if(to.fullPath === "/login" || to.fullPath ==="/registry" || to.fullPath.startsWith("/activation")
-    ||to.fullPath === "/test")
-  {
-    next()
-  }
-  else{
-    let token = localStorage.getItem("access-token");
-    if(token == null)
-    {
-      next("/login")
+router.beforeEach((to, from, next) => {
+    if (to.meta.title) {
+        document.title = to.meta.title
     }
-    else {
-      const expireTime = Number(jwtUtil.getExpireTime())*1000;
-      const now = Number(Date.now());
-      const greaterNow = Number(now + 60 * 1000 * 5);
-      const lessNow = Number(now - 60 * 1000 * 5);
-
-      //refresh Token
-      if (lessNow <= expireTime && expireTime <= greaterNow) {
-        axios({
-          url: '/api/auth/refresh',
-          method: "GET"
-        }).then((res) => {
-          if (res.data.code === 200) {
-            console.log("Token refreshed!");
-            let newToken = res.data.data;
-            localStorage.setItem("access-token", newToken);
-            next()
-          } else {
-            alert("User authentication failed");
+    if (to.fullPath === "/login" || to.fullPath === "/registry"
+        || to.fullPath.startsWith("/activation")
+        || to.fullPath === "/test"
+        || to.fullPath === "/forgetPassword") {
+        next()
+    } else {
+        let token = localStorage.getItem("access-token");
+        if (token == null) {
             next("/login")
-          }
-        }).catch((error) => {
-          alert("Sever error! Please login again!");
-          next("/login")
-        })
-      }
-      //redirect to login page
-      else if (expireTime < greaterNow) {
-        alert("User authentication expired");
-        localStorage.removeItem("access-token");
-        next("/login")
-      } else {
-        next();
-      }
-    }
-  }
+        } else {
+            const expireTime = Number(jwtUtil.getExpireTime()) * 1000;
+            const now = Number(Date.now());
+            const greaterNow = Number(now + 60 * 1000 * 5);
+            const lessNow = Number(now - 60 * 1000 * 5);
 
+            //refresh Token
+            if (lessNow <= expireTime && expireTime <= greaterNow) {
+                axios({
+                    url: '/api/auth/refresh',
+                    method: "GET"
+                }).then((res) => {
+                    if (res.data.code === 200) {
+                        console.log("Token refreshed!");
+                        let newToken = res.data.data;
+                        localStorage.setItem("access-token", newToken);
+                        next()
+                    } else {
+                        alert("User authentication failed");
+                        next("/login")
+                    }
+                }).catch((error) => {
+                    alert("Sever error! Please login again!");
+                    next("/login")
+                })
+            }
+            //redirect to login page
+            else if (expireTime < greaterNow) {
+                alert("User authentication expired");
+                localStorage.removeItem("access-token");
+                next("/login")
+            } else {
+                next();
+            }
+        }
+    }
 
 
 });
 
 axios.interceptors.request.use(function (config) {
-  // console.log(config);
-  let token = localStorage.getItem("access-token");
-  if(token)
-  {
-    config.headers["access-token"] = token
-  }
-  return config;
-},function (error) {
-  console.log(error)
+    // console.log(config);
+    let token = localStorage.getItem("access-token");
+    if (token) {
+        config.headers["access-token"] = token
+    }
+    return config;
+}, function (error) {
+    console.log(error)
 });
 
 axios.defaults.withCredentials = true;
 new Vue({
-  router,
-  store,
-  render: h => h(App),
+    router,
+    store,
+    render: h => h(App),
 }).$mount('#app');
 
