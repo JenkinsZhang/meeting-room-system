@@ -13,6 +13,7 @@ import com.jenkins.common.bookingservice.client.BookingClient;
 import com.jenkins.common.bookingservice.mapper.BookingRecordMapper;
 import com.jenkins.common.bookingservice.service.BookingService;
 import com.jenkins.common.components.model.ResultVo;
+import com.jenkins.common.roomInterface.model.RoomOverview;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -201,5 +202,16 @@ public class BookingController {
     {
         int count = bookingService.autoCompleteAll();
         return count == 0 ? ResultVo.error("No Records To Be Completed!") : ResultVo.ok("Auto Complete Success!");
+    }
+
+    @GetMapping("/advance")
+    public ResultVo advanceBookingSearch(@RequestParam("startTime") String startTime,
+                                         @RequestParam("endTime") String endTime,
+                                         @RequestParam("capacity") int capacity,
+                                         @RequestParam("airConditioner") int airConditioner,
+                                         @RequestParam("projection") int projection)
+    {
+        List<RoomOverview> roomOverviews = bookingService.advanceBooking(startTime, endTime, capacity, airConditioner, projection);
+        return  ResultVo.ok("OK!",roomOverviews);
     }
 }

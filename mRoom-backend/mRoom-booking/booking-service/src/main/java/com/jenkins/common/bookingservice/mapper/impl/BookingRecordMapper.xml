@@ -14,12 +14,21 @@
         <result property="status" column="status"/>
     </resultMap>
 
+    <resultMap id="Advance_Booking_Map" type="com.jenkins.common.roomInterface.model.RoomOverview">
+        <id property="roomId" column="room_id"/>
+        <result property="roomName" column="room_name"/>
+        <result property="address" column="address"/>
+        <result property="capacity" column="max_people"/>
+        <result property="projection" column="projection"/>
+        <result property="airConditioner" column="air_conditioner"/>
+    </resultMap>
+
     <sql id="Base_Column_List">
         record_id,room_id,start_time,end_time,creation_time,booker_email,status
     </sql>
 
     <insert id="insertBookingRecord" parameterType="com.jenkins.common.bookinginterface.entity.BookingRecord"
-    useGeneratedKeys="true" keyColumn="record_id" keyProperty="recordId">
+            useGeneratedKeys="true" keyColumn="record_id" keyProperty="recordId">
         insert into bk_record(room_id,start_time,end_time,creation_time,booker_email,status)
         select  #{bookingRecord.roomId},
                 #{bookingRecord.startTime},
@@ -46,14 +55,13 @@
         update bk_record set status = #{status} where record_id = #{recordId}
     </update>
 
-
     <delete id="deleteRecordById">
         delete from bk_record where record_id = #{recordId}
     </delete>
 
     <select id="selectBookingRecordByUserEmail" resultMap="Base_Result_Map">
         <bind name="offset" value="page*size"/>
-        select <include refid="Base_Column_List"/>,now()-start_time as sort
+        select<include refid="Base_Column_List"/>,now()-start_time as sort
         from bk_record
         <where>
             booker_email = #{bookerEmail}
@@ -92,13 +100,15 @@
     </select>
 
     <select id="getCalendarEvents" resultMap="Base_Result_Map">
-        select  <include refid="Base_Column_List"></include>
+        select
+        <include refid="Base_Column_List"></include>
         from bk_record where start_time &gt;= #{startTime} and end_time &lt;= #{endTime} and (status = 0 or status = 1)
     </select>
 
     <select id="getAllBookingRecords" resultMap="Base_Result_Map">
         <bind name="offset" value="page*size"/>
-        select <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from bk_record
         <where>
             1 = 1
@@ -116,7 +126,15 @@
         order by start_time limit #{offset},#{size}
     </select>
 
-
+    <select id="queryAvailable" resultMap="Advance_Booking_Map">
+        select room_id,room_name,address,max_people,projection,air_conditioner
+        from bk_room where room_id not in
+            (select room_id as room_id2 from bk_record where
+            (#{startTime} between start_time and end_time and status !=-1) or
+            (#{endTime} between start_time and end_time and status !=-1) or
+            (#{startTime} &lt; start_time and #{endTime} &gt; end_time and status !=-1))
+            and max_people &gt;= #{capacity} and projection &gt;= #{projection} and projection &gt;= #{airConditioner} and bk_room.status = 1
+    </select>
 
     <update id="autoComplete">
         update bk_record set status = 1
@@ -124,16 +142,16 @@
             <if test="bookerEmail !=null">
                 and booker_email = #{bookerEmail}
             </if>
-                and end_time &lt; #{now}
-                and status = 0
+            and end_time &lt; #{now}
+            and status = 0
         </where>
 
 
     </update>
-<!--    <select id="getAll" resultMap="Base_Result_Map">-->
-<!--        select <include refid="Base_Column_List"></include>-->
-<!--        from bk_record-->
-<!--    </select>-->
+    <!--    <select id="getAll" resultMap="Base_Result_Map">-->
+    <!--        select <include refid="Base_Column_List"></include>-->
+    <!--        from bk_record-->
+    <!--    </select>-->
 
 
 </mapper>

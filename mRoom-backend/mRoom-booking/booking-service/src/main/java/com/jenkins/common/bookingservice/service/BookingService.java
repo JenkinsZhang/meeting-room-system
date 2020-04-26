@@ -11,6 +11,7 @@ import com.jenkins.common.bookingservice.client.BookingClient;
 import com.jenkins.common.bookingservice.mapper.BookingRecordMapper;
 import com.jenkins.common.components.model.ResultVo;
 import com.jenkins.common.roomInterface.entity.Room;
+import com.jenkins.common.roomInterface.model.RoomOverview;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -215,5 +218,21 @@ public class BookingService {
     {
         Date now = DateTime.now().toDate();
         return bookingRecordMapper.autoComplete(null,now);
+    }
+
+    public List<RoomOverview> advanceBooking(String startTime,String endTime,int capacity,int airConditioner,int projection) {
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        try{
+            Date newStartTime = simpleDateFormat.parse(startTime);
+            Date newEndTime = simpleDateFormat.parse(endTime);
+            return bookingRecordMapper.queryAvailable(newStartTime,newEndTime,capacity,airConditioner,projection);
+        } catch (Exception e)
+        {
+            System.out.println(e);
+            return null;
+        }
+
+
     }
 }

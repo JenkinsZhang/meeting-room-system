@@ -31,6 +31,7 @@
 					      }
 					    ]"
 		              :events="events"
+		              @eventClick="test2"
 		
 		/>
 	
@@ -102,7 +103,11 @@
                 }).catch((err) => {
                     this.$messageUtil.errorMessage(this);
                 })
-            }
+            },
+	        test2(data){
+                console.log(data.event)
+		        this.$messageUtil.successMessage(this,"hello!")
+	        }
 
         },
         mounted() {

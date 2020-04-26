@@ -7,8 +7,10 @@ import com.jenkins.common.bookingservice.mapper.BookingRecordMapper;
 import com.jenkins.common.bookingservice.mapper.TestMapper;
 import com.jenkins.common.bookingservice.service.BookingService;
 import com.jenkins.common.roomInterface.entity.Room;
+import com.jenkins.common.roomInterface.model.RoomOverview;
 import com.jenkins.common.userinterface.entity.User;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +80,13 @@ public class BookingServiceTestMapper {
         System.out.println(i);
     }
 
+    @Test
+    public void testQueryAvailable(){
+        Date date1 = DateTime.parse("2020-11-06").toDate();
+        Date date2 = DateTime.parse("2020-11-07").toDate();
+        List<RoomOverview> roomOverviews = bookingRecordMapper.queryAvailable(date1, date2, 0, 0, 0);
+        System.out.println(roomOverviews);
+    }
     @Test
     public void testInsert(){
         System.out.println("Starting....");
