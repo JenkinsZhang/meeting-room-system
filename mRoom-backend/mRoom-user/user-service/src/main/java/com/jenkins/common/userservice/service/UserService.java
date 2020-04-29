@@ -212,6 +212,10 @@ public class UserService {
         return user == null;
     }
 
+    public String getEmail(int id)
+    {
+        return  userMapper.getEmail(id);
+    }
     public String getPhone(String email) {
         User user = userMapper.selectUserByEmail(email);
         return user.getPhone();
@@ -343,5 +347,10 @@ public class UserService {
         {
             return 0;
         }
+    }
+
+    public List<User> getGeneralUsers()
+    {
+        return userMapper.getUsers();
     }
 }

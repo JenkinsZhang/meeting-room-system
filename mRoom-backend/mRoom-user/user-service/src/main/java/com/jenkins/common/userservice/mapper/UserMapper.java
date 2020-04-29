@@ -14,6 +14,8 @@ public interface UserMapper {
 
     User selectUserByEmail(@Param("email") String email);
 
+    List<User> getUsers();
+
     String getEmail(@Param("id") int id);
 
     String getSalt(@Param("email") String email);

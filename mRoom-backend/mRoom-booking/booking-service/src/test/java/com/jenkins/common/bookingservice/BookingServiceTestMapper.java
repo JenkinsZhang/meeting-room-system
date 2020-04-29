@@ -145,5 +145,10 @@ public class BookingServiceTestMapper {
         System.out.println("Adding Complete!");
     }
 
+    @Test
+    public void testMail(){
+
+    }
+
 
 }

@@ -11,6 +11,12 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm
     time-zone: GMT+8
+  mail:
+    host: smtp.163.com
+    username: noreplyz@163.com
+    password: Qianqi971126
+    nickname: LittleCuteTest
+    default-encoding: UTF-8
 server:
   port: 9093
 
@@ -25,7 +31,7 @@ eureka:
       defaultZone: http://localhost:9090/eureka
     eureka-connection-idle-timeout-seconds: 10
 ribbon:
-  ReadTimeout: 10000
+  ReadTimeout: 15000
   ConnectTimeout: 2000
 mybatis:
   type-aliases-package: com.jenkins.common

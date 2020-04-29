@@ -49,7 +49,11 @@ public class UserController {
         }
     }
 
-
+    @GetMapping("/general")
+    public ResultVo getGeneralUsers()
+    {
+        return ResultVo.ok("OK",userService.getGeneralUsers());
+    }
 
     @GetMapping("admin/accounts")
     public ResultVo selectAccountsByPage(@RequestParam(defaultValue = "1") Integer page,
@@ -176,7 +180,11 @@ public class UserController {
         return ResultVo.ok("Activation success!");
     }
 
-
+    @GetMapping("/email")
+    public String getEmail(@RequestParam("id") int id)
+    {
+        return userService.getEmail(id);
+    }
 
     @PostMapping("check/{email}")
     public ResultVo checkEmail(@PathVariable("email") String email)

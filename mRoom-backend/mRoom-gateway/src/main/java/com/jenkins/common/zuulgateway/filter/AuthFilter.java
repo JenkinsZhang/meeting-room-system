@@ -75,19 +75,23 @@ public class AuthFilter extends ZuulFilter {
             if(200 != resultVo.getCode())
             {
                 currentContext.setSendZuulResponse(false);
+                return null;
             }
             Object data = resultVo.getData();
             UserInfo userInfo = JSON.parseObject(JSON.toJSONString(data), UserInfo.class);
+            System.out.println(userInfo);
             int roleID = userInfo.getRoleID();
             if(requestURI.contains("admin"))
             {
                 if(roleID == 1)
                 {
                     currentContext.setSendZuulResponse(false);
+                    return null;
                 }
                 if(requestURI.contains("changeRole") && roleID != 3)
                 {
                     currentContext.setSendZuulResponse(false);
+                    return null;
                 }
             }
         }

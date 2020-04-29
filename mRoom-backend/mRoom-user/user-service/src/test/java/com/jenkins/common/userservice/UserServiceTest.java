@@ -52,4 +52,10 @@ public class UserServiceTest {
         boolean b = userService.verifyCode("614758656@qq.com","063920");
         System.out.println(b);
     }
+
+    @Test
+    public void testGeneral()
+    {
+        System.out.println(userService.getGeneralUsers());
+    }
 }

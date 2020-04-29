@@ -15,6 +15,12 @@ public interface UserApi {
     @GetMapping("")
     public List<User> selectAllUsers();
 
+    @GetMapping("/email")
+    public String getEmail(@RequestParam("id") int id);
+
+    @GetMapping("/general")
+    public ResultVo getGeneralUsers();
+
     @PostMapping("/registry")
     public ResultVo registry(@RequestBody User user);
 

@@ -15,7 +15,30 @@ public class AdminBookingHistoryModel implements Serializable {
     private Date creationTime;
     private int status;
     private String roomName;
+    private String roomAddress;
     private String bookerEmail;
+
+    public String getRoomAddress() {
+        return roomAddress;
+    }
+
+    @Override
+    public String toString() {
+        return "AdminBookingHistoryModel{" +
+                "recordId=" + recordId +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", creationTime=" + creationTime +
+                ", status=" + status +
+                ", roomName='" + roomName + '\'' +
+                ", roomAddress='" + roomAddress + '\'' +
+                ", bookerEmail='" + bookerEmail + '\'' +
+                '}';
+    }
+
+    public void setRoomAddress(String roomAddress) {
+        this.roomAddress = roomAddress;
+    }
 
     public int getRecordId() {
         return recordId;
@@ -73,16 +96,4 @@ public class AdminBookingHistoryModel implements Serializable {
         this.bookerEmail = bookerEmail;
     }
 
-    @Override
-    public String toString() {
-        return "AdminBookingHistoryModel{" +
-                "recordId=" + recordId +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", creationTime=" + creationTime +
-                ", status=" + status +
-                ", roomName='" + roomName + '\'' +
-                ", bookerEmail='" + bookerEmail + '\'' +
-                '}';
-    }
 }

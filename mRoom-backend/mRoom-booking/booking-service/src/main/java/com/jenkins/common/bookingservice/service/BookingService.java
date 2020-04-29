@@ -3,12 +3,16 @@ package com.jenkins.common.bookingservice.service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.jenkins.common.bookinginterface.entity.Attender;
 import com.jenkins.common.bookinginterface.entity.BookingRecord;
 import com.jenkins.common.bookinginterface.model.AdminBookingHistoryModel;
 import com.jenkins.common.bookinginterface.model.BookingHistoryModel;
 import com.jenkins.common.bookinginterface.model.CalendarEventsModel;
 import com.jenkins.common.bookingservice.client.BookingClient;
+import com.jenkins.common.bookingservice.client.UserClient;
+import com.jenkins.common.bookingservice.mapper.AttenderMapper;
 import com.jenkins.common.bookingservice.mapper.BookingRecordMapper;
+import com.jenkins.common.bookingservice.utils.MailUtil;
 import com.jenkins.common.components.model.ResultVo;
 import com.jenkins.common.roomInterface.entity.Room;
 import com.jenkins.common.roomInterface.model.RoomOverview;
@@ -16,9 +20,12 @@ import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,11 +50,20 @@ public class BookingService {
     public static final int TIME_CONFLICT = 0;
     private BookingRecordMapper bookingRecordMapper;
     private BookingClient bookingClient;
+    private AttenderMapper attenderMapper;
+    private UserClient userClient;
+    private RedisTemplate redisTemplate;
+    private MailUtil mailUtil;
 
     @Autowired
-    public BookingService(BookingRecordMapper bookingRecordMapper,BookingClient bookingClient) {
+    public BookingService(BookingRecordMapper bookingRecordMapper,BookingClient bookingClient,AttenderMapper attenderMapper,UserClient userClient,RedisTemplate redisTemplate,
+    MailUtil mailUtil) {
         this.bookingRecordMapper = bookingRecordMapper;
         this.bookingClient = bookingClient;
+        this.attenderMapper = attenderMapper;
+        this.userClient = userClient;
+        this.redisTemplate = redisTemplate;
+        this.mailUtil = mailUtil;
     }
 
     public int addBookingRecord(BookingRecord bookingRecord)
@@ -64,7 +80,15 @@ public class BookingService {
         Date now = DateTime.now().toDate();
         bookingRecord.setCreationTime(now);
         bookingRecord.setStatus(0);
-        return bookingRecordMapper.insertBookingRecord(bookingRecord);
+        int code = bookingRecordMapper.insertBookingRecord(bookingRecord);
+        if(code == 1)
+        {
+            return bookingRecord.getRecordId();
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     public List<BookingHistoryModel> bookingHistory(String bookerEmail,int page,int size,int[] filters,Date date)
@@ -108,10 +132,9 @@ public class BookingService {
         {
             bookerEmail = null;
         }
-        List<BookingRecord> allBookingRecords = null;
+        List<BookingRecord> allBookingRecords;
         if(date == null || date.length() == 0)
         {
-            date = null;
             allBookingRecords = bookingRecordMapper.getAllBookingRecords(bookerEmail, page - 1, size, filters, null, null);
         }else {
             Date startTime = DateTime.parse(date).toDate();
@@ -131,6 +154,7 @@ public class BookingService {
             adminBookingHistoryModel.setRoomName(roomDetail.getRoomName());
             adminBookingHistoryModel.setStatus(bookingRecord.getStatus());
             adminBookingHistoryModel.setRecordId(bookingRecord.getRecordId());
+            adminBookingHistoryModel.setRoomAddress(roomDetail.getAddress());
             adminBookingHistoryModelList.add(adminBookingHistoryModel);
         }
         return adminBookingHistoryModelList;
@@ -144,7 +168,7 @@ public class BookingService {
         }
         Date startTime = null;
         Date endTime = null;
-        if(date != null && date.length()!=0 && date != "")
+        if(date != null && date.length() != 0)
         {
             startTime = DateTime.parse(date).toDate();
             endTime = new DateTime(startTime).plusDays(1).toDate();
@@ -156,7 +180,7 @@ public class BookingService {
     {
         Date startTime = null;
         Date endTime = null;
-        if(date != null && date.length()!=0 && date != "")
+        if(date != null && date.length() != 0)
         {
             startTime = DateTime.parse(date).toDate();
             endTime = new DateTime(startTime).plusDays(1).toDate();
@@ -183,8 +207,7 @@ public class BookingService {
             return INSERT_FAILED;
         }
         int newRecordId = bookingRecord.getRecordId();
-        int update = bookingRecordMapper.updateRecordId(originalRecordId, newRecordId);
-        return update;
+        return bookingRecordMapper.updateRecordId(originalRecordId, newRecordId);
     }
 
     public int updateStatus(int status,int recordId)
@@ -234,5 +257,82 @@ public class BookingService {
         }
 
 
+    }
+
+    public int addAttender(int recordId,String attenders)
+    {
+        Attender attender = new Attender();
+        attender.setRecordId(recordId);
+        attender.setAttenders(attenders);
+        return attenderMapper.insertAttender(attender);
+    }
+
+    public Attender getAttenders(int recordId)
+    {
+        return attenderMapper.getAttender(recordId);
+    }
+
+    public int updateAttender(int recordId,String attenders){
+        Attender attender = new Attender();
+        attender.setRecordId(recordId);
+        attender.setAttenders(attenders);
+        return attenderMapper.updateAttender(attender);
+    }
+
+    public int notifyAttenders(int recordId, String subject, String startTime, String endTime, String roomName, String address)
+    {
+        Attender attender = attenderMapper.getAttender(recordId);
+        String[] split = attender.getAttenders().split(",");
+        List<String> attenders = new ArrayList<>();
+        for (String s : split) {
+            Integer userId = Integer.valueOf(s);
+            ValueOperations valueOperations = redisTemplate.opsForValue();
+            String email = (String)valueOperations.get("user_email_" + userId);;
+            if(email == null)
+            {
+                email = userClient.getEmail(userId);
+                valueOperations.set("user_email_" + userId,email);
+                attenders.add(email);
+            }else
+            {
+                attenders.add(email);
+            }
+        }
+        String[] to = attenders.toArray(new String[]{});
+        int code = -1;
+        if(subject.equals("booking"))
+        {
+            code = mailUtil.sendBooking("noreplyz@163.com", to, startTime, endTime, roomName, address);
+        }
+        else{
+            code = mailUtil.sendCancel("noreplyz@163.com", to, startTime, endTime, roomName, address);
+        }
+
+        return code;
+    }
+
+    public int notifyAttendersUpdate(int recordId,String oldStartTime,String newStartTime, String oldEndTime,String newEndTime,
+                                     String oldRoomName,String newRoomName, String oldRoomAddress,String newRoomAddress){
+        Attender attender = attenderMapper.getAttender(recordId);
+        String[] split = attender.getAttenders().split(",");
+        List<String> attenders = new ArrayList<>();
+        for (String s : split) {
+            Integer userId = Integer.valueOf(s);
+            ValueOperations valueOperations = redisTemplate.opsForValue();
+            String email = (String)valueOperations.get("user_email_" + userId);
+            if(email == null)
+            {
+                email = userClient.getEmail(userId);
+                valueOperations.set("user_email_" + userId,email);
+                attenders.add(email);
+            }else
+            {
+                attenders.add(email);
+            }
+        }
+        String[] to = attenders.toArray(new String[]{});
+
+        int code = mailUtil.sendEdit("noreplyz@163.com",to,oldStartTime,newStartTime,oldEndTime,newEndTime,oldRoomName,newRoomName,oldRoomAddress,newRoomAddress);
+        return code;
     }
 }

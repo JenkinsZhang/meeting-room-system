@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jenkins.common.bookingservice.mapper.AttenderMapper">
+    <resultMap id="Base_Result_Map" type="com.jenkins.common.bookinginterface.entity.Attender">
+        <id property="id" column="id"/>
+        <result property="attenders" column="attenders"/>
+        <result property="recordId" column="record_id"/>
+
+    </resultMap>
+    <insert id="insertAttender">
+        insert into bk_record_attender(record_id,attenders) values(#{attender.recordId},#{attender.attenders})
+    </insert>
+
+    <update id="updateAttender">
+        update bk_record_attender set attenders = #{attender.attenders} where record_id = #{attender.recordId}
+    </update>
+
+    <select id="getAttender" resultMap="Base_Result_Map">
+        select id,record_id,attenders from bk_record_attender where record_id = #{recordId}
+    </select>
+
+
+</mapper>
