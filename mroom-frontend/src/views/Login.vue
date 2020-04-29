@@ -5,7 +5,7 @@
 		<div class="description">
 			<h1>Meeting-Room-Booking</h1>
 			<br>
-			<h2>欢迎使用会议室预订系统</h2>
+			<h2>Welcome! </h2>
 		</div>
 		<el-card class="login-card">
 			<div slot="header">
@@ -28,8 +28,11 @@
 							v-model="form.password"
 					/>
 					<span style="color: grey">We will never share your password</span>
+					<a href="javascript:void(0);" style="float: right;color:grey" @click="toForgetPassword">Forget Password</a>
 				</el-form-item>
+				<br>
 				<a href="javascript:void(0);" @click="toRegister">Do not have an account? Click here!</a>
+				
 				<br><br>
 				<div class="bottom-buttons">
 					<el-button  @click="onSubmit" v-loading="loading" id="submit" type="primary" size="medium">
@@ -111,6 +114,9 @@
             },
             toRegister() {
                 this.$router.push("/registry")
+            },
+            toForgetPassword(){
+                this.$router.push("/forgetPassword")
             }
         }
     }

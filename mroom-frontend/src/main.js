@@ -15,7 +15,6 @@ import locale from 'element-ui/lib/locale/lang/en'
 import * as messageUtil from './assets/utils/messages'
 import {initMenu} from "./assets/utils/menu";
 
-
 Vue.prototype.$jwtUtil = jwtUtil;
 Vue.prototype.$messageUtil = messageUtil;
 Vue.config.productionTip = false;
@@ -51,6 +50,7 @@ router.beforeEach((to, from, next) => {
                         console.log("Token refreshed!");
                         let newToken = res.data.data;
                         localStorage.setItem("access-token", newToken);
+                        // initMenu(router,store);
                         next()
                     } else {
                         alert("User authentication failed");
@@ -62,13 +62,14 @@ router.beforeEach((to, from, next) => {
                 })
             }
             //redirect to login page
-            else if (expireTime < greaterNow) {
+            else if (expireTime < now) {
                 alert("User authentication expired");
                 localStorage.removeItem("access-token");
                 next("/login")
             } else {
                 next();
             }
+            next();
         }
     }
 

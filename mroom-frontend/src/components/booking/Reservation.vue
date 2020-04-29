@@ -1,6 +1,6 @@
 <template>
 	<div style="padding-left: 20px;padding-right: 20px">
-		<p style="color: red">Pay attention! The following fields are all required!
+		<p style="color: red">Pay attention to the required items！
 			<a  style="display: inline;margin-left: 40%;text-decoration: none" href="javascript:void(0)"  @click="advanceBooking">Advance Booking</a>
 			<el-divider/>
 		</p>
@@ -85,6 +85,23 @@
 					           :key="index"
 					           :value=room.roomId
 					           :label="room.roomName"/>
+				</el-select>
+			</el-col>
+		</el-row>
+		<el-row class="booking_row">
+			<el-col :span="12" style="line-height:40px;text-align: left">
+				Choose attenders:&nbsp;&nbsp
+			</el-col>
+			<el-col :span="12">
+				<el-select v-model="attenders" style="width: 100%;" placeholder="Select attenders..." multiple no-data-text="No data">
+					<el-option
+							v-for="user in generalUsers"
+							:key="user.id"
+							:label="user.username"
+							:value="user.id">
+						<span style="float: left">{{ user.username }}</span>
+						<span style="float: right; color: #8492a6; font-size: 13px">{{ user.email }}</span>
+					</el-option>
 				</el-select>
 			</el-col>
 		</el-row>
@@ -185,6 +202,23 @@
                                 minTime: startTime
                                 }">
 					</el-time-select>
+				</el-col>
+			</el-row>
+			<el-row class="booking_row">
+				<el-col :span="12" style="line-height:40px;text-align: left">
+					Choose attenders:&nbsp;&nbsp
+				</el-col>
+				<el-col :span="12">
+					<el-select v-model="attenders" style="width: 100%;" placeholder="Select attenders..." multiple no-data-text="No data">
+						<el-option
+								v-for="user in generalUsers"
+								:key="user.id"
+								:label="user.username"
+								:value="user.id">
+							<span style="float: left">{{ user.username }}</span>
+							<span style="float: right; color: #8492a6; font-size: 13px">{{ user.email }}</span>
+						</el-option>
+					</el-select>
 				</el-col>
 			</el-row>
 			<el-row class="booking_row">
@@ -320,7 +354,9 @@
 	            dialogRoomName: '',
 	            advanceBookingView: false,
 	            tableShow: false,
-	            tableLoading: false
+	            tableLoading: false,
+	            generalUsers:[],
+	            attenders:[]
             }
         },
         computed: {
@@ -377,7 +413,17 @@
 	        
         },
         methods: {
-
+			getUserGeneral(){
+			  this.axios({
+				  url: "/api/user/general",
+				  method: "GET"
+			  }).then((res)=>{
+			      this.generalUsers = res.data.data;
+			      console.log(this.generalUsers)
+			  }).catch((err)=>{
+			      this.$messageUtil.errorMessage(this);
+			  })
+			},
             changeStatus() {
                 this.loading = !this.loading;
             },
@@ -416,7 +462,35 @@
                         this.$message({
 	                        message: "Booking Success!",
 	                        type: "success"
-                        })
+                        });
+	                    let recordId = res.data.data;
+	                    if(this.attenders === "" || this.attenders.length ===0 || this.attenders === [])
+	                    {
+	                        return;
+	                    }
+	                    else{
+                            this.axios({
+                                url: "/api/booking/attender",
+                                method: "POST",
+                                params:{
+                                    recordId: recordId,
+                                    attenders: this.attenders.toString()
+                                }
+                            }).then((res)=>{
+                                if(res.data.code === 200)
+                                {
+                                    this.$messageUtil.successMessage(this,"Adding Attenders Successfully!")
+                                }
+                                else {
+                                    this.$messageUtil.warningMessage(this,"Adding Attenders Failed!")
+                                }
+                            }).catch((err)=>{
+                                this.$messageUtil.errorMessage(this);
+                            })
+	                    }
+	                    
+	                    console.log(res.data.data)
+	                    
                     } else {
                         this.$message({
 	                        message: res.data.msg,
@@ -440,6 +514,7 @@
                 this.capacity = null;
                 this.projection = 0;
                 this.table = [];
+                this.attenders = [];
             },
             advanceBooking(){
                 this.reset();
@@ -483,6 +558,31 @@
                             message: "Booking Success!",
                             type: "success"
                         })
+                        let recordId = res.data.data;
+                        if(this.attenders === "" || this.attenders.length ===0 || this.attenders === [])
+                        {
+                            return;
+                        }
+                        else{
+                            this.axios({
+                                url: "/api/booking/attender",
+                                method: "POST",
+                                params:{
+                                    recordId: recordId,
+                                    attenders: this.attenders.toString()
+                                }
+                            }).then((res)=>{
+                                if(res.data.code === 200)
+                                {
+                                    this.$messageUtil.successMessage(this,"Adding Attenders Successfully!")
+                                }
+                                else {
+                                    this.$messageUtil.warningMessage(this,"Adding Attenders Failed!")
+                                }
+                            }).catch((err)=>{
+                                this.$messageUtil.errorMessage(this);
+                            })
+                        }
                     } else {
                         this.$message({
                             message: res.data.msg,
@@ -508,6 +608,7 @@
         mounted() {
             setTimeout(this.changeStatus, 500);
             this.getRooms();
+            this.getUserGeneral();
 
         },
         created() {

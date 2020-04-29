@@ -222,24 +222,34 @@
 				</el-tag>
 			</template>
 		</el-table-column>
-		<el-table-column label="Action" fixed="right" width="270">
+		<el-table-column label="Action" fixed="right" width="280" >
 			<template slot-scope="props">
 				<el-button
 						size="mini"
 						:disabled="props.row.status !=='uncompleted'"
+						style="width: 40%"
 						@click="handleEdit(props.$index, props.row)">Edit
-				</el-button>
-				<el-button
-						size="mini"
-						type="danger"
-						:disabled="props.row.status !=='uncompleted'"
-						@click="handleCancel(props.$index, props.row)">Cancel
 				</el-button>
 				<el-button
 						size="mini"
 						type="success"
 						:disabled="props.row.status !=='uncompleted'"
+						style="width: 40%"
 						@click="handleSuccess(props.$index, props.row)">Complete
+				</el-button>
+				<br>
+				<el-button
+						size="mini"
+						type="danger"
+						:disabled="props.row.status !=='uncompleted'"
+						style="width: 40%"
+						@click="handleCancel(props.$index, props.row)">Cancel
+				</el-button>
+				<el-button
+						size="mini" style="width: 40%"
+						:disabled="props.row.status !=='uncompleted'"
+						type="primary"
+						@click="handleAttender(props.$index, props.row)">Attenders
 				</el-button>
 			</template>
 		</el-table-column>
@@ -257,6 +267,37 @@
 			style="bottom: 0"
 	>
 	</el-pagination>
+	<el-dialog :visible.sync="attenderDialog"
+	           width="55%"
+	           title="Attenders"
+	           style="margin-top: 10%"
+	           @close="reset">
+		<el-row class="booking_row">
+			<el-col :span="8" style="line-height:40px;text-align: left">
+				Choose attenders:&nbsp;
+			</el-col>
+			<el-col :span="15" :offset="1">
+				<el-select v-model="attenders" style="width: 100%;font-size:30px"  size="medium" placeholder="Select attenders..." multiple no-data-text="No data">
+					<el-option
+							style="font-size: 20px"
+							v-for="user in generalUsers"
+							:key="user.id"
+							:label="user.username"
+							:value="user.id">
+						<span style="float: left;font-size:16px">{{ user.username }}</span>
+						<span style="float: right;margin-right:5%;color: #8492a6; font-size: 18px">{{ user.email }}</span>
+					</el-option>
+				</el-select>
+			</el-col>
+		</el-row>
+		<br>
+		<el-button  style="margin-left: 35%" size="mini" type="success" @click="updateAttenders">Update</el-button>
+		<el-button  v-loading="notifyLoading"
+		            element-loading-text="Loading..."
+		            element-loading-spinner="el-icon-loading"
+		            element-loading-background="rgba(0, 0, 0, 0.8)"
+		            size="mini" type="primary" @click="notifyAttenders">Notify</el-button>
+	</el-dialog>
 </div>
 </template>
 
@@ -279,6 +320,7 @@
                     roomName: '',
                     creationTime: '',
                     recordId: null,
+                    roomAddress: ''
                 },
                 loading: false,
                 cardShow: false,
@@ -312,7 +354,20 @@
                     bookerEmail: null,
                     date: null
                 },
-                showAdvanceSearchView:false
+                showAdvanceSearchView:false,
+                generalUsers:[],
+                attenders: [],
+                attenderFlag: false,
+                attenderDialog: false,
+                attenderRecordId: null,
+                attenderRecord:{
+                    startTime: null,
+                    endTime: null,
+                    address: null,
+                    roomName: null
+                },
+                notifyLoading: false,
+                beforeEdit: null,
             }
         },
         async mounted() {
@@ -321,12 +376,122 @@
             await this.getRooms();
             await this.getPageData();
             this.changeStatus();
+            this.getUserGeneral();
             window.scrollTo(0,0)
 
 
 
         },
         methods: {
+            notifyAttenders() {
+                console.log(this.attenderRecord);
+                this.notifyLoading = true;
+                this.axios({
+                    url: "/api/booking/notify",
+                    method: "POST",
+                    params: {
+                        recordId: this.attenderRecordId,
+                        subject: "booking",
+                        startTime: this.attenderRecord.startTime,
+                        endTime: this.attenderRecord.endTime,
+                        roomName: this.attenderRecord.roomName,
+                        roomAddress: this.attenderRecord.address,
+                    }
+                }).then((res) => {
+                    if (res.data.code === 200) {
+                        this.$messageUtil.successMessage(this, res.data.msg);
+
+                    } else {
+                        this.$messageUtil.warningMessage(this, res.data.msg);
+                    }
+                }).catch((err) => {
+                    this.$messageUtil.errorMessage(this);
+                }).finally(() => {
+                    this.notifyLoading = false;
+                    this.reset();
+                    this.attenderDialog = false;
+                })
+            },
+            updateAttenders() {
+
+                if (this.attenderFlag) {
+                    this.axios({
+                        url: "/api/booking/attender",
+                        method: "POST",
+                        params: {
+                            recordId: this.attenderRecordId,
+                            attenders: this.attenders.toString()
+                        }
+                    }).then((res) => {
+                        if (res.data.code === 200) {
+                            this.$messageUtil.successMessage(this, "Adding Attenders Successfully!")
+                            this.attenderFlag = false;
+                        } else {
+                            this.$messageUtil.warningMessage(this, "Adding Attenders Failed!")
+                        }
+                    }).catch((err) => {
+                        this.$messageUtil.errorMessage(this);
+                    })
+                } else {
+                    this.axios({
+                        url: "/api/booking/attender",
+                        method: "PUT",
+                        params: {
+                            recordId: this.attenderRecordId,
+                            attenders: this.attenders.toString()
+                        }
+                    }).then((res) => {
+                        if (res.data.code === 200) {
+                            this.$messageUtil.successMessage(this, "Update Successfully!")
+                        } else {
+                            this.$messageUtil.warningMessage(this, "Update Failed!");
+                        }
+                    }).catch((err) => {
+                        this.$messageUtil.errorMessage(this);
+                    })
+                }
+
+            },
+            handleAttender(index, row) {
+                console.log(row);
+                this.attenderDialog = true;
+                this.attenderRecordId = row.recordId;
+                this.attenderRecord.address = row.roomAddress;
+                this.attenderRecord.roomName = row.roomName;
+                this.attenderRecord.startTime = row.startTime;
+                this.attenderRecord.endTime = row.endTime;
+                this.axios({
+                    url: "/api/booking/attender",
+                    method: "GET",
+                    params: {
+                        recordId: row.recordId
+                    }
+                }).then((res) => {
+                    if (res.data.code === 200) {
+                        if (res.data.data != null) {
+                            let dataString = res.data.data.attenders.toString().split(",")
+                            this.attenders = dataString.map(function (data) {
+                                return +data;
+                            })
+                            console.log(this.attenders);
+                        } else {
+                            this.attenderFlag = true;
+                        }
+
+                    }
+                })
+            },
+            getUserGeneral() {
+                this.axios({
+                    url: "/api/user/general",
+                    method: "GET"
+                }).then((res) => {
+                    this.generalUsers = res.data.data;
+                    // console.log(this.generalUsers)
+                }).catch((err) => {
+                    this.$messageUtil.errorMessage(this);
+                })
+            },
             currentChange(val) {
                 this.currentPage = val;
                 this.getPageData();
@@ -334,7 +499,7 @@
             sizeChange(val) {
                 this.pageSize = val;
                 this.getPageData();
-                
+
             },
             getPageData() {
                 return this.axios({
@@ -344,7 +509,7 @@
                     params: {
                         filters: this.newFilters,
                         date: this.historySearchValue.date,
-	                    bookerEmail: this.historySearchValue.bookerEmail
+                        bookerEmail: this.historySearchValue.bookerEmail
                     },
                     paramsSerializer: params => {
                         return qs.stringify(params, {indices: false})
@@ -360,8 +525,8 @@
                     }
                 }).catch((error) => {
                     console.log(error)
-                }).finally(()=>{
-                    window.scrollTo(0,0);
+                }).finally(() => {
+                    window.scrollTo(0, 0);
                 })
             },
             getRecordsCount() {
@@ -370,8 +535,8 @@
                     method: 'GET',
                     params: {
                         filters: this.newFilters,
-	                    date: this.historySearchValue.date,
-	                    bookerEmail: this.historySearchValue.bookerEmail
+                        date: this.historySearchValue.date,
+                        bookerEmail: this.historySearchValue.bookerEmail
                     },
                     paramsSerializer: params => {
                         return qs.stringify(params, {indices: false})
@@ -415,33 +580,50 @@
                 return null;
             },
             handleCancel(index, row) {
-                this.$confirm("Are you sure you want to cancel this meeting?","Cancel",{
+                this.$confirm("Are you sure you want to cancel this meeting?", "Cancel", {
                     type: "error",
                     confirmButtonText: "Submit",
                     cancelButtonText: "Cancel",
                     customClass: "testClass"
-                }).then(value=>{
-                    if(value)
-                    {
+                }).then(value => {
+                    if (value) {
                         this.axios({
                             method: "GET",
-                            url: "/api/booking/history/"+row.recordId+"/cancel"
-                        }).then((res)=>{
-                            if(res.data.code === 200)
-                            {
+                            url: "/api/booking/history/" + row.recordId + "/cancel"
+                        }).then((res) => {
+                            if (res.data.code === 200) {
                                 this.$message({
                                     message: "Cancel success!",
                                     type: "success"
                                 });
+                                this.axios({
+                                    url: "/api/booking/notify",
+                                    method: "POST",
+                                    params: {
+                                        recordId: row.recordId,
+                                        subject: "canceling",
+                                        startTime: row.startTime,
+                                        endTime: row.endTime,
+                                        roomName: row.roomName,
+                                        roomAddress: row.roomAddress,
+                                    }
+                                }).then((res) => {
+                                    if (res.data.code === 200) {
+                                        this.$messageUtil.successMessage(this, res.data.msg);
+                                    } else {
+                                        this.$messageUtil.warningMessage(this, res.data.msg);
+                                    }
+                                }).catch((err) => {
+                                    this.$messageUtil.errorMessage(this);
+                                });
                                 this.refresh();
-                            }
-                            else{
+                            } else {
                                 this.$message({
                                     message: "Cancel failed!",
                                     type: "warning"
                                 })
                             }
-                        }).catch((error)=>{
+                        }).catch((error) => {
                             this.$messageUtil.errorMessage(this);
                         })
 
@@ -451,6 +633,7 @@
             handleEdit(index, row) {
                 // console.log(index, row);
                 console.log(row);
+                this.beforeEdit = row;
                 let rowStartTime = row.startTime.split(" ");
                 let rowEndTime = row.endTime.split(" ");
                 this.selectedRecord.date = rowStartTime[0];
@@ -459,50 +642,49 @@
                 this.selectedRecord.roomName = row.roomName;
                 this.selectedRecord.creationTime = row.creationTime;
                 this.selectedRecord.recordId = row.recordId;
-                this.cardShow=true;
+                this.selectedRecord.roomAddress = row.roomAddress;
+                this.cardShow = true;
                 this.darkActive = true;
             },
-            handleSuccess(index,row) {
-                this.$confirm("Are you sure this meeting has finished?","Complete",{
+            handleSuccess(index, row) {
+                this.$confirm("Are you sure this meeting has finished?", "Complete", {
                     type: "warning",
                     confirmButtonText: "Submit",
                     cancelButtonText: "Cancel",
-                }).then(value=>{
-                    if(value)
-                    {
+                }).then(value => {
+                    if (value) {
                         this.axios({
                             method: "GET",
-                            url: "/api/booking/history/"+row.recordId+"/complete"
-                        }).then((res)=>{
-                            if(res.data.code === 200)
-                            {
+                            url: "/api/booking/history/" + row.recordId + "/complete"
+                        }).then((res) => {
+                            if (res.data.code === 200) {
                                 this.$message({
                                     message: "Complete success!",
                                     type: "success"
                                 });
                                 this.refresh()
-                            }
-                            else{
+                            } else {
                                 this.$message({
                                     message: "Complete failed!",
                                     type: "warning"
                                 })
                             }
-                        }).catch((error)=>{
+                        }).catch((error) => {
                             this.$messageUtil.errorMessage(this);
                         })
 
                     }
                 })
             },
-            cancelEdit(index,row) {
+            cancelEdit(index, row) {
                 this.changeStatus();
-                setTimeout(this.changeStatus,500);
+                setTimeout(this.changeStatus, 500);
                 this.darkActive = false;
                 this.cardShow = false;
             },
-            submitEdit(index,row){
+            submitEdit(index, row) {
                 let roomId = null;
+                let roomAddress = null;
                 let recordId = this.selectedRecord.recordId;
                 let startTime = this.selectedRecord.date + " " + this.selectedRecord.startTime;
                 let endTime = this.selectedRecord.date + " " + this.selectedRecord.endTime;
@@ -513,10 +695,11 @@
                 for (let i = 0; i < this.rooms.length; i++) {
                     if (this.rooms[i].roomName === this.selectedRecord.roomName) {
                         roomId = this.rooms[i].roomId;
+                        roomAddress = this.rooms[i].address;
                         break;
                     }
                 }
-                console.log(recordId,startTime,endTime,roomId,creationTime,bookerEmail,status);
+                console.log(recordId, startTime, endTime, roomId, creationTime, bookerEmail, status);
                 this.axios({
                     method: 'POST',
                     data: {
@@ -529,23 +712,45 @@
                         status: status
                     },
                     url: "/api/booking/history/edit"
-                }).then((res)=>{
-                    if(res.data.code === 200) {
+                }).then((res) => {
+                    if (res.data.code === 200) {
                         this.cardShow = false;
                         this.darkActive = false;
                         this.$message({
                             message: "Edit Success!",
                             type: "success"
                         });
+                        this.axios({
+                            url: "/api/booking/notify/update",
+                            method: "POST",
+                            params: {
+                                recordId: recordId,
+                                newStartTime: startTime,
+                                newEndTime: endTime,
+                                oldStartTime: this.beforeEdit.startTime,
+                                oldEndTime: this.beforeEdit.endTime,
+                                oldRoomName: this.beforeEdit.roomName,
+                                oldRoomAddress: this.beforeEdit.roomAddress,
+                                newRoomName: this.selectedRecord.roomName,
+                                newRoomAddress: roomAddress
+                            }
+                        }).then((res) => {
+                            if (res.data.code === 200) {
+                                this.$messageUtil.successMessage(this, res.data.msg);
+                            } else {
+                                this.$messageUtil.warningMessage(this, res.data.msg);
+                            }
+                        }).catch((err) => {
+                            this.$messageUtil.errorMessage(this);
+                        });
                         this.refresh();
-                    }
-                    else {
+                    } else {
                         this.$message({
                             message: res.data.msg,
                             type: "warning"
                         })
                     }
-                }).catch((error)=>{
+                }).catch((error) => {
                     this.$messageUtil.errorMessage(this);
                 })
             },
@@ -614,35 +819,41 @@
                     }
                 })
             },
-            async refresh(){
+            async refresh() {
                 await this.getPageData();
                 await this.getRecordsCount();
             },
-            autoComplete(){
+            autoComplete() {
                 this.axios({
                     url: "/api/booking/admin/history/autoComplete",
                     method: "PUT"
-                }).then((res)=>{
-                    if(res.data.code === 200)
-                    {
+                }).then((res) => {
+                    if (res.data.code === 200) {
                         this.getPageData();
-                        this.$messageUtil.successMessage(this,res.data.msg);
+                        this.$messageUtil.successMessage(this, res.data.msg);
+                    } else {
+                        this.$messageUtil.warningMessage(this, res.data.msg);
                     }
-                    else{
-                        this.$messageUtil.warningMessage(this,res.data.msg);
-                    }
-                }).catch((err)=>{
+                }).catch((err) => {
                     this.$messageUtil.errorMessage(this);
                 })
             },
-	        clearSearchValue()
-	        {
-	            this.showAdvanceSearchView = false;
-	            this.historySearchValue.date = null;
-	            this.historySearchValue.bookerEmail = null;
-	            this.getPageData();
-	        }
+            clearSearchValue() {
+                this.showAdvanceSearchView = false;
+                this.historySearchValue.date = null;
+                this.historySearchValue.bookerEmail = null;
+                this.getPageData();
+            },
+            reset() {
+                this.attenders = [];
+                this.attenderRecordId = null;
+                this.attenderFlag = false;
+                this.attenderRecord.address = null;
+                this.attenderRecord.roomName = null;
+                this.attenderRecord.startTime = null;
+                this.attenderRecord.endTime = null;
 
+            }
         }
     }
 </script>
