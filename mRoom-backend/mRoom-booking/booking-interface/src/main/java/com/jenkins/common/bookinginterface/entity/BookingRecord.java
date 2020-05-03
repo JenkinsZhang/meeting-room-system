@@ -12,6 +12,7 @@ public class BookingRecord implements Serializable {
     private Date creationTime;
     private String bookerEmail;
     private int status;
+    private String subject;
 
     public int getRecordId() {
         return recordId;
@@ -69,6 +70,14 @@ public class BookingRecord implements Serializable {
         this.status = status;
     }
 
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
     @Override
     public String toString() {
         return "BookingRecord{" +
@@ -79,6 +88,7 @@ public class BookingRecord implements Serializable {
                 ", creationTime=" + creationTime +
                 ", bookerEmail='" + bookerEmail + '\'' +
                 ", status=" + status +
+                ", subject='" + subject + '\'' +
                 '}';
     }
 }

@@ -207,12 +207,13 @@ public class BookingController {
 
     @PostMapping("/notify")
     public ResultVo notifyAttenders(@RequestParam("recordId") int recordId,
-                                    @RequestParam("subject") String subject,
+                                    @RequestParam("type") String type,
                                     @RequestParam("startTime") String startTime,
                                     @RequestParam("endTime") String endTime,
                                     @RequestParam("roomName") String roomName,
-                                    @RequestParam("roomAddress") String address) {
-        int code = bookingService.notifyAttenders(recordId, subject, startTime, endTime, roomName, address);
+                                    @RequestParam("roomAddress") String address,
+                                    @RequestParam("subject") String subject) {
+        int code = bookingService.notifyAttenders(recordId, type, startTime, endTime, roomName, address,subject);
         return code == 0 ? ResultVo.error("Emailing Failed!") : ResultVo.ok("Email Sent!");
     }
 
@@ -225,8 +226,9 @@ public class BookingController {
                                           @RequestParam("oldRoomName") String oldRoomName,
                                           @RequestParam("oldRoomAddress") String oldRoomAddress,
                                           @RequestParam("newRoomName") String newRoomName,
-                                          @RequestParam("newRoomAddress") String newRoomAddress) {
-        int code = bookingService.notifyAttendersUpdate(recordId, oldStartTime,newStartTime,oldEndTime,newEndTime,oldRoomName,newRoomName,oldRoomAddress,newRoomAddress);
+                                          @RequestParam("newRoomAddress") String newRoomAddress,
+                                          @RequestParam("subject") String subject) {
+        int code = bookingService.notifyAttendersUpdate(recordId, oldStartTime,newStartTime,oldEndTime,newEndTime,oldRoomName,newRoomName,oldRoomAddress,newRoomAddress,subject);
         return code == 0 ? ResultVo.error("Emailing Failed!") : ResultVo.ok("Email Sent!");
     }
 }

@@ -22,6 +22,33 @@ public class BookingHistoryModel implements Serializable {
     private int projection;
     private int airConditioner;
     private String bookerEmail;
+    private String subject;
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    @Override
+    public String toString() {
+        return "BookingHistoryModel{" +
+                "recordId=" + recordId +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", creationTime=" + creationTime +
+                ", status=" + status +
+                ", roomName='" + roomName + '\'' +
+                ", roomAddress='" + roomAddress + '\'' +
+                ", maxPeople=" + maxPeople +
+                ", projection=" + projection +
+                ", airConditioner=" + airConditioner +
+                ", bookerEmail='" + bookerEmail + '\'' +
+                ", subject='" + subject + '\'' +
+                '}';
+    }
 
     public Date getStartTime() {
         return startTime;
@@ -111,20 +138,4 @@ public class BookingHistoryModel implements Serializable {
         this.bookerEmail = bookerEmail;
     }
 
-    @Override
-    public String toString() {
-        return "BookingHistoryModel{" +
-                "recordId=" + recordId +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", creationTime=" + creationTime +
-                ", status=" + status +
-                ", roomName='" + roomName + '\'' +
-                ", roomAddress='" + roomAddress + '\'' +
-                ", maxPeople=" + maxPeople +
-                ", projection=" + projection +
-                ", airConditioner=" + airConditioner +
-                ", bookerEmail='" + bookerEmail + '\'' +
-                '}';
-    }
 }

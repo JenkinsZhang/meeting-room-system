@@ -140,6 +140,7 @@ public class BookingServiceTestMapper {
             int userRandom = new Random().nextInt(userCount);
             bookingRecord.setBookerEmail(allUsers.get(userRandom).getEmail());
             bookingRecord.setRoomId(allRooms.get(roomRandom).getRoomId());
+            bookingRecord.setSubject("This is just a Test!!!!");
             int i1 = bookingService.addBookingRecord(bookingRecord);
         }
         System.out.println("Adding Complete!");

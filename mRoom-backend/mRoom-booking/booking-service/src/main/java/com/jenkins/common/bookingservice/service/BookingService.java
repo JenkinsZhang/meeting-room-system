@@ -120,7 +120,7 @@ public class BookingService {
             bookingHistoryModel.setProjection(roomDetail.getProjection());
             bookingHistoryModel.setStatus(bookingRecord.getStatus());
             bookingHistoryModel.setBookerEmail(bookingRecord.getBookerEmail());
-
+            bookingHistoryModel.setSubject(bookingRecord.getSubject());
             history.add(bookingHistoryModel);
         }
         return history;
@@ -155,6 +155,7 @@ public class BookingService {
             adminBookingHistoryModel.setStatus(bookingRecord.getStatus());
             adminBookingHistoryModel.setRecordId(bookingRecord.getRecordId());
             adminBookingHistoryModel.setRoomAddress(roomDetail.getAddress());
+            adminBookingHistoryModel.setSubject(bookingRecord.getSubject());
             adminBookingHistoryModelList.add(adminBookingHistoryModel);
         }
         return adminBookingHistoryModelList;
@@ -279,7 +280,7 @@ public class BookingService {
         return attenderMapper.updateAttender(attender);
     }
 
-    public int notifyAttenders(int recordId, String subject, String startTime, String endTime, String roomName, String address)
+    public int notifyAttenders(int recordId, String type, String startTime, String endTime, String roomName, String address,String subject)
     {
         Attender attender = attenderMapper.getAttender(recordId);
         String[] split = attender.getAttenders().split(",");
@@ -300,9 +301,9 @@ public class BookingService {
         }
         String[] to = attenders.toArray(new String[]{});
         int code = -1;
-        if(subject.equals("booking"))
+        if(type.equals("booking"))
         {
-            code = mailUtil.sendBooking("noreplyz@163.com", to, startTime, endTime, roomName, address);
+            code = mailUtil.sendBooking("noreplyz@163.com", to, startTime, endTime, roomName, address,subject);
         }
         else{
             code = mailUtil.sendCancel("noreplyz@163.com", to, startTime, endTime, roomName, address);
@@ -312,7 +313,7 @@ public class BookingService {
     }
 
     public int notifyAttendersUpdate(int recordId,String oldStartTime,String newStartTime, String oldEndTime,String newEndTime,
-                                     String oldRoomName,String newRoomName, String oldRoomAddress,String newRoomAddress){
+                                     String oldRoomName,String newRoomName, String oldRoomAddress,String newRoomAddress,String subject){
         Attender attender = attenderMapper.getAttender(recordId);
         String[] split = attender.getAttenders().split(",");
         List<String> attenders = new ArrayList<>();
@@ -332,7 +333,7 @@ public class BookingService {
         }
         String[] to = attenders.toArray(new String[]{});
 
-        int code = mailUtil.sendEdit("noreplyz@163.com",to,oldStartTime,newStartTime,oldEndTime,newEndTime,oldRoomName,newRoomName,oldRoomAddress,newRoomAddress);
+        int code = mailUtil.sendEdit("noreplyz@163.com",to,oldStartTime,newStartTime,oldEndTime,newEndTime,oldRoomName,newRoomName,oldRoomAddress,newRoomAddress,subject);
         return code;
     }
 }

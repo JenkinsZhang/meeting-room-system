@@ -17,6 +17,15 @@ public class AdminBookingHistoryModel implements Serializable {
     private String roomName;
     private String roomAddress;
     private String bookerEmail;
+    private String subject;
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
     public String getRoomAddress() {
         return roomAddress;
@@ -33,6 +42,7 @@ public class AdminBookingHistoryModel implements Serializable {
                 ", roomName='" + roomName + '\'' +
                 ", roomAddress='" + roomAddress + '\'' +
                 ", bookerEmail='" + bookerEmail + '\'' +
+                ", subject='" + subject + '\'' +
                 '}';
     }
 

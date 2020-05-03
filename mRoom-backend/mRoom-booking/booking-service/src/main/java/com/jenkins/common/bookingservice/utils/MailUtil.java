@@ -21,10 +21,10 @@ public class MailUtil {
     private JavaMailSender javaMailSender;
 
 
-    public int sendBooking(String from,String[] to,String startTime, String endTime, String roomName, String address){
+    public int sendBooking(String from,String[] to,String startTime, String endTime, String roomName, String address,String subject){
 
         try{
-            String text = "You have a new meeting at <br> <b> "+roomName + ", "+ address +" </b>" +"<br>" + " from <b>" + startTime + " to " + endTime + "</b>";
+            String text = "You have a new meeting on <b>"+ subject+ "</b> at <br> <b> "+roomName + ", "+ address +" </b>" +"<br>" + " from <b>" + startTime + " to " + endTime + "</b>";
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setFrom(from);
@@ -59,10 +59,11 @@ public class MailUtil {
     }
 
     public int sendEdit(String from,String[] to,String oldStartTime,String newStartTime, String oldEndTime,String newEndTime,
-                        String oldRoomName,String newRoomName, String oldRoomAddress,String newRoomAddress){
+                        String oldRoomName,String newRoomName, String oldRoomAddress,String newRoomAddress,String subject){
         try{
             String text = "Your meeting at <br> <b> "+oldRoomName + ", "+ oldRoomAddress +" </b>" +"<br>" + " from <b>" + oldStartTime + " to " + oldEndTime + "</b>" +"<br> has been changed to: <br><br>"
-                    + " <b> "+newRoomName + ", "+ newRoomAddress +" </b>" +"<br>" + " from <b>" + newStartTime + " to " + newEndTime + "</b>";
+                    + " <b> "+newRoomName + ", "+ newRoomAddress +" </b>" +"<br>" + " from <b>" + newStartTime + " to " + newEndTime + "</b>" + "<br><br> Meeting Subject: <b>"+ subject +"</b>."
+                    ;
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setFrom(from);
