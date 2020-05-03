@@ -1,6 +1,6 @@
 <template>
 <div>
-	<el-card class="editCard" v-show="cardShow" >
+	<el-card class="editCard" v-show="cardShow">
 		<p style="color: red">Pay attention! The following fields are all required!</p>
 		<el-row class="booking_row">
 			<el-col :span="12" style="line-height:40px;height:40px;text-align: left">
@@ -72,6 +72,15 @@
 					           :value=room.roomName
 					           :label="room.roomName"/>
 				</el-select>
+			</el-col>
+		</el-row>
+		<el-row class="booking_row">
+			<el-col :span="12" style="line-height:40px;text-align: left">
+				Meeting Subject:&nbsp;&nbsp;<b>{{this.selectedRecord.subject}}</b>
+			</el-col>
+			<el-col :span="12">
+				<el-input v-model="selectedRecord.subject" style="width: 100%;" placeholder="Type in subject...">
+				</el-input>
 			</el-col>
 		</el-row>
 		<el-row class="booking_row" style="text-align: center">
@@ -178,7 +187,12 @@
 				type="index"
 				width="50">
 		</el-table-column>
-		
+		<el-table-column
+				label="Meeting Subject"
+				prop="subject"
+				width="150"
+		>
+		</el-table-column>
 		<el-table-column
 				label="Start Time"
 				prop="startTime"
@@ -199,7 +213,6 @@
 				sortable
 				width="140">
 		</el-table-column>
-		
 		<el-table-column
 				label="Booker"
 				prop="bookerEmail"
@@ -320,7 +333,8 @@
                     roomName: '',
                     creationTime: '',
                     recordId: null,
-                    roomAddress: ''
+                    roomAddress: '',
+                    subject: '',
                 },
                 loading: false,
                 cardShow: false,
@@ -360,11 +374,12 @@
                 attenderFlag: false,
                 attenderDialog: false,
                 attenderRecordId: null,
-                attenderRecord:{
+                attenderRecord: {
                     startTime: null,
                     endTime: null,
                     address: null,
-                    roomName: null
+                    roomName: null,
+                    subject: null
                 },
                 notifyLoading: false,
                 beforeEdit: null,
@@ -391,11 +406,12 @@
                     method: "POST",
                     params: {
                         recordId: this.attenderRecordId,
-                        subject: "booking",
+                        type: "booking",
                         startTime: this.attenderRecord.startTime,
                         endTime: this.attenderRecord.endTime,
                         roomName: this.attenderRecord.roomName,
                         roomAddress: this.attenderRecord.address,
+                        subject: this.attenderRecord.subject
                     }
                 }).then((res) => {
                     if (res.data.code === 200) {
@@ -413,7 +429,6 @@
                 })
             },
             updateAttenders() {
-
                 if (this.attenderFlag) {
                     this.axios({
                         url: "/api/booking/attender",
@@ -453,13 +468,13 @@
 
             },
             handleAttender(index, row) {
-                console.log(row);
                 this.attenderDialog = true;
                 this.attenderRecordId = row.recordId;
                 this.attenderRecord.address = row.roomAddress;
                 this.attenderRecord.roomName = row.roomName;
                 this.attenderRecord.startTime = row.startTime;
                 this.attenderRecord.endTime = row.endTime;
+                this.attenderRecord.subject = row.subject;
                 this.axios({
                     url: "/api/booking/attender",
                     method: "GET",
@@ -601,11 +616,12 @@
                                     method: "POST",
                                     params: {
                                         recordId: row.recordId,
-                                        subject: "canceling",
+                                        type: "canceling",
                                         startTime: row.startTime,
                                         endTime: row.endTime,
                                         roomName: row.roomName,
                                         roomAddress: row.roomAddress,
+                                        subject: row.subject
                                     }
                                 }).then((res) => {
                                     if (res.data.code === 200) {
@@ -643,6 +659,7 @@
                 this.selectedRecord.creationTime = row.creationTime;
                 this.selectedRecord.recordId = row.recordId;
                 this.selectedRecord.roomAddress = row.roomAddress;
+                this.selectedRecord.subject = row.subject;
                 this.cardShow = true;
                 this.darkActive = true;
             },
@@ -655,7 +672,7 @@
                     if (value) {
                         this.axios({
                             method: "GET",
-                            url: "/api/booking/history/" + row.recordId + "/complete"
+                            url: "/api/booking//history/" + row.recordId + "/complete"
                         }).then((res) => {
                             if (res.data.code === 200) {
                                 this.$message({
@@ -690,8 +707,8 @@
                 let endTime = this.selectedRecord.date + " " + this.selectedRecord.endTime;
                 let creationTime = this.selectedRecord.creationTime;
                 let bookerEmail = this.$jwtUtil.getTokenEmail();
+                let subject = this.selectedRecord.subject;
                 let status = 0;
-
                 for (let i = 0; i < this.rooms.length; i++) {
                     if (this.rooms[i].roomName === this.selectedRecord.roomName) {
                         roomId = this.rooms[i].roomId;
@@ -699,7 +716,6 @@
                         break;
                     }
                 }
-                console.log(recordId, startTime, endTime, roomId, creationTime, bookerEmail, status);
                 this.axios({
                     method: 'POST',
                     data: {
@@ -709,7 +725,8 @@
                         roomId: roomId,
                         creationTime: creationTime,
                         bookerEmail: bookerEmail,
-                        status: status
+                        status: status,
+                        subject: subject
                     },
                     url: "/api/booking/history/edit"
                 }).then((res) => {
@@ -732,7 +749,8 @@
                                 oldRoomName: this.beforeEdit.roomName,
                                 oldRoomAddress: this.beforeEdit.roomAddress,
                                 newRoomName: this.selectedRecord.roomName,
-                                newRoomAddress: roomAddress
+                                newRoomAddress: roomAddress,
+                                subject: this.selectedRecord.subject
                             }
                         }).then((res) => {
                             if (res.data.code === 200) {
@@ -852,7 +870,7 @@
                 this.attenderRecord.roomName = null;
                 this.attenderRecord.startTime = null;
                 this.attenderRecord.endTime = null;
-
+                this.attenderRecord.subject = null;
             }
         }
     }
@@ -874,8 +892,8 @@
 		position: fixed;
 		left: 20%;
 		z-index: 11;
-		top: 20%;
-		height: 75%;
+		top: 10%;
+		height: 90%;
 	}
 	
 	.history-table-expand label {
@@ -901,7 +919,7 @@
 		margin-top: 5%;
 	}
 	
-	.booking_row:nth-of-type(5) {
+	.booking_row:nth-of-type(6) {
 		margin-top: 10%;
 	}
 	

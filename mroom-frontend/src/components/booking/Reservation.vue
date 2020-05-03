@@ -90,6 +90,17 @@
 		</el-row>
 		<el-row class="booking_row">
 			<el-col :span="12" style="line-height:40px;text-align: left">
+				<i class="el-icon-warning-outline" style="color: orangered"  v-show="this.subject==='' || this.subject === undefined"/>
+				<i class="el-icon-circle-check"style="color: limegreen"  v-show="!(this.subject==='' || this.subject === undefined)"/>
+				Meeting subject:&nbsp;&nbsp;<b>{{subject}}</b>
+			</el-col>
+			<el-col :span="12">
+				<el-input v-model="subject" style="width: 100%;" placeholder="Type in subject...">
+				</el-input>
+			</el-col>
+		</el-row>
+		<el-row class="booking_row">
+			<el-col :span="12" style="line-height:40px;text-align: left">
 				Choose attenders:&nbsp;&nbsp
 			</el-col>
 			<el-col :span="12">
@@ -206,6 +217,17 @@
 			</el-row>
 			<el-row class="booking_row">
 				<el-col :span="12" style="line-height:40px;text-align: left">
+					<i class="el-icon-warning-outline" style="color: orangered"  v-show="this.subject==='' || this.subject === undefined"/>
+					<i class="el-icon-circle-check"style="color: limegreen"  v-show="!(this.subject==='' || this.subject === undefined)"/>
+					Meeting subject:&nbsp;&nbsp;<b>{{subject}}</b>
+				</el-col>
+				<el-col :span="12">
+					<el-input v-model="subject" style="width: 100%;" placeholder="Type in subject...">
+					</el-input>
+				</el-col>
+			</el-row>
+			<el-row class="booking_row">
+				<el-col :span="12" style="line-height:40px;text-align: left">
 					Choose attenders:&nbsp;&nbsp
 				</el-col>
 				<el-col :span="12">
@@ -221,6 +243,7 @@
 					</el-select>
 				</el-col>
 			</el-row>
+			
 			<el-row class="booking_row">
 				<el-col :span="5" style="line-height:40px;text-align: left">
 					<i class="el-icon-warning-outline" style="color: orangered"
@@ -313,6 +336,7 @@
         name: "booking",
         data() {
             return {
+                subject: '',
                 date: '',
                 startTime: '',
                 endTime: '',
@@ -383,6 +407,10 @@
                 if (this.roomId === '' || this.roomId === undefined) {
                     return flag;
                 }
+                if(this.subject === '')
+                {
+                    return flag;
+                }
                 return !flag;
             },
 	        checkAdvanceField(){
@@ -394,6 +422,10 @@
                     return flag;
                 }
                 if (this.endTime === '') {
+                    return flag;
+                }
+                if(this.subject === '')
+                {
                     return flag;
                 }
                 if (this.capacity === null || this.capacity <= 0)
@@ -450,7 +482,8 @@
                     roomId: this.roomId,
                     startTime: this.dialogStartTime,
                     endTime: this.dialogEndTime,
-                    bookerEmail: this.$jwtUtil.getTokenEmail()
+                    bookerEmail: this.$jwtUtil.getTokenEmail(),
+	                subject:this.subject
                 };
                 this.axios({
                     method: 'POST',
@@ -545,7 +578,8 @@
                     roomId: data.roomId,
                     startTime: this.date + " " + this.startTime,
                     endTime: this.date + " " + this.endTime,
-                    bookerEmail: this.$jwtUtil.getTokenEmail()
+                    bookerEmail: this.$jwtUtil.getTokenEmail(),
+	                subject: this.subject
                 };
                 this.axios({
                     method: 'POST',
