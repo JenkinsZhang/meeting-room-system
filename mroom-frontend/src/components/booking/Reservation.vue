@@ -548,6 +548,7 @@
                 this.projection = 0;
                 this.table = [];
                 this.attenders = [];
+                this.subject = '';
             },
             advanceBooking(){
                 this.reset();

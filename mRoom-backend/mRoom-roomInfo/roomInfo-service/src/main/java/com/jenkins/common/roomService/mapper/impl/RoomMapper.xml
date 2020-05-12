@@ -29,6 +29,9 @@
             <if test="room.roomName != null">
                 room_name = #{room.roomName},
             </if>
+            <if test="room.address != null">
+                address = #{room.address},
+            </if>
             <if test="room.maxPeople > 0">
                 max_people = #{room.maxPeople},
             </if>

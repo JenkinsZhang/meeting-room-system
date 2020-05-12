@@ -6,7 +6,7 @@
 		<div class="description">
 			<h1>Meeting-Room-Booking</h1>
 			<br>
-			<h2>欢迎使用会议室预订系统</h2>
+			<h2>Welcome!</h2>
 		</div>
 		<el-row>
 			<el-col :span="8" :offset="5">

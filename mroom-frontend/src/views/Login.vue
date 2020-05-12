@@ -139,6 +139,7 @@
 		max-width: 1920px;
 		min-width: 320px;
 		background-size: cover;
+		/*background-size: cover;*/
 	}
 	
 	.description {

@@ -8,7 +8,7 @@
 			<h1>Activating.....</h1>
 		</div>
 		<div v-show="failed">
-			<h1>Activation failed! Please try to get a new activation email!</h1>
+			<h1>Activation failed! Please contact 614758656@qq.com for help!</h1>
 		</div>
 		<h4>Now returning to login page...  {{time}}</h4>
 		<a href="#" @click="toLogin">if your browser doesn't respond, please click here! </a>
