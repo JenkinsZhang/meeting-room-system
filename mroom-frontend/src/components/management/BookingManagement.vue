@@ -335,6 +335,7 @@
                     recordId: null,
                     roomAddress: '',
                     subject: '',
+	                bookerEmail: ''
                 },
                 loading: false,
                 cardShow: false,
@@ -660,6 +661,7 @@
                 this.selectedRecord.recordId = row.recordId;
                 this.selectedRecord.roomAddress = row.roomAddress;
                 this.selectedRecord.subject = row.subject;
+                this.selectedRecord.bookerEmail = row.bookerEmail;
                 this.cardShow = true;
                 this.darkActive = true;
             },
@@ -706,7 +708,7 @@
                 let startTime = this.selectedRecord.date + " " + this.selectedRecord.startTime;
                 let endTime = this.selectedRecord.date + " " + this.selectedRecord.endTime;
                 let creationTime = this.selectedRecord.creationTime;
-                let bookerEmail = this.$jwtUtil.getTokenEmail();
+                let bookerEmail = this.selectedRecord.bookerEmail;
                 let subject = this.selectedRecord.subject;
                 let status = 0;
                 for (let i = 0; i < this.rooms.length; i++) {

@@ -227,6 +227,8 @@ public class BookingService {
             calendarEventsModel.setResourceId(calendarEvent.getRoomId());
             calendarEventsModel.setStart(calendarEvent.getStartTime().getTime());
             calendarEventsModel.setEnd(calendarEvent.getEndTime().getTime());
+            calendarEventsModel.setBookerEmail(calendarEvent.getBookerEmail());
+            calendarEventsModel.setSubject(calendarEvent.getSubject());
             calendarEventsModels.add(calendarEventsModel);
         }
         return calendarEventsModels;

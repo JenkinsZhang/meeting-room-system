@@ -163,7 +163,7 @@
 		position: fixed;
 		right: 20px;
 		top: 5%;
-		width: 450px;
+		width: 35%;
 	}
 	
 	

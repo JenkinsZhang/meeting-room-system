@@ -40,6 +40,12 @@ public class AuthService {
 
         Map<String, Object> map = new HashMap<>();
         String salt = authUserMapper.getSaltByEmail(email);
+        if(salt == null)
+        {
+            map.put("status", "fail");
+            map.put("msg","Wrong email or password!");
+            return map;
+        }
 ////        try{
 ////            String passwordStored = BCrypt.hashpw(password, salt);
 ////        }catch (Exception e)

@@ -105,8 +105,12 @@
                 })
             },
 	        test2(data){
-                console.log(data.event)
-		        this.$messageUtil.successMessage(this,"hello!")
+                this.$notify({
+                    title: 'Subject: ' + data.event.extendedProps.subject,
+                    message: 'Booker: '+ data.event.extendedProps.bookerEmail,
+                    offset: 30,
+	                duration: 3000
+                });
 	        }
 
         },

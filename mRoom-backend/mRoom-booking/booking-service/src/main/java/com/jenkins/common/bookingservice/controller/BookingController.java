@@ -135,7 +135,10 @@ public class BookingController {
         String token = request.getHeader("access-token");
         Object data = authClient.verifyToken(token).getData();
         UserInfo userInfo = JSON.parseObject(JSON.toJSONString(data), UserInfo.class);
-        if (userInfo.getEmail() != bookingRecord.getBookerEmail() && userInfo.getRoleID() == 1) {
+        System.out.println(bookingRecord.getBookerEmail());
+        System.out.println(userInfo.getEmail());
+        if (! userInfo.getEmail().equals(bookingRecord.getBookerEmail()) && userInfo.getRoleID() == 1) {
+            System.out.println("??????");
             return ResultVo.error("Not authorized!");
         }
 

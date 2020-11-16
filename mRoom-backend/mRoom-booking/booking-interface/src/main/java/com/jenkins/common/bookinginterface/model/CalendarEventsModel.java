@@ -13,7 +13,8 @@ public class CalendarEventsModel implements Serializable {
     private int resourceId;
     private long start;
     private long end;
-
+    private String bookerEmail;
+    private String subject;
     public int getId() {
         return id;
     }
@@ -46,6 +47,22 @@ public class CalendarEventsModel implements Serializable {
         this.end = end;
     }
 
+    public String getBookerEmail() {
+        return bookerEmail;
+    }
+
+    public void setBookerEmail(String bookerEmail) {
+        this.bookerEmail = bookerEmail;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
     @Override
     public String toString() {
         return "CalendarEventsModel{" +
@@ -53,6 +70,8 @@ public class CalendarEventsModel implements Serializable {
                 ", resourceId=" + resourceId +
                 ", start=" + start +
                 ", end=" + end +
+                ", bookerEmail='" + bookerEmail + '\'' +
+                ", subject='" + subject + '\'' +
                 '}';
     }
 }
